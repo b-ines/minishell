@@ -1,38 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
+/*   Updated: 2026/02/16 18:10:39 by gchalmel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
+#include <signal.h>
 
-void    program(char *line)
+/*
+
+Tkt on dirait que y a des erreurs mais cest vscode qui trouve pas les modules mais ca compile correctement normalement
+
+*/
+
+void	handler(int sig, siginfo_t *info, void *context)
 {
-    t_token *token;
-    
-    token = 0;
-    token = lexer(line);
-    if (!token)
-        return ;
-    parser(&token);
-    printf_list(&token);
+	(void)info;
+	(void)context;
+
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		return ;
+	}
 }
 
-int main(int argc, char **argv)
+void	program(char *line)
 {
-    char    *line;
-    (void)argv;
+	t_token	*token;
 
-    if (argc != 1)
-        return (0);
-    while (1)
-    {
-        line = readline("minishell$ ");
-        if (!line)
-            break ;
-        rl_on_new_line();
-        add_history(line);
-        if (!ft_strncmp(line, "", 1))
-            continue ;
-        program(line);
-        if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
-            break ;
-        free(line);
-    }
-    return (0);
+	token = 0;
+	token = lexer(line);
+	if (!token)
+		return ;
+	parser(&token);
+	printf_list(&token);
+}
+
+int	main(int argc, char **argv)
+{
+	char				*line;
+	struct sigaction	sa;
+
+	(void)argv;
+	if (argc != 1)
+		return (0);
+
+	sa.sa_sigaction = handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (!line)
+			break ;
+		rl_on_new_line();
+		add_history(line);
+		if (!ft_strncmp(line, "", 1))
+			continue ;
+		program(line);
+		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
+			break ;
+		free(line);
+	}
+	return (0);
 }
