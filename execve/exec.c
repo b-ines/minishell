@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 17:45:25 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:37:00 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	count_args(t_token *token)
 			nb++;
 		token = token->next;
 	}
+	return (nb);
 }
 
 static char	**token_to_argsv(t_token *token)
@@ -42,6 +43,8 @@ static char	**token_to_argsv(t_token *token)
 		token = token->next;
 		i++;
 	}
+	ret[i] = NULL;
+	return (ret);
 }
 
 void	exec(t_token *token)
@@ -60,8 +63,10 @@ void	exec(t_token *token)
 	{
 		path = token->token;
 		token = token->next;
+		args = token_to_argsv(token);
 		env_path = ft_split(getenv("PATH"), ':');
-		execve(token->token, args, env_path);
+		execve(path, args, __environ);
+		perror("execve");
 	}
 	else // C'est le parent (minishell) donc on attend
 	{
