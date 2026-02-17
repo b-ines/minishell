@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 18:37:00 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:40:37 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	exec(t_token *token)
 		path = token->token;
 		token = token->next;
 		args = token_to_argsv(token);
-		env_path = ft_split(getenv("PATH"), ':');
-		execve(path, args, __environ);
+		env_path = NULL;
+		execve(path, args, env_path);
 		perror("execve");
 	}
 	else // C'est le parent (minishell) donc on attend
