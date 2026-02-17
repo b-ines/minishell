@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+<<<<<<< HEAD
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
 #include "../expand/expand.h"
 #include <signal.h>
+=======
+#include "main.h"
+>>>>>>> 6b0944f (sauvegarde branche)
 
 /*
 
@@ -52,16 +56,73 @@ void	program(char *line)
 	token = lexer(line);
 	if (!token)
 		return ;
+<<<<<<< HEAD
 	parser(&token);
 	printf_list(&token);
 	expand(token);
 	printf("Expand finish:\n");
 	printf_list(&token);
+=======
+	if (parser(&token) != 0)
+		printf_list(&token);
+}
+
+int	str_is_only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+int newline_cmd(char *line)
+{
+	if (!ft_strncmp(line, "", ft_strlen(line)))
+		return (0);
+	else if (!ft_strncmp(line, ":", ft_strlen(line)))
+		return (0);
+	else if (!ft_strncmp(line, "!", ft_strlen(line)))
+		return (1);
+	else if (str_is_only_space(line))
+		return (0);
+	return (-1);
+}
+void	terminal_loop(void)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (!line)
+			break ;
+		rl_on_new_line();
+		add_history(line);
+		if (newline_cmd(line) != -1)
+		{
+			free(line);
+			continue ;
+		}
+		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
+		{	
+			free(line);
+			break ;
+		}
+		program(line);
+		free(line);
+	}
+>>>>>>> 6b0944f (sauvegarde branche)
 }
 
 int	main(int argc, char **argv)
 {
-	char				*line;
 	struct sigaction	sa;
 
 	(void)argv;
@@ -70,19 +131,6 @@ int	main(int argc, char **argv)
 
 	signal_init(&sa);
 	signal(SIGQUIT, SIG_IGN);
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		rl_on_new_line();
-		add_history(line);
-		if (!ft_strncmp(line, "", 1))
-			continue ;
-		program(line);
-		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
-			break ;
-		free(line);
-	}
+	terminal_loop();
 	return (0);
 }

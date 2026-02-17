@@ -42,9 +42,36 @@ int	pipe_check(t_token *token)
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (0);
 	}
-	else if (!word_at_right(token) || (token->next && is_redir(token->next)))
+	if (!(word_at_right(token) || (token->next && is_redir(token->next))))
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
+		return (0);
+	}
+	return (1);
+}
+//particulierment chiant celui la pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<< 
+int	redir_check(t_token *token)
+{
+	if (word_at_right(token))
+		return (1);
+	else if (!token->next)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (0);
+	}
+	if (token->type == HERE_DOC && token->next->type == REDIR_INPUT)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (0);
+	}
+	if (token->type == HERE_DOC && token->next->type == HERE_DOC)
+	{
+		printf("minishell: syntax error near unexpected token `<'\n");
+		return (0);
+	}
+	else if (is_redir(token->next))
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n", token->next->token);
 		return (0);
 	}
 	return (1);
@@ -54,18 +81,11 @@ int invalid_token(t_token *token)
 {
 	if (token->type == PIPE)
 		return (pipe_check(token));
-	else if (token->type == REDIR_INPUT && is_redir(token))  
-		return (-2);
-	else if (token->type == REDIR_OUTPUT && word_at_right(token))  
-		return (-2);
-	else if (token->type == HERE_DOC && word_at_right(token))  
-		return (-2);
-	else if (token->type == APPEND && word_at_right(token))  
-		return (-2);
+	else if (is_redir(token))  
+		return (redir_check(token));
 	else if (token->type == WORD)
-		return (0);
-	else
 		return (1);
+	return (0);
 }
 
 int syntax_check(t_token **token_head)
@@ -85,7 +105,13 @@ int syntax_check(t_token **token_head)
 }
 
 //temp a bouger de fichier apres
-void  parser(t_token **token)
+int  parser(t_token **token)
 {
-	printf("valid syntax : %d\n", syntax_check(token));
+	if (syntax_check(token) == 1)
+	{	
+		printf("valid\n");
+		return (1);
+	}
+	else
+		return (0);
 }

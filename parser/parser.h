@@ -3,6 +3,6 @@
 
 # include "../lexer/lexer.h"
 
-void  parser(t_token **token);
+int  parser(t_token **token);
 
 #endif

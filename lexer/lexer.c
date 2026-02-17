@@ -38,7 +38,7 @@ t_token	*lexer(char *line)
 	token = tokenization(line);
 	if (!token)
 	{	
-		printf("Syntax error\n");
+		printf("minishell: syntax error: unclosed quote\n");
 		return (0);
 	}
 	set_type(&token);
