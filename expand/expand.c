@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 15:14:53 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:27:14 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,17 @@ static void	make_expand(t_token *token)
 {
 	char	*var;
 
-	var = getenv(token->token);
+	printf("Expand detected on: %s\n", token->token);
+	/*Attention ca renvoie null si la variable n'existe a voir comment
+	gere ca plus tard mais le shell lui nimprime pas juste la variable si elle nexiste pas*/
+	var = getenv(&token->token[1]);
 	free(token->token);
 	token->token = var;
 }
 
 void	expand(t_token *token)
 {
+	printf("Step to expand\n");
 	while (token != NULL)
 	{
 		if (is_expand(*token))
