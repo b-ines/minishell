@@ -6,12 +6,13 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/16 18:16:58 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:20:37 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
+#include "../expand/expand.h"
 #include <signal.h>
 
 /*
@@ -52,6 +53,9 @@ void	program(char *line)
 	if (!token)
 		return ;
 	parser(&token);
+	printf_list(&token);
+	expand(token);
+	printf("Expand finish:\n");
 	printf_list(&token);
 }
 
