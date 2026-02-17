@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/16 18:10:39 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:16:58 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ void	handler(int sig, siginfo_t *info, void *context)
 	}
 }
 
+void	signal_init(struct sigaction *sa)
+{
+	sa->sa_sigaction = handler;
+	sa->sa_flags = SA_SIGINFO;
+	sigemptyset(&sa->sa_mask);
+	sigaction(SIGINT, sa, NULL);
+}
+
 void	program(char *line)
 {
 	t_token	*token;
@@ -56,10 +64,7 @@ int	main(int argc, char **argv)
 	if (argc != 1)
 		return (0);
 
-	sa.sa_sigaction = handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
+	signal_init(&sa);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
