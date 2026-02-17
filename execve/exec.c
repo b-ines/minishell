@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 18:40:37 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 23:46:31 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+
+void	print_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i] != NULL)
+	{
+		printf("%s ", args[i]);
+		i++;
+	}
+	printf("\n");
+}
 
 static int	count_args(t_token *token)
 {
@@ -34,8 +47,10 @@ static char	**token_to_argsv(t_token *token)
 	char	**ret;
 	int		i;
 
-	ret = malloc(sizeof(char *) * count_args(token) + 1);
-	i = 0;
+	// +2 pour le path et le NULL de fin
+	ret = malloc(sizeof(char *) * count_args(token) + 2);
+	i = 1;
+	ret[0] = token->token;
 	while (token != NULL)
 	{
 		if (token->type == WORD)
@@ -50,7 +65,6 @@ static char	**token_to_argsv(t_token *token)
 void	exec(t_token *token)
 {
 	int		id;
-	char	*path;
 	char	**args;
 	char	**env_path;
 
@@ -61,11 +75,10 @@ void	exec(t_token *token)
 	id = fork();
 	if (id == 0) // C'est l'enfant
 	{
-		path = token->token;
-		token = token->next;
 		args = token_to_argsv(token);
 		env_path = NULL;
-		execve(path, args, env_path);
+		print_args(args);
+		execve(args[0], args, env_path);
 		perror("execve");
 	}
 	else // C'est le parent (minishell) donc on attend
