@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 17:42:56 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:45:25 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,22 @@ static int	count_args(t_token *token)
 		if (token->type == WORD)
 			nb++;
 		token = token->next;
+	}
+}
+
+static char	**token_to_argsv(t_token *token)
+{
+	char	**ret;
+	int		i;
+
+	ret = malloc(sizeof(char *) * count_args(token) + 1);
+	i = 0;
+	while (token != NULL)
+	{
+		if (token->type == WORD)
+			ret[i] = ft_strdup(token->token);
+		token = token->next;
+		i++;
 	}
 }
 
