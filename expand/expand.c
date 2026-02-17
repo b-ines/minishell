@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 14:57:31 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:07:16 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	is_expand(t_token token)
 {
 	if (token.type == WORD)
 	{
+		if (token.quote_flag == 1)
+			return (0);
 		if (token.token[0] == '$')
 			return (1);
 	}
@@ -24,5 +26,10 @@ static int	is_expand(t_token token)
 
 void	expand(t_token *token)
 {
-
+	while (token != NULL)
+	{
+		if (is_expand(*token))
+			return ;
+		token = token->next;
+	}
 }
