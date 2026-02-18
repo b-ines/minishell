@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 23:49:57 by gabch             #+#    #+#             */
-/*   Updated: 2026/02/18 00:19:54 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/18 15:50:11 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,11 @@ char	*search_cmd(char *cmd)
 		abs_cmd = malloc(sizeof(char) * len_abs);
 		ft_strlcpy(abs_cmd, path[i], len_abs);
 		ft_strlcat(abs_cmd, "/", len_abs);
+		ft_strlcat(abs_cmd, cmd, len_abs);
+		if (access(abs_cmd, F_OK) == 0)
+			return (abs_cmd);
+		free(abs_cmd);
+		i++;
 	}
+	return (NULL);
 }
