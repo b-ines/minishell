@@ -6,45 +6,82 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 15:27:14 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:33:00 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-static int	is_expand(t_token token)
+/*
+return index of expand
+*/
+static int	ft_strlen_sep(char *s, char fin)
 {
-	if (token.type == WORD)
-	{
-		if (token.quote_flag == 1)
-			return (0);
-		if (token.token[0] == '$')
-			return (1);
-	}
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i] != fin)
+		i++;
+	return (i);
 }
 
-static void	make_expand(t_token *token)
+static int	is_expand(t_token token)
+{
+	int	i;
+
+	i = 0;
+	if (token.quote_flag == 1)
+		return (-1);
+	while (token.token[i] != '\0')
+	{
+		if (token.type == WORD)
+		{
+			if (token.token[i] == '$')
+				return (i + 1);
+		}
+		i++;
+	}
+	return (-1);
+}
+
+static void	make_expand(t_token *token, int index)
 {
 	char	*var;
+	char	*final_token;
+	int		len_before_dollar;
 
 	printf("Expand detected on: %s\n", token->token);
 	/*Attention ca renvoie null si la variable n'existe a voir comment
 	gere ca plus tard mais le shell lui nimprime pas juste la variable si elle nexiste pas*/
-	var = getenv(&token->token[1]);
+	var = getenv(&token->token[index]);
+	if (index > 1)
+	{
+		len_before_dollar = ft_strlen_sep(token->token, '$');
+		final_token = malloc(sizeof(char) * len_before_dollar
+				+ ft_strlen(var) + 1);
+		ft_strlcpy(final_token, token->token, len_before_dollar + 1);
+		ft_strlcat(final_token, var, len_before_dollar + ft_strlen(var) + 1);
+	}
+	else
+		final_token = var;
 	free(token->token);
-	token->token = var;
+	token->token = final_token;
 }
 
 void	expand(t_token *token)
 {
+	int	index_expand;
+
+
 	printf("Step to expand\n");
 	while (token != NULL)
 	{
-		if (is_expand(*token))
-			make_expand(token);
+		index_expand = is_expand(*token);
+		if (index_expand != -1)
+			make_expand(token, index_expand);
 		token = token->next;
 	}
 }
