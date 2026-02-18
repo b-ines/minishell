@@ -6,18 +6,11 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 15:20:37 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:17:43 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-<<<<<<< HEAD
-#include "../lexer/lexer.h"
-#include "../parser/parser.h"
-#include "../expand/expand.h"
-#include <signal.h>
-=======
 #include "main.h"
->>>>>>> 6b0944f (sauvegarde branche)
 
 /*
 
@@ -56,13 +49,6 @@ void	program(char *line)
 	token = lexer(line);
 	if (!token)
 		return ;
-<<<<<<< HEAD
-	parser(&token);
-	printf_list(&token);
-	expand(token);
-	printf("Expand finish:\n");
-	printf_list(&token);
-=======
 	if (parser(&token) != 0)
 		printf_list(&token);
 }
@@ -111,14 +97,13 @@ void	terminal_loop(void)
 			continue ;
 		}
 		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
-		{	
+		{
 			free(line);
 			break ;
 		}
 		program(line);
 		free(line);
 	}
->>>>>>> 6b0944f (sauvegarde branche)
 }
 
 int	main(int argc, char **argv)
