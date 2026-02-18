@@ -32,7 +32,7 @@ void	set_type(t_token **token_head)
 	}
 }
 
-t_token	*lexer(char *line)
+t_token	*lexer(t_terminal *terminal, char *line)
 {
 	t_token *token;
 
@@ -40,10 +40,10 @@ t_token	*lexer(char *line)
 	token = tokenization(line);
 	if (!token)
 	{	
+		terminal->exit_status = 2;
 		printf("minishell: syntax error: unclosed quote\n");
 		return (0);
 	}
 	set_type(&token);
 	return (token);
 }
-

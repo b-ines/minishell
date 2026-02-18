@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-int is_builtins(t_token *token)
+int exec_builtins(t_token *token)
 {
     if (!ft_strncmp(token->token, "echo", ft_strlen(token->token)))
         return (1);
@@ -17,15 +17,15 @@ int is_builtins(t_token *token)
     return (0);
 }
 
-void    builtins(t_token **token_head)
+void    builtins(t_token **token_head, t_terminal *terminal)
 {
     t_token *current;
 
     current = *token_head;
+    (void)terminal;
     while (current)
     {
-        if (is_builtins(current))
-            printf("cest un builtins!!\n");
+        exec_builtins(current);
         current = current->next;
     }
 }

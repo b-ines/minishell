@@ -92,7 +92,7 @@ int invalid_token(t_token *token)
 	return (0);
 }
 
-int syntax_check(t_token **token_head)
+int valid_syntax(t_terminal *terminal, t_token **token_head)
 {
 	t_token *current;
 	int	error_flag;
@@ -102,18 +102,11 @@ int syntax_check(t_token **token_head)
 	{
 		error_flag = invalid_token(current); 
 		if (!error_flag)
+		{	
+			terminal->exit_status = 2;
 			return (0);
+		}
 		current = current->next;
 	}
-	return (1);
-}
-
-//temp a bouger de fichier apres
-int  parser(t_token **token)
-{
-	if (!syntax_check(token))
-		return (0);
-	printf_list(token);
-	// make_cmd_struct(token);
 	return (1);
 }

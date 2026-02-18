@@ -3,6 +3,6 @@
 
 #include "../main/main.h"
 
-void    builtins(t_token **token);
+void    builtins(t_token **token, t_terminal *terminal);
 
 #endif

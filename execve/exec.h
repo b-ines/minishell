@@ -13,6 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <sys/wait.h>
 # include "../lexer/lexer.h"
 
 void	exec(t_token *token);

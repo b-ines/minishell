@@ -10,6 +10,6 @@ typedef struct s_cmd {
 	struct s_cmd	*prev;
 }   t_cmd;
 
-int  parser(t_token **token);
+int valid_syntax(t_terminal *terminal, t_token **token_head);
 
 #endif
