@@ -3,6 +3,8 @@
 
 # include "../lexer/lexer.h"
 # include "../parser/parser.h"
+# include "../expand/expand.h"
+# include "../builtins/builtins.h"
 # include <signal.h>
 
 typedef struct s_terminal {

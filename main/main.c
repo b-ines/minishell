@@ -41,18 +41,6 @@ void	signal_init(struct sigaction *sa)
 	sigaction(SIGINT, sa, NULL);
 }
 
-void	program(char *line)
-{
-	t_token	*token;
-
-	token = 0;
-	token = lexer(line);
-	if (!token)
-		return ;
-	if (parser(&token) != 0)
-		printf_list(&token);
-}
-
 int	str_is_only_space(char *str)
 {
 	int	i;
@@ -70,6 +58,8 @@ int	str_is_only_space(char *str)
 
 int newline_cmd(char *line)
 {
+	if (!line[0])
+		return (0);
 	if (!ft_strncmp(line, "", ft_strlen(line)))
 		return (0);
 	else if (!ft_strncmp(line, ":", ft_strlen(line)))
@@ -80,6 +70,41 @@ int newline_cmd(char *line)
 		return (0);
 	return (-1);
 }
+
+int	program(char *line)
+{
+	t_token	*token;
+	t_terminal *terminal;
+
+	token = 0;
+	terminal = malloc(sizeof(t_terminal));
+	terminal->terminal_status = newline_cmd(line);
+	if (terminal->terminal_status != -1)
+	{	
+		printf("$? %d\n", terminal->terminal_status);
+		return (1);
+	}
+	token = lexer(line);
+	if (!token)
+	{	
+		terminal->terminal_status = 2;
+		printf("$? %d\n", terminal->terminal_status);
+		return (1);
+	}
+	if (parser(&token) != 0)
+		printf_list(&token);
+	else
+	{
+		terminal->terminal_status = 2;
+		printf("$? %d\n", terminal->terminal_status);
+	}
+	expand(token);
+	printf("post expand\n");
+	builtins(&token);
+	printf_list(&token);
+	return (0);
+}
+
 void	terminal_loop(void)
 {
 	char	*line;
@@ -87,21 +112,18 @@ void	terminal_loop(void)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (!line)
-			break ;
-		rl_on_new_line();
-		add_history(line);
-		if (newline_cmd(line) != -1)
+		if (program(line) == 1)
 		{
 			free(line);
 			continue ;
 		}
-		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
-		{
+		rl_on_new_line();
+		if (ft_strncmp(line, "exit", 4) == 0)
+		{	
 			free(line);
 			break ;
 		}
-		program(line);
+		add_history(line);
 		free(line);
 	}
 }

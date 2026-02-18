@@ -4,7 +4,8 @@ CFLAGS = -Wall -Werror -Wextra -g3 -O0
 DEPENDENCIES = -lreadline -lncurses
 CFILES = main/main.c \
 	lexer/lexer.c lexer/lists.c lexer/debug.c lexer/tokenisation.c lexer/tokenisation_utils.c \
-	parser/syntax_check.c expand/expand.c execve/exec.c execve/path.c
+	parser/syntax_check.c expand/expand.c \
+	builtins/builtins.c
 INCLUDES = -Ilexer
 LIBFT = libft/libft.a
 OBJ = $(CFILES:.c=.o)

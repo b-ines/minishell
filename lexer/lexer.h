@@ -59,6 +59,7 @@ typedef enum e_lexer {
 	REDIR_OUTPUT,
 	HERE_DOC,
 	APPEND,
+	SSPACE
 } t_lexer;
 
 typedef struct s_token {

@@ -7,6 +7,8 @@ int word_at_right(t_token *token)
 	current = token;
 	if (!current->next)
 		return (0);
+	if (current->next->type == SSPACE)
+		current = token->next;
 	if (current->next->type == WORD)
 		return (1);
 	else
@@ -20,6 +22,8 @@ int word_at_left(t_token *token)
 	current = token;
 	if (!current->prev)
 		return (0);
+	if (current->prev->type == SSPACE)
+		current = token->prev;
 	if (current->prev->type == WORD)
 		return (1);
 	else
@@ -59,17 +63,17 @@ int	redir_check(t_token *token)
 		printf("minishell: syntax error near unexpected token `newline'\n");
 		return (0);
 	}
-	if (token->type == HERE_DOC && token->next->type == REDIR_INPUT)
+	// if (token->type == HERE_DOC && token->next->type == REDIR_INPUT)
+	// {
+	// 	printf("minishell: syntax error near unexpected token `newline'\n");
+	// 	return (0);
+	// }
+	if (token->next->type == SSPACE && token->next->next && is_redir(token->next->next))
 	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		printf("minishell: syntax error near unexpected token `%s'\n", token->next->next->token);
 		return (0);
 	}
-	if (token->type == HERE_DOC && token->next->type == HERE_DOC)
-	{
-		printf("minishell: syntax error near unexpected token `<'\n");
-		return (0);
-	}
-	else if (is_redir(token->next))
+	else if (token->next->type != SSPACE && is_redir(token->next))
 	{
 		printf("minishell: syntax error near unexpected token `%s'\n", token->next->token);
 		return (0);
@@ -83,7 +87,7 @@ int invalid_token(t_token *token)
 		return (pipe_check(token));
 	else if (is_redir(token))  
 		return (redir_check(token));
-	else if (token->type == WORD)
+	else if (token->type == WORD || token->type == SSPACE)
 		return (1);
 	return (0);
 }
@@ -107,11 +111,9 @@ int syntax_check(t_token **token_head)
 //temp a bouger de fichier apres
 int  parser(t_token **token)
 {
-	if (syntax_check(token) == 1)
-	{	
-		printf("valid\n");
-		return (1);
-	}
-	else
+	if (!syntax_check(token))
 		return (0);
+	printf_list(token);
+	// make_cmd_struct(token);
+	return (1);
 }

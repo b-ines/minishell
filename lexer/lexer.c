@@ -14,6 +14,8 @@ t_lexer get_token_type(char *token)
 		return (APPEND);
 	else if (ft_strncmp("<<", token, ft_strlen(token)) == 0)
 		return (HERE_DOC);
+	else if (ft_strncmp(" ", token, ft_strlen(token)) == 0)
+		return (SSPACE);
 	else
 		return (WORD);
 }
