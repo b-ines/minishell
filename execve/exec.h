@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:24:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:20 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:44:59 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@
 # include "../lexer/lexer.h"
 
 void	exec(t_token *token);
-
+char	*search_cmd(char *cmd);
 #endif

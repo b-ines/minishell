@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 23:46:31 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/18 16:06:52 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static char	**token_to_argsv(t_token *token)
 	ret = malloc(sizeof(char *) * count_args(token) + 2);
 	i = 1;
 	ret[0] = token->token;
+	token = token->next;
 	while (token != NULL)
 	{
 		if (token->type == WORD)
@@ -65,6 +66,7 @@ static char	**token_to_argsv(t_token *token)
 void	exec(t_token *token)
 {
 	int		id;
+	char	*path;
 	char	**args;
 	char	**env_path;
 
@@ -75,10 +77,12 @@ void	exec(t_token *token)
 	id = fork();
 	if (id == 0) // C'est l'enfant
 	{
+		path = search_cmd(token->token);
 		args = token_to_argsv(token);
 		env_path = NULL;
+		printf("%s\n", path);
 		print_args(args);
-		execve(args[0], args, env_path);
+		execve(path, args, env_path);
 		perror("execve");
 	}
 	else // C'est le parent (minishell) donc on attend
