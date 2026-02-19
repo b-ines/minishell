@@ -6,7 +6,7 @@
 /*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 23:46:31 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/19 20:36:05 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static char	**token_to_argsv(t_token *token)
 	ret[0] = token->token;
 	while (token != NULL)
 	{
-		if (token->type == WORD)
+		if (token->type == SPACE)
+			token = token->next;
+		if (token->type == WORD && token != NULL)
 			ret[i] = ft_strdup(token->token);
 		token = token->next;
 		i++;
