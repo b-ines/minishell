@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/18 15:33:00 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/19 21:12:02 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ static int	is_expand(t_token token)
 	return (-1);
 }
 
-static void	make_expand(t_token *token, int index)
+static void	make_expand_env(t_token *token, int index)
 {
 	char	*var;
 	char	*final_token;
 	int		len_before_dollar;
+	size_t	len_var;
 
 	printf("Expand detected on: %s\n", token->token);
 	/*Attention ca renvoie null si la variable n'existe a voir comment
@@ -59,11 +60,16 @@ static void	make_expand(t_token *token, int index)
 	var = getenv(&token->token[index]);
 	if (index > 1)
 	{
+		if (var == NULL)
+			len_var = 0;
+		else
+			len_var = ft_strlen(var);
 		len_before_dollar = ft_strlen_sep(token->token, '$');
 		final_token = malloc(sizeof(char) * len_before_dollar
-				+ ft_strlen(var) + 1);
+				+ len_var + 1);
 		ft_strlcpy(final_token, token->token, len_before_dollar + 1);
-		ft_strlcat(final_token, var, len_before_dollar + ft_strlen(var) + 1);
+		if (var != NULL)
+			ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
 	}
 	else
 		final_token = var;
@@ -81,7 +87,7 @@ void	expand(t_token *token)
 	{
 		index_expand = is_expand(*token);
 		if (index_expand != -1)
-			make_expand(token, index_expand);
+			make_expand_env(token, index_expand);
 		token = token->next;
 	}
 }
