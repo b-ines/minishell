@@ -10,6 +10,7 @@ const char* lexer_to_str(t_lexer lexer)
 		case REDIR_OUTPUT: return "REDIR_OUTPUT";
 		case HERE_DOC: return "HERE_DOC";
 		case APPEND: return "APPEND";
+		case SSPACE: return "SSPACE";
 		default:    return "INCONNU";
 	}
 }

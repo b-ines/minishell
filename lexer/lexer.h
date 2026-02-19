@@ -1,56 +1,8 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-// -----------------------------
-
-/* Standard I/O */
-#include <stdio.h>
-
-/* Readline */
-#include <readline/readline.h>
-#include <readline/history.h>
-
-/* Memory */
-#include <stdlib.h>
-
-/* Write, read, access, close, dup, pipe, etc. */
-#include <unistd.h>
-
-/* Open, flags */
-#include <fcntl.h>
-
-/* Fork, execve, exit */
-#include <sys/types.h>
-#include <sys/wait.h>
-
-/* Signals */
-#include <signal.h>
-
-/* Stat, lstat, fstat */
-#include <sys/stat.h>
-
-/* Directory handling */
-#include <dirent.h>
-
-/* Errors */
-#include <errno.h>
-#include <string.h>
-
-/* TTY / terminal */
-#include <termios.h>
-#include <sys/ioctl.h>
-
-/* Termcap */
-#include <termcap.h>
-
-/* isatty, ttyname, ttyslot */
-#include <unistd.h>
-
-/* getenv */
-#include <stdlib.h>
-// ------------------------------------------------------------------
-
 #include "../libft/libft.h"
+#include "../main/main.h"
 
 typedef enum e_lexer {
 	WORD,
@@ -59,6 +11,7 @@ typedef enum e_lexer {
 	REDIR_OUTPUT,
 	HERE_DOC,
 	APPEND,
+	SSPACE
 } t_lexer;
 
 typedef struct s_token {
@@ -70,7 +23,7 @@ typedef struct s_token {
 } t_token;
 
 //lexer.c
-t_token	*lexer(char *line);
+t_token	*lexer(t_terminal *terminal, char *line);
 
 //lists.c
 void    ft_addback(t_token **all_t, char *str, int quote_flag);

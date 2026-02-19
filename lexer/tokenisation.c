@@ -42,8 +42,12 @@ t_token *tokenization(char *line)
 	token = 0;
 	while (line[i])
 	{
-		while (line[i] == ' ')
-			i++;
+		if (line[i] == ' ')
+		{
+			ft_addback(&token, ft_strdup(" "), 0);
+			while (line[i] == ' ')
+				i++;
+		}
 		word_len = get_next_token(&token, line, i);
 		if (word_len < 0)
 			return (0);

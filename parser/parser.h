@@ -3,6 +3,13 @@
 
 # include "../lexer/lexer.h"
 
-void  parser(t_token **token);
+typedef struct s_cmd {
+	t_token			*cmd;
+	int				redir_flag;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+}   t_cmd;
+
+int valid_syntax(t_terminal *terminal, t_token **token_head);
 
 #endif

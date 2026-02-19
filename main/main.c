@@ -3,88 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/17 23:16:36 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/18 16:21:36 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer/lexer.h"
-#include "../parser/parser.h"
-#include "../expand/expand.h"
-#include "../execve/exec.h"
-#include <signal.h>
+#include "main.h"
 
-/*
-
-Tkt on dirait que y a des erreurs mais cest vscode qui trouve pas les modules mais ca compile correctement normalement
-
-*/
-
-void	handler(int sig, siginfo_t *info, void *context)
-{
-	(void)info;
-	(void)context;
-
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		return ;
-	}
-}
-
-void	signal_init(struct sigaction *sa)
-{
-	sa->sa_sigaction = handler;
-	sa->sa_flags = SA_SIGINFO;
-	sigemptyset(&sa->sa_mask);
-	sigaction(SIGINT, sa, NULL);
-}
-
-void	program(char *line)
+int	program(char *line, t_terminal *terminal)
 {
 	t_token	*token;
 
 	token = 0;
-	token = lexer(line);
+	if (empty_cmd(terminal, line))
+		return (0);
+	token = lexer(terminal, line);
 	if (!token)
-		return ;
-	parser(&token);
-	printf_list(&token);
+		return (0);
+	if (!valid_syntax(terminal, &token))
+		return (0);
+	printf_list(&token);   
 	expand(token);
-	printf("Expand finish:\n");
-	printf_list(&token);
+	//builtins(&token, terminal);
+	//printf_list(&token);
 	exec(token);
+	return (1);
 }
 
-int	main(int argc, char **argv)
+void	minishell_loop(t_terminal *terminal)
 {
-	char				*line;
-	struct sigaction	sa;
+	char	*line;
 
-	(void)argv;
-	if (argc != 1)
-		return (0);
-
-	signal_init(&sa);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
-		rl_on_new_line();
 		add_history(line);
-		if (!ft_strncmp(line, "", 1))
+		rl_on_new_line();
+		if (!program(line, terminal))
+		{
+			free(line);
 			continue ;
-		program(line);
-		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
+		}
+		if (ft_strncmp(line, "exit", 4) == 0)
+		{	
+			free(line);
 			break ;
+		}
 		free(line);
 	}
+}
+
+char	**envdup(char **envp)
+{
+	char	**dup;
+	int		i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	dup = malloc(sizeof(char *) * (i + 1));
+	if (!dup)
+		return (0);
+	i = 0;
+	while (envp[i])
+	{
+		dup[i] = envp[i];
+		i++;
+	}
+	dup[i] = 0;
+	return (dup);
+}
+
+t_terminal	*terminal_init(char **envp)
+{
+	t_terminal *terminal;
+
+	terminal = 0;
+	terminal = malloc(sizeof(t_terminal));
+	terminal->exit_status = 0;
+	terminal->envp = envdup(envp);
+	return (terminal);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	struct sigaction	sa;
+	t_terminal *terminal;
+
+	(void)argv;
+	if (argc != 1)
+		return (0);
+	terminal = 0;
+	signal_init(&sa);
+	signal(SIGQUIT, SIG_IGN);
+	terminal = terminal_init(envp);
+	minishell_loop(terminal);
 	return (0);
 }
