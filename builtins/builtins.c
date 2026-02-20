@@ -1,23 +1,24 @@
 #include "builtins.h"
 
-int exec_builtins(t_token *token)
+int is_builtins(t_token *token)
 {
-    if (!ft_strncmp(token->token, "echo", ft_strlen(token->token)))
+    if (!ft_strcmp(token->token, "echo"))
         return (1);
-    if (!ft_strncmp(token->token, "cd", ft_strlen(token->token)))
+    else if (!ft_strcmp(token->token, "cd"))
         return (1);
-    if (!ft_strncmp(token->token, "pwd", ft_strlen(token->token)))
+    else if (!ft_strcmp(token->token, "pwd"))
         return (1);
-    if (!ft_strncmp(token->token, "export", ft_strlen(token->token)))
+    else if (!ft_strcmp(token->token, "export"))
         return (1);
-    if (!ft_strncmp(token->token, "unset", ft_strlen(token->token)))
+    else if (!ft_strcmp(token->token, "unset"))
         return (1);
-    if (!ft_strncmp(token->token, "env", ft_strlen(token->token)))
+    else if (!ft_strcmp(token->token, "env"))
         return (1);
-    return (0);
+    else
+        return (0);
 }
 
-void    builtins(t_token **token_head, t_terminal *terminal)
+void    builtins(t_terminal *terminal, t_token **token_head)
 {
     t_token *current;
 
@@ -25,7 +26,8 @@ void    builtins(t_token **token_head, t_terminal *terminal)
     (void)terminal;
     while (current)
     {
-        exec_builtins(current);
+        if (is_builtins(current))
+            printf("builtins\n");
         current = current->next;
     }
 }
