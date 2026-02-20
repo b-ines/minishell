@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/18 16:21:36 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:14:11 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	if (!valid_syntax(terminal, &token))
 		return (0);
-	printf_list(&token);   
-	expand(token);
+	printf_list(&token);
+	expand(token, *terminal);
 	//builtins(&token, terminal);
 	//printf_list(&token);
 	exec(token);
@@ -49,7 +49,7 @@ void	minishell_loop(t_terminal *terminal)
 			continue ;
 		}
 		if (ft_strncmp(line, "exit", 4) == 0)
-		{	
+		{
 			free(line);
 			break ;
 		}
