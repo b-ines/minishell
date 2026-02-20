@@ -7,6 +7,7 @@ t_cmd *create_node_cmd(void)
 	new_node = malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (0);
+	new_node->argv = 0;
 	new_node->append = 0;
 	new_node->here_doc_delim = 0;
 	new_node->infile = 0;

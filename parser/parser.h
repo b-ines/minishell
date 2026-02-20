@@ -10,4 +10,8 @@ t_cmd	*parser(t_terminal *terminal, t_token *token);
 t_cmd *create_node_cmd(void);
 void    ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node);
 
+//debug
+void    printf_tab(char **tab);
+void printf_cmd(t_cmd *cmd);
+
 #endif

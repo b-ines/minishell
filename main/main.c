@@ -22,10 +22,12 @@ int	program(char *line, t_terminal *terminal)
 	token = lexer(terminal, line);
 	if (!token)
 		return (0);
+	terminal->cmd_blocks = 0;
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	printf_list(&token);   
+	printf_cmd(terminal->cmd_blocks);
+	//printf_list(&token);   
 	expand(token);
 	builtins(terminal, &token);
 	//printf_list(&token);

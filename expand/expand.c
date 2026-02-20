@@ -47,7 +47,7 @@ static t_expand_type	is_expand(t_token token)
 		}
 		i++;
 	}
-	printf("expand inconn\n");
+	//printf("expand inconn\n");
 	return (-1);
 }
 
@@ -81,11 +81,11 @@ static void	make_expand_env(t_token *token, int index)
 	token->token = final_token;
 }
 
-void	expand(t_token *token, t_terminal term)
+void	expand(t_token *token)
 {
 	t_expand_type	index_expand;
 
-	printf("Step to expand\n");
+	//printf("Step to expand\n");
 	while (token != NULL)
 	{
 		index_expand = is_expand(*token);
