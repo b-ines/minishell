@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 23:49:57 by gabch             #+#    #+#             */
-/*   Updated: 2026/02/18 15:50:11 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 00:46:41 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ relative path (./a.out)
 absolute path (ex /bin/ls)
 cmd (ex: ls, echo, etc...)
 */
+
+int	is_abs_or_rel_path(char *cmd)
+{
+	if (cmd[0] == '/' || cmd[0] == '.')
+		return (1);
+	return (0);
+}
+
 char	*search_cmd(char *cmd)
 {
 	char	**path;
@@ -25,6 +33,8 @@ char	*search_cmd(char *cmd)
 	int		len_abs;
 	int		i;
 
+	if (is_abs_or_rel_path(cmd))
+		return (cmd);
 	path = ft_split(getenv("PATH"), ':');
 	i = 0;
 	while (path[i] != NULL)

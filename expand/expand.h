@@ -6,7 +6,7 @@
 /*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:39:40 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/19 21:16:37 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/20 00:25:23 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ typedef enum e_expand_type
 	ENV_PLUS_ONE_DOLLARS,
 }	t_expand_type;
 
-void expand(t_token *token);
+void	expand(t_token *token);
 
 #endif
