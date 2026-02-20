@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:43:11 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:49:58 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,10 @@ void	make_expand_env(t_token *token, int index, char **envp)
 	free(token->token);
 	token->token = final_token;
 }
+
+void	make_exit_status(t_token *token, t_terminal term)
+{
+	free(token->token);
+	token->token = ft_itoa(term.exit_status);
+}
+

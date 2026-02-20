@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:43:50 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:51:33 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,6 @@ static t_expand_ctx	is_expand(t_token token)
 	return ((t_expand_ctx){i, NONE});
 }
 
-char	*ft_getenv(char **envp, char *var)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	printf("%s\n", var);
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0)
-			break ;
-		i++;
-	}
-	j = 0;
-	while (envp[i] != NULL && envp[i][j])
-	{
-		if (envp[i][j] == '=')
-			return (&envp[i][j + 1]);
-		j++;
-	}
-	return (NULL);
-}
-
 void	expand(t_token *token, t_terminal term)
 {
 	t_expand_ctx	ctx;
@@ -75,7 +52,7 @@ void	expand(t_token *token, t_terminal term)
 		if (ctx.ex_type == ENV)
 			make_expand_env(token, ctx.index, term.envp);
 		else if (ctx.ex_type == EXIT_STATUS)
-			make_exit_status();
+			make_exit_status(token, term);
 		token = token->next;
 	}
 }
