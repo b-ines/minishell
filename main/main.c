@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 15:14:11 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:47:59 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	program(char *line, t_terminal *terminal)
 	expand(token, *terminal);
 	//builtins(&token, terminal);
 	//printf_list(&token);
-	exec(token);
+	exec(token,  terminal);
 	return (1);
 }
 
