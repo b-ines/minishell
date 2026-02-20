@@ -29,6 +29,7 @@ CFILES = ft_isalpha.c \
 	ft_strdup.c \
 	ft_substr.c \
 	ft_strjoin.c \
+	ft_strjoin_free.c \
 	ft_strtrim.c \
  	ft_split.c \
 	ft_itoa.c \

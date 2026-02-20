@@ -5,6 +5,7 @@ char	**make_argv(t_token *token, int size)
 	char	**new_argv;
 	int	i;
 	t_token *current;
+	char	*word;
 
 	i = 0;
 	current = token;
@@ -16,9 +17,13 @@ char	**make_argv(t_token *token, int size)
 	{
 		if (current && current->type == SSPACE)
 			current = current->next;
-		new_argv[i] = ft_strdup(current->token);
-		i++;
-		current = current->next;
+		word =  ft_strdup("");
+		while (current && current->type == WORD)
+		{
+			word = ft_strjoin_free(word, current->token);
+			current = current->next;
+		}
+		new_argv[i++] = word;
 	}
 	new_argv[i] = 0;
 	return (new_argv);
@@ -26,11 +31,14 @@ char	**make_argv(t_token *token, int size)
 
 void    add_argv(t_token **current, t_cmd *new_node)
 {
-	int size = 0;
-	t_token *temp = *current;
+	int size;
+	t_token *temp;
+
+	size = 1;
+	temp = *current;
 	while (temp && (temp->type == WORD || temp->type == SSPACE))
-	{	
-		if (temp && temp->type == WORD)
+	{
+		if (temp && temp->next && temp->next->type == WORD && temp->type == SSPACE)
 			size++;
 		temp = temp->next;
 	}
@@ -84,6 +92,22 @@ void    add_redir_output(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 }
 
+void	fill_new_node(t_token **current, t_cmd *new_node)
+{
+	if ((*current)->type == WORD)
+		add_argv(current, new_node);
+	else if ((*current) && (*current)->type == APPEND)
+		add_append(current, new_node);
+	else if ((*current) && (*current)->type == HERE_DOC)
+		add_heredoc(current, new_node);
+	else if ((*current) && (*current)->type == REDIR_INPUT)
+		add_redir_input(current, new_node);
+	else if ((*current) && (*current)->type == REDIR_OUTPUT)
+		add_redir_output(current, new_node);
+	else if ((*current) && (*current)->type == SSPACE)
+		(*current) = (*current)->next;
+}
+
 t_cmd	*parser(t_terminal *terminal, t_token *token)
 {
 	t_cmd	*cmds;
@@ -98,26 +122,9 @@ t_cmd	*parser(t_terminal *terminal, t_token *token)
 	{
 		new_node = create_node_cmd();
 		while (current && current->type != PIPE)
-		{
-			// if (current)
-			// 	printf("token %s type %s\n", current->token, lexer_to_str(current->type));
-			if (current->type == WORD)
-				add_argv(&current, new_node);
-			else if (current && current->type == APPEND)
-				add_append(&current, new_node);
-			else if (current && current->type == HERE_DOC)
-				add_heredoc(&current, new_node);
-			else if (current && current->type == REDIR_INPUT)
-				add_redir_input(&current, new_node);
-			else if (current && current->type == REDIR_OUTPUT)
-				add_redir_output(&current, new_node);
-			if (current && current->type == SSPACE)
-				current = current->next;
-		}
+			fill_new_node(&current, new_node);
 		if (!current || (current && current->type == PIPE))
-		{
 			ft_addback_cmd(&cmds, new_node);
-		}
 		if (current)
 			current = current->next;
 	}
