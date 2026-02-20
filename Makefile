@@ -3,8 +3,9 @@ MAKEFLAGS += --no-print-directory
 CFLAGS = -Wall -Werror -Wextra -g3 -O0
 DEPENDENCIES = -lreadline -lncurses
 CFILES = main/main.c main/signals.c main/early_parser.c\
-	lexer/lexer.c lexer/lists.c lexer/debug.c lexer/tokenisation.c lexer/tokenisation_utils.c \
-	parser/syntax_check.c expand/expand.c \
+	lexer/lexer.c lexer/token_lists.c lexer/debug.c lexer/tokenisation.c lexer/tokenisation_utils.c \
+	parser/syntax_check.c parser/cmd_list.c\
+	expand/expand.c \
 	builtins/builtins.c \
 	execve/exec.c execve/path.c
 INCLUDES = -Ilexer

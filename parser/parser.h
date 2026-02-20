@@ -3,13 +3,11 @@
 
 # include "../lexer/lexer.h"
 
-typedef struct s_cmd {
-	t_token			*cmd;
-	int				redir_flag;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}   t_cmd;
-
 int valid_syntax(t_terminal *terminal, t_token **token_head);
+t_cmd	*parser(t_terminal *terminal, t_token *token);
+
+//cmd_lists.c
+t_cmd *create_node_cmd(void);
+void    ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node);
 
 #endif
