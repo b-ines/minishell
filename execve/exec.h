@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:24:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/18 15:44:59 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:32:32 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/wait.h>
 # include "../lexer/lexer.h"
 
-void	exec(t_token *token);
+void	exec(t_token *token, t_terminal *term);
 char	*search_cmd(char *cmd);
+void	print_args(char **args);
 #endif

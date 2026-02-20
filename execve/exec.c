@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/19 20:41:02 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/20 16:32:06 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,14 @@ static char	**token_to_argsv(t_token *token)
 	return (ret);
 }
 
-void	exec(t_token *token)
+void	exec(t_token *token, t_terminal *term)
 {
 	int		id;
+	int		status;
 	char	*path;
 	char	**args;
 	char	**env_path;
 
-	// Pourquoi utiliser fork ?
-	// Car execve remplace le processus courant donc si
-	// cetait executer directement sans fork il aurait ecraser le minishell
-	// et donc le programme se serait stopper tout seul a la fin de execve
 	id = fork();
 	if (id == 0) // C'est l'enfant
 	{
@@ -92,6 +89,7 @@ void	exec(t_token *token)
 	}
 	else // C'est le parent (minishell) donc on attend
 	{
-		waitpid(id, NULL, 0);
+		waitpid(id, &status, 0);
+		term->exit_status = WEXITSTATUS(status);
 	}
 }
