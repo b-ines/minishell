@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:32:06 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/20 17:06:40 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,17 @@ void	exec(t_token *token, t_terminal *term)
 	int		status;
 	char	*path;
 	char	**args;
-	char	**env_path;
 
 	id = fork();
 	if (id == 0) // C'est l'enfant
 	{
 		path = search_cmd(token->token);
 		args = token_to_argsv(token);
-		env_path = NULL;
 		printf("%s\n", path);
 		print_args(args);
-		execve(path, args, env_path);
+		execve(path, args, term->envp);
 		perror("execve");
+		exit(EXIT_FAILURE);
 	}
 	else // C'est le parent (minishell) donc on attend
 	{
