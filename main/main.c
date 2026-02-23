@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:47:59 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/23 17:16:01 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	program(char *line, t_terminal *terminal)
 	printf_cmd(terminal->cmd_blocks);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
 	//builtins(&token, terminal);
-	exec(token,  terminal);
+	exec(terminal);
 	return (1);
 }
 
