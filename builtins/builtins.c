@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 14:58:21 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 16:25:26 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 //ptet gerer les redirections fd dans le run_builtins pour alleger
@@ -40,7 +52,7 @@ void run_builtins(t_terminal *terminal, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		run_pwd(terminal, cmd, fd);
 	else if (!ft_strcmp(cmd->argv[0], "export"))
-		return ;
+		run_export(terminal, cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		run_unset(terminal, cmd);
 	else if (!ft_strcmp(cmd->argv[0], "env"))

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 15:00:38 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 15:05:39 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	**make_argv(t_token *token, int size)
 {
 	char	**new_argv;
-	int	i;
-	t_token *current;
+	int		i;
+	t_token	*current;
 	char	*word;
 
 	i = 0;
@@ -17,7 +29,7 @@ char	**make_argv(t_token *token, int size)
 	{
 		if (current && current->type == SSPACE)
 			current = current->next;
-		word =  ft_strdup("");
+		word = ft_strdup("");
 		while (current && current->type == WORD)
 		{
 			word = ft_strjoin_free(word, current->token);
@@ -29,37 +41,39 @@ char	**make_argv(t_token *token, int size)
 	return (new_argv);
 }
 
-void    add_argv(t_token **current, t_cmd *new_node)
+void	add_argv(t_token **current, t_cmd *new_node)
 {
-	int size;
-	t_token *temp;
+	int		size;
+	t_token	*temp;
 
 	size = 1;
 	temp = *current;
 	while (temp && (temp->type == WORD || temp->type == SSPACE))
 	{
-		if (temp && temp->next && temp->next->type == WORD && temp->type == SSPACE)
+		if (temp && temp->next && temp->next->type == WORD
+			&& temp->type == SSPACE)
 			size++;
 		temp = temp->next;
 	}
 	new_node->argv = make_argv((*current), size);
-	while((*current) && ((*current)->type == WORD || (*current)->type == SSPACE))
+	while ((*current) && ((*current)->type == WORD
+			|| (*current)->type == SSPACE))
 		(*current) = (*current)->next;
 }
 
-void    add_append(t_token **current, t_cmd *new_node)
+void	add_append(t_token **current, t_cmd *new_node)
 {
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
 		(*current) = (*current)->next;
 	new_node->outfile = ft_strdup((*current)->token);
-	new_node->append =  1;
+	new_node->append = 1;
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
 		(*current) = (*current)->next;
 }
 
-void    add_heredoc(t_token **current, t_cmd *new_node)
+void	add_heredoc(t_token **current, t_cmd *new_node)
 {
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
@@ -70,7 +84,7 @@ void    add_heredoc(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 }
 
-void    add_redir_input(t_token **current, t_cmd *new_node)
+void	add_redir_input(t_token **current, t_cmd *new_node)
 {
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
@@ -81,7 +95,7 @@ void    add_redir_input(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 }
 
-void    add_redir_output(t_token **current, t_cmd *new_node)
+void	add_redir_output(t_token **current, t_cmd *new_node)
 {
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
@@ -111,7 +125,7 @@ void	fill_new_node(t_token **current, t_cmd *new_node)
 t_cmd	*parser(t_terminal *terminal, t_token *token)
 {
 	t_cmd	*cmds;
-	t_token *current;
+	t_token	*current;
 	t_cmd	*new_node;
 
 	if (!valid_syntax(terminal, &token))

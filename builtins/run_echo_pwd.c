@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_echo_pwd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 14:58:51 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 16:15:09 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 int	is_nflag(char *str)
@@ -45,16 +57,19 @@ void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 	int i;
 
 	i = 0;
+	char buffer[10000];
 	//jsp quoi daire des args encore
 	(void)cmd;
+	(void)fd;
 	while (terminal->envp[i])
 	{
 		if (!ft_strncmp(terminal->envp[i], "PWD=", 4))
 		{
-			ft_putstr_fd(&terminal->envp[i][4], fd);
-			ft_putstr_fd("\n", fd);
+			getcwd(buffer, 10000);
+			printf("%s\n", buffer);
+			// ft_putendl_fd(&terminal->envp[i][4], fd);
 			terminal->exit_status = 0;
-			break ;
+			// break ;
 		}
 		i++;
 	}

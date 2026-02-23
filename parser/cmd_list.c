@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 15:00:33 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 15:01:51 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-t_cmd *create_node_cmd(void)
+t_cmd	*create_node_cmd(void)
 {
-	t_cmd *new_node;
+	t_cmd	*new_node;
 
 	new_node = malloc(sizeof(t_cmd));
 	if (!new_node)
@@ -16,9 +28,9 @@ t_cmd *create_node_cmd(void)
 	return (new_node);
 }
 
-void    ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node)
+void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node)
 {
-	t_cmd *last;
+	t_cmd	*last;
 
 	if (!(*cmd_head))
 	{

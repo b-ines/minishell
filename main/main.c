@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:47:59 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/23 16:09:26 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-//$USER$USER segfault, il faudrait tokeniser par $
+//exec erifier aue si commence par '/' ou '.' directory check
 
 int	program(char *line, t_terminal *terminal)
 {
@@ -49,12 +49,7 @@ void	minishell_loop(t_terminal *terminal)
 			break ;
 		add_history(line);
 		rl_on_new_line();
-		if (!program(line, terminal))
-		{
-			//free(line);
-			continue ;
-		}
-		//free(line);
+		program(line, terminal);
 	}
 }
 
@@ -93,7 +88,7 @@ t_terminal	*terminal_init(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
-	t_terminal *terminal;
+	t_terminal			*terminal;
 
 	(void)argv;
 	if (argc != 1)
