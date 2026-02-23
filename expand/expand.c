@@ -37,7 +37,7 @@ static t_expand_ctx	is_expand(t_token token)
 		}
 		i++;
 	}
-	printf("expand inconn\n");
+	//printf("expand inconn\n");
 	return ((t_expand_ctx){i, NONE});
 }
 
@@ -45,7 +45,7 @@ void	expand(t_token *token, t_terminal term)
 {
 	t_expand_ctx	ctx;
 
-	printf("Step to expand\n");
+	//printf("Step to expand\n");
 	while (token != NULL)
 	{
 		ctx = is_expand(*token);

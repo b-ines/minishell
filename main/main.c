@@ -12,16 +12,20 @@
 
 #include "main.h"
 
+//$USER$USER segfault, il faudrait tokeniser par $
+
 int	program(char *line, t_terminal *terminal)
 {
 	t_token	*token;
 
 	token = 0;
 	if (empty_cmd(terminal, line))
-		return (0);
+		return (free(line), 0);
 	token = lexer(terminal, line);
+	free(line);
 	if (!token)
 		return (0);
+	//printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
@@ -29,8 +33,8 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
-	//builtins(&token, terminal);
-	exec(token,  terminal);
+	builtins(terminal);
+	//exec(token,  terminal);
 	return (1);
 }
 
@@ -47,15 +51,10 @@ void	minishell_loop(t_terminal *terminal)
 		rl_on_new_line();
 		if (!program(line, terminal))
 		{
-			free(line);
+			//free(line);
 			continue ;
 		}
-		if (ft_strncmp(line, "exit", 4) == 0)
-		{
-			free(line);
-			break ;
-		}
-		free(line);
+		//free(line);
 	}
 }
 
@@ -73,7 +72,7 @@ char	**envdup(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		dup[i] = envp[i];
+		dup[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	dup[i] = 0;

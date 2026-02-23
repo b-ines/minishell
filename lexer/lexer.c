@@ -41,7 +41,6 @@ t_token	*lexer(t_terminal *terminal, char *line)
 	if (!token)
 	{	
 		terminal->exit_status = 2;
-		printf("minishell: syntax error: unclosed quote\n");
 		return (0);
 	}
 	set_type(&token);
