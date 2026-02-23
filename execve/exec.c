@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 17:06:40 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/23 19:54:45 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void	print_args(char **args)
 {
@@ -28,7 +29,7 @@ void	print_args(char **args)
 	printf("\n");
 }
 
-static int	count_args(t_token *token)
+/*static int	count_args(t_token *token)
 {
 	int	nb;
 
@@ -40,9 +41,9 @@ static int	count_args(t_token *token)
 		token = token->next;
 	}
 	return (nb);
-}
+}*/
 
-static char	**token_to_argsv(t_token *token)
+/*static char	**token_to_argsv(t_token *token)
 {
 	char	**ret;
 	int		i;
@@ -66,29 +67,75 @@ static char	**token_to_argsv(t_token *token)
 	}
 	ret[i] = NULL;
 	return (ret);
+}*/
+
+int	lst_size(t_terminal *term)
+{
+	int		i;
+	t_cmd	*tmp;
+
+	i = 0;
+	tmp = term->cmd_blocks;
+
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
 }
 
-void	exec(t_token *token, t_terminal *term)
+void	clear_fd(int *fd, int cmdc)
 {
-	int		id;
-	int		status;
-	char	*path;
-	char	**args;
+	int	j;
 
-	id = fork();
-	if (id == 0) // C'est l'enfant
+	j = 0;
+	while (j < (cmdc - 1) * 2)
+		close(fd[j++]);
+}
+
+void	exec(t_terminal *term)
+{
+	int		pid1;
+	int		status;
+	int		*fd;
+	char	*path;
+	int		cmdc;
+	int		i;
+
+	i = 0;
+	cmdc = lst_size(term);
+	fd = malloc(sizeof(int) * ((cmdc - 1) * 2));
+	while (i < (cmdc - 1))
 	{
-		path = search_cmd(token->token);
-		args = token_to_argsv(token);
-		printf("%s\n", path);
-		print_args(args);
-		execve(path, args, term->envp);
-		perror("execve");
-		exit(EXIT_FAILURE);
+		pipe(fd + i * 2);
+		i++;
 	}
-	else // C'est le parent (minishell) donc on attend
+	i = 0;
+	while (term->cmd_blocks != NULL)
 	{
-		waitpid(id, &status, 0);
-		term->exit_status = WEXITSTATUS(status);
+
+		pid1 = fork();
+		if (pid1 == 0) // C'est l'enfant
+		{
+			path = search_cmd(term->cmd_blocks->argv[0]);
+			if (i != 0) // si ce nest pas la premiere commande
+			{
+				dup2(fd[(i - 1) * 2], 0);
+			}
+			if (i < (cmdc - 1)) // si ce nest pas la derniere commande
+			{
+				dup2(fd[i * 2 + 1], 1);
+			}
+			clear_fd(fd, cmdc);
+			execve(path, term->cmd_blocks->argv, term->envp);
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+		term->cmd_blocks = term->cmd_blocks->next;
+		i++;
 	}
+	clear_fd(fd, cmdc);
+	while (wait(&status) > 0);
+	term->exit_status = WEXITSTATUS(status);
 }
