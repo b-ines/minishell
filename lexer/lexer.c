@@ -6,27 +6,28 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:09 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 14:59:09 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:30:30 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer get_token_type(char *token)
+t_lexer get_token_type(t_token *token)
 {
-	if (ft_strncmp("", token, ft_strlen(token)) == 0)
+	if (ft_strncmp("", token->token, ft_strlen(token->token)) == 0)
 		return (WORD);
-	if (ft_strncmp("|", token, ft_strlen(token)) == 0)
+	if (ft_strncmp("|", token->token, ft_strlen(token->token)) == 0)
 		return (PIPE);
-	else if (ft_strncmp("<", token, ft_strlen(token)) == 0)
+	else if (ft_strncmp("<", token->token, ft_strlen(token->token)) == 0)
 		return (REDIR_INPUT);
-	else if (ft_strncmp(">", token, ft_strlen(token)) == 0)
+	else if (ft_strncmp(">", token->token, ft_strlen(token->token)) == 0)
 		return (REDIR_OUTPUT);
-	else if (ft_strncmp(">>", token, ft_strlen(token)) == 0)
+	else if (ft_strncmp(">>", token->token, ft_strlen(token->token)) == 0)
 		return (APPEND);
-	else if (ft_strncmp("<<", token, ft_strlen(token)) == 0)
+	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0)
 		return (HERE_DOC);
-	else if (ft_strncmp(" ", token, ft_strlen(token)) == 0)
+	else if (ft_strncmp(" ", token->token, ft_strlen(token->token)) == 0
+			&& token->quote_flag == 0)
 		return (SSPACE);
 	else
 		return (WORD);
@@ -39,7 +40,7 @@ void	set_type(t_token **token_head)
 	current = *token_head;
 	while (current)
 	{
-		current->type = get_token_type(current->token);
+		current->type = get_token_type(current);
 		current = current->next;
 	}
 }

@@ -6,13 +6,11 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/23 16:09:26 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:04:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-//exec erifier aue si commence par '/' ou '.' directory check
 
 int	program(char *line, t_terminal *terminal)
 {
@@ -25,7 +23,7 @@ int	program(char *line, t_terminal *terminal)
 	free(line);
 	if (!token)
 		return (0);
-	//printf_list(&token);
+	printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
@@ -51,38 +49,6 @@ void	minishell_loop(t_terminal *terminal)
 		rl_on_new_line();
 		program(line, terminal);
 	}
-}
-
-char	**envdup(char **envp)
-{
-	char	**dup;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	dup = malloc(sizeof(char *) * (i + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (envp[i])
-	{
-		dup[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	dup[i] = 0;
-	return (dup);
-}
-
-t_terminal	*terminal_init(char **envp)
-{
-	t_terminal *terminal;
-
-	terminal = 0;
-	terminal = malloc(sizeof(t_terminal));
-	terminal->exit_status = 0;
-	terminal->envp = envdup(envp);
-	return (terminal);
 }
 
 int	main(int argc, char **argv, char **envp)

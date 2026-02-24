@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:07:53 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:15:35 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	word_at_right(t_token *token)
 		return (0);
 	if (current->next->type == SSPACE)
 		current = token->next;
-	if (current->next->type == WORD)
+	if (current->next && current->next->type == WORD)
 		return (1);
 	else
 		return (0);
@@ -38,7 +38,7 @@ int	word_at_left(t_token *token)
 		return (0);
 	if (current->prev->type == SSPACE)
 		current = token->prev;
-	if (current->prev->type == WORD)
+	if (current->prev && current->prev->type == WORD)
 		return (1);
 	else
 		return (0);

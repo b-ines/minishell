@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap.c                                          :+:      :+:    :+:   */
+/*   ft_swap_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 18:11:17 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 18:13:00 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:05:48 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_swap_ptr(void **ptr1, void **ptr2)
+void	ft_swap_str(char **ptr1, char **ptr2)
 {
-	void	*temp;
+	char	*temp;
 
 	temp = *ptr1;
 	*ptr1 = *ptr2;

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:30 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:10:46 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:25:01 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ void    run_cd(t_terminal *terminal, t_cmd *cmd)
 		else
 		{
 			change_value_by_key(terminal, "OLDPWD", curr_dir);
-			getcwd(new_dir, 10000);
-			change_value_by_key(terminal, "PWD", new_dir);
-			terminal->exit_status = 0;
+			if (!getcwd(new_dir, 10000))
+				perror("minishell: ");
+			else
+			{
+				change_value_by_key(terminal, "PWD", new_dir);
+				terminal->exit_status = 0;
+			}
 		}
 	}
 }

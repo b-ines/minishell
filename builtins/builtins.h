@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 18:51:04 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:35:59 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,17 @@ void    run_unset(t_terminal *terminal, t_cmd *cmd);
 int		get_index_by_key(t_terminal *terminal, char *key);
 char	*get_key_by_index(t_terminal *terminal, int index);
 char	*get_value_by_key(t_terminal *terminal, char *key);
-void	change_value_by_key(t_terminal *terminal, char *key, char *new_value);
+int		change_value_by_key(t_terminal *terminal, char *key, char *new_value);
 
 //run_cd.c
 void    run_cd(t_terminal *terminal, t_cmd *cmd);
 
 //run_export.c
-void	run_export(t_terminal *terminal, t_cmd *cmd);
+char	*get_key(char *str);
+void	run_export(t_terminal *terminal, t_cmd *cmd, int fd);
+
+//print_sorted_env.c
+void	print_sorted_envp(char **envp_export, int fd);
 
 
 #endif

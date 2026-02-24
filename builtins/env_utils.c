@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:28 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 18:50:22 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:36:01 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_value_by_key(t_terminal *terminal, char *key)
 	return (value + 1);
 }
 
-void	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
+int	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 {
 	int		index_to_change;
 	char	*buffer;
@@ -69,6 +69,8 @@ void	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 		terminal->envp[index_to_change] = 0;
 		buffer = ft_strjoin(key, "=");
 		terminal->envp[index_to_change] = ft_strjoin_free(buffer, new_value);
+		return (1);
 	}
+	return (0);
 }
 

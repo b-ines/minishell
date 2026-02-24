@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:51 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 16:15:09 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 11:27:48 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,20 @@ void    run_echo(t_terminal *terminal, t_cmd *cmd, int fd)
 
 void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 {
+	//jsp quoi daire des args encore
 	int i;
+	char buffer[10000];
 
 	i = 0;
-	char buffer[10000];
-	//jsp quoi daire des args encore
 	(void)cmd;
-	(void)fd;
 	while (terminal->envp[i])
 	{
 		if (!ft_strncmp(terminal->envp[i], "PWD=", 4))
 		{
 			getcwd(buffer, 10000);
-			printf("%s\n", buffer);
-			// ft_putendl_fd(&terminal->envp[i][4], fd);
+			ft_putendl_fd(buffer, fd);
 			terminal->exit_status = 0;
-			// break ;
+			 break ;
 		}
 		i++;
 	}

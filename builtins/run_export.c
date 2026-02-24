@@ -6,23 +6,17 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 19:05:22 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:59:11 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-//export tout seul ca print trie par ascii ET AVEC GUILLEMETS
-//export Hola ca fait une var hola sans =
-//export "" ca fait not a valid indentifier
-//juste 0 c invalid jsp ourquoi
-//si yen a un invalid ca continue quand meme un message pour toutes les erreurs
-//dans la value il peut y avoir des =
-//je peux faire une copie qui malloc le nombre de str mais pas les str plus leger
 //si strchr est null ya pas de egal donc jexport juste
-
-//jai pas pris en compte si ya des guillemts mais jcrois ca marche
 //si jai 2 variables du meme nom il me la recreee quand meme
+
+//a faire : pwd proteger le getcwd mais marche pas
+//unset aussi jsp si ca enleve des 2
 
 int	valid_arg_export(char *str)
 {
@@ -42,24 +36,6 @@ int	valid_arg_export(char *str)
 		i++;
 	}
 	return (1);
-}
-
-char	**env_cpy(char	**src)
-{
-	char	**dest;
-	int		i;
-
-	i = 0;
-	dest = malloc(sizeof(char *) * (tab_size(src) + 1));
-	if (!dest)
-		return (0);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
 }
 
 char	*get_key(char *str)
@@ -88,7 +64,7 @@ char	*get_value(char *str)
 	return (value);
 }
 
-int	export_in_envp_index(t_terminal *terminal, char *cmd)
+int	key_already_in_env(t_terminal *terminal, char *cmd)
 {
 	char	*new_key;
 	char	*curr_key;
@@ -96,10 +72,10 @@ int	export_in_envp_index(t_terminal *terminal, char *cmd)
 
 	i = 0;
 	new_key = get_key(cmd);
-	while (terminal->envp[i])
+	while (terminal->envp_export[i])
 	{
-		curr_key = get_key(terminal->envp[i]);
-		if (!ft_strcmp(new_key, curr_key))
+		curr_key = get_key(terminal->envp_export[i]);
+		if (ft_strcmp(new_key, curr_key) == 0)
 		{
 			free(new_key);
 			free(curr_key);
@@ -109,93 +85,58 @@ int	export_in_envp_index(t_terminal *terminal, char *cmd)
 		i++;
 	}
 	free(new_key);
-	return (0);
+	return (-1);
 }
 
-void	append_var(t_terminal *terminal, char *cmd)
+void	append_var(t_terminal *terminal, char **env, char *cmd, int env_flag)
 {
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	new_env = malloc((tab_size(terminal->envp) + 2) * sizeof(char *));
+	new_env = malloc((tab_size(env) + 2) * sizeof(char *));
 	if (!new_env)
 		return ;
-	while (terminal->envp[i])
+	while (env[i])
 	{	
-		new_env[i] = ft_strdup(terminal->envp[i]);
+		new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
 	new_env[i] = ft_strdup(cmd);
 	new_env[i + 1] = 0;
-	ft_free_split(terminal->envp);
-	terminal->envp = new_env;
+	ft_free_split(env);
+	if (env_flag == 0)
+		terminal->envp = new_env;
+	else if (env_flag == 1)
+		terminal->envp_export = new_env;
 }
 
-char	**env_cpy_sorted(char **envp)
+void	change_var(t_terminal *terminal, char *cmd, int env_flag)
+{
+	int		index_to_change;
+
+	index_to_change = key_already_in_env(terminal, cmd);
+	if (env_flag == 0)
+	{
+		free(terminal->envp[index_to_change]);
+		terminal->envp[index_to_change] = 0;
+		terminal->envp[index_to_change] = ft_strdup(cmd);
+	}
+	if (env_flag == 1)
+	{
+		free(terminal->envp_export[index_to_change]);
+		terminal->envp_export[index_to_change] = 0;
+		terminal->envp_export[index_to_change] = ft_strdup(cmd);
+	}
+}
+
+void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 {
 	int		i;
-	int		j;
-	char	**env;
-	char	*key;
-	char	*next_key;
-
-	i = 0;
-	env = env_cpy(envp);
-	while (i < tab_size(envp) - 1)
-	{
-		j = 0;
-		while (j < tab_size(envp) - i - 1)
-		{
-			key = get_key(env[j]);
-			next_key = get_key(env[j + 1]);
-			if (ft_strcmp(key, next_key) > 0)
-				ft_swap_ptr((void *)env[j], (void *)env[j + 1]);
-			free(key);
-			free(next_key);
-			j++;
-		}
-		i++;
-	}
-	return (env);
-}
-
-void	print_sorted_envp(t_terminal *terminal)
-{
-	char	**env_cpy;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	env_cpy = env_cpy_sorted(terminal->envp);
-	while (env_cpy[i])
-	{
-		j = 0;
-		printf("export ");
-		while (env_cpy[i][j] && env_cpy[i][j] != '=')
-			printf("%c", env_cpy[i][j++]);
-		if (env_cpy[i][j] && env_cpy[i][j] == '=')
-		{
-			printf("%c\"", env_cpy[i][j++]);
-			while (env_cpy[i][j])
-				printf("%c", env_cpy[i][j++]);
-			printf("\"");
-		}
-		printf("\n");
-		i++;
-	}
-	ft_free_split(env_cpy);
-}
-
-void	run_export(t_terminal *terminal, t_cmd *cmd)
-{
-	int	i;
-	char	*key;
 
 	i = 1;
 	if (!cmd->argv[1])
-		print_sorted_envp(terminal);
+		print_sorted_envp(terminal->envp_export, fd);
 	terminal->exit_status = 0;
 	while (cmd->argv[i])
 	{
@@ -206,14 +147,22 @@ void	run_export(t_terminal *terminal, t_cmd *cmd)
 			ft_putendl_fd("': not a valid indentifier", 2);
 			terminal->exit_status = 1;
 		}
-		else
-		{	
-			key = get_key(cmd->argv[i]);
-			if (get_index_by_key(terminal, cmd->argv[i]) != -1)
-				change_value_by_key(terminal, key, get_value_by_key(terminal, key));
+		else // je segault quand il faut changer une variable qui existe deja // ya les sans = dans env
+		{
+			if (key_already_in_env(terminal, cmd->argv[i]) != -1)
+			{
+				printf("la condition donne : %s\n", ft_strchr(cmd->argv[i], '='));
+				if (!ft_strchr(cmd->argv[i], '='))
+					break ;
+				change_var(terminal, cmd->argv[i], 0);
+				change_var(terminal, cmd->argv[i], 1);
+			}
 			else
-				append_var(terminal, cmd->argv[i]);
-			free(key);
+			{
+				if (!ft_strchr(cmd->argv[i], '='))
+					append_var(terminal, terminal->envp, cmd->argv[i], 0);
+				append_var(terminal, terminal->envp_export, cmd->argv[i], 1);
+			}
 		}
 		i++;
 	}
