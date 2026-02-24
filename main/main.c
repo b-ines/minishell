@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
 /*   Updated: 2026/02/24 18:25:13 by inbeaumo         ###   ########.fr       */
+=======
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
+/*   Updated: 2026/02/24 17:51:36 by gchalmel         ###   ########.fr       */
+>>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +32,7 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_list(&token);
 	terminal->cmd_blocks = 0;
-	expand(token, *terminal);
+	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
