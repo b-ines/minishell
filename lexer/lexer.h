@@ -23,7 +23,12 @@ typedef struct s_token {
 } t_token;
 
 //lexer.c
+<<<<<<< HEAD
 t_token		*lexer(t_terminal *terminal, char *line);
+=======
+t_token	*lexer(t_terminal *terminal, char *line);
+void	set_type(t_token **token_head);
+>>>>>>> 9e7ac20 (first commit for retokenisation)
 
 //lists.c
 void    	ft_addback(t_token **all_t, char *str, int quote_flag);

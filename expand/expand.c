@@ -6,7 +6,11 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/02/24 17:36:07 by inbeaumo         ###   ########.fr       */
+=======
+/*   Updated: 2026/02/24 16:28:38 by gchalmel         ###   ########.fr       */
+>>>>>>> 9e7ac20 (first commit for retokenisation)
 /*                                                                            */
 /* ************************************************************************** */
 
