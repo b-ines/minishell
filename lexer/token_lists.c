@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_lists.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 14:59:11 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/24 17:14:48 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
 t_token *create_node(char *str, int quote_flag)
@@ -28,4 +40,18 @@ void    ft_addback(t_token **all_t, char *str, int quote_flag)
 		last = last->next;
 	last->next = new_node;
 	new_node->prev = last;
+}
+
+void	free_token_list(t_token **token)
+{
+	t_token	*temp;
+
+	temp = *token;
+	while (temp)
+	{
+		temp = *token;
+		free(temp);
+		(*token) = (*token)->next;
+	}
+	free(token);
 }

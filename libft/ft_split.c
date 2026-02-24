@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 13:00:03 by inbeaumo          #+#    #+#             */
-/*   Updated: 2025/11/23 14:15:21 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:15:51 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ int	ft_free_split(char **split)
 	i = 0;
 	while (split[i])
 	{
-		free(split[i]);
+		if (split[i])
+			free(split[i]);
 		i++;
 	}
-	free(split);
+	if (split)
+		free(split);
 	return (1);
 }
 

@@ -23,21 +23,21 @@ typedef struct s_token {
 } t_token;
 
 //lexer.c
-t_token	*lexer(t_terminal *terminal, char *line);
+t_token		*lexer(t_terminal *terminal, char *line);
 
 //lists.c
-void    ft_addback(t_token **all_t, char *str, int quote_flag);
+void    	ft_addback(t_token **all_t, char *str, int quote_flag);
 
 //debug.c
-const char* lexer_to_str(t_lexer lexer);
-void    printf_list(t_token **head);
+const char	*lexer_to_str(t_lexer lexer);
+void    	printf_list(t_token **head);
 
 //tokenisation.c
-t_token *tokenization(char *line);
+t_token 	*tokenization(char *line);
 
 //tokenisation_utils.c
-int	quote_tokenisation(t_token **token, char *line, int	quote_type, int i);
-int	redir_tokenisation(t_token **token, char *line, int redir_type, int i);
-int	pipe_tokenisation(t_token **token, char *line, int i);
+int			quote_tokenisation(t_token **token, char *line, int	quote_type, int i);
+int			redir_tokenisation(t_token **token, char *line, int redir_type, int i);
+int			pipe_tokenisation(t_token **token, char *line, int i);
 
 #endif

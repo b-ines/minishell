@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 22:57:27 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/24 17:36:07 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_expand_ctx	is_expand(t_token token)
 		}
 		i++;
 	}
-	printf("expand inconn\n");
+	//printf("expand inconn\n");
 	return ((t_expand_ctx){i, NONE});
 }
 
@@ -45,7 +45,7 @@ void	expand(t_token *token, t_terminal term)
 {
 	t_expand_ctx	ctx;
 
-	printf("Step to expand\n");
+	//printf("Step to expand\n");
 	while (token != NULL)
 	{
 		ctx = is_expand(*token);

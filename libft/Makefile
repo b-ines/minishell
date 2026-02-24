@@ -25,6 +25,7 @@ CFILES = ft_isalpha.c \
 	ft_memcmp.c \
 	ft_strnstr.c \
 	ft_atoi.c \
+	ft_atol.c \
 	ft_calloc.c \
 	ft_strdup.c \
 	ft_substr.c \
@@ -48,7 +49,8 @@ CFILES = ft_isalpha.c \
 	ft_lstclear_bonus.c \
 	ft_lstiter_bonus.c \
 	ft_lstmap_bonus.c \
-	ft_strndup.c
+	ft_strndup.c \
+	ft_swap_str.c
 
 all: $(NAME)
 

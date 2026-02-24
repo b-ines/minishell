@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/23 17:16:01 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/24 18:25:13 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int	program(char *line, t_terminal *terminal)
 
 	token = 0;
 	if (empty_cmd(terminal, line))
-		return (0);
+		return (free(line), 0);
 	token = lexer(terminal, line);
+	free(line);
 	if (!token)
 		return (0);
+	printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
@@ -45,56 +47,14 @@ void	minishell_loop(t_terminal *terminal)
 			break ;
 		add_history(line);
 		rl_on_new_line();
-		if (!program(line, terminal))
-		{
-			free(line);
-			continue ;
-		}
-		if (ft_strncmp(line, "exit", 4) == 0)
-		{
-			free(line);
-			break ;
-		}
-		free(line);
+		program(line, terminal);
 	}
-}
-
-char	**envdup(char **envp)
-{
-	char	**dup;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	dup = malloc(sizeof(char *) * (i + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (envp[i])
-	{
-		dup[i] = envp[i];
-		i++;
-	}
-	dup[i] = 0;
-	return (dup);
-}
-
-t_terminal	*terminal_init(char **envp)
-{
-	t_terminal *terminal;
-
-	terminal = 0;
-	terminal = malloc(sizeof(t_terminal));
-	terminal->exit_status = 0;
-	terminal->envp = envdup(envp);
-	return (terminal);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
-	t_terminal *terminal;
+	t_terminal			*terminal;
 
 	(void)argv;
 	if (argc != 1)

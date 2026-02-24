@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/23 15:00:41 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:05:59 by inbeaumo         ###   ########.fr       */
+/*   Created: 2026/02/23 14:58:18 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/24 16:12:52 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "builtins.h"
 
-# include "../lexer/lexer.h"
+int	tab_size(char **argv)
+{
+	int	i;
 
-int		valid_syntax(t_terminal *terminal, t_token **token_head);
-t_cmd	*parser(t_terminal *terminal, t_token *token);
+	if (!argv || !argv[0])
+		return (0);
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
+}
 
-//cmd_lists.c
-t_cmd	*create_node_cmd(void);
-void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node);
-
-//debug
-void	printf_tab(char **tab);
-void	printf_cmd(t_cmd *cmd);
-
-#endif
+int	get_fd(t_cmd *cmd)
+{
+	if (cmd->outfile)
+	{
+		if (cmd->append)
+			return (open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644));
+		else
+			return (open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+	}
+	else
+		return (1);
+}

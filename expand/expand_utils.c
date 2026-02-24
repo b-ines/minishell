@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:43:57 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:51:50 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:36:41 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_getenv(char **envp, char *var)
 	int	j;
 
 	i = 0;
-	printf("%s\n", var);
+	//printf("%s\n", var);
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0)

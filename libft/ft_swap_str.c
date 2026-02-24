@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_swap_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/23 15:00:41 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:05:59 by inbeaumo         ###   ########.fr       */
+/*   Created: 2026/02/23 18:11:17 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/24 12:05:48 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "../lexer/lexer.h"
+void	ft_swap_str(char **ptr1, char **ptr2)
+{
+	char	*temp;
 
-int		valid_syntax(t_terminal *terminal, t_token **token_head);
-t_cmd	*parser(t_terminal *terminal, t_token *token);
-
-//cmd_lists.c
-t_cmd	*create_node_cmd(void);
-void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node);
-
-//debug
-void	printf_tab(char **tab);
-void	printf_cmd(t_cmd *cmd);
-
-#endif
+	temp = *ptr1;
+	*ptr1 = *ptr2;
+	*ptr2 = temp;
+}

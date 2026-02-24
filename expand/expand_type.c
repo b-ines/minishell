@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 16:49:58 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:36:00 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	make_expand_env(t_token *token, int index, char **envp)
 	int		len_before_dollar;
 	size_t	len_var;
 
-	printf("Expand detected on: %s\n", token->token);
+	//printf("Expand detected on: %s\n", token->token);
 	var = ft_getenv(envp, &token->token[index]);
 	if (index > 1)
 	{

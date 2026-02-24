@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_cmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 15:00:36 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 15:02:51 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-void    printf_tab(char **tab)
+void	printf_tab(char **tab)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!tab || !*tab)
 		return ;
 	printf("[ ");
@@ -13,11 +27,12 @@ void    printf_tab(char **tab)
 	printf("0 ] ");
 }
 
-void printf_cmd(t_cmd *cmd)
+void	printf_cmd(t_cmd *cmd)
 {
-	t_cmd *current;
-	int	i = 1;
+	t_cmd	*current;
+	int		i;
 
+	i = 1;
 	current = cmd;
 	if (!cmd)
 		return ;

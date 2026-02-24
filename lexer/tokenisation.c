@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenisation.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 14:59:16 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/23 14:59:17 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
 int	token_delimiter(char c)
@@ -12,7 +24,9 @@ int	word_tokenisation(t_token **token, char *line, int i)
 	int	word_len;
 
 	word_len = 0;
-	while (ft_isprint(line[i + word_len]) && !token_delimiter(line[i + word_len]))
+	if (line[i + word_len] && line[i + word_len] == '$')
+		word_len++;
+	while (line[i + word_len] && ft_isprint(line[i + word_len]) && !token_delimiter(line[i + word_len]) && line[i + word_len] != '$')
 		word_len++;
 	ft_addback(token, ft_strndup(&line[i], word_len), 0);
 	return (word_len);
@@ -26,7 +40,7 @@ int	get_next_token(t_token **token, char *line, int i)
 		return (redir_tokenisation(token, line, line[i], i));
 	else  if (line[i] == '|')
 		return (pipe_tokenisation(token, line, i));
-	else if (ft_isprint(line[i]) && !token_delimiter(line[i]))
+	else if ((ft_isprint(line[i]) && !token_delimiter(line[i])))
 		return (word_tokenisation(token, line, i));
 	else
 		return (0);

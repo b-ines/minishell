@@ -1,30 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_check.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/24 18:15:35 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-int word_at_right(t_token *token)
+//il faut print les erreur sur stderr
+
+int	word_at_right(t_token *token)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = token;
 	if (!current->next)
 		return (0);
 	if (current->next->type == SSPACE)
 		current = token->next;
-	if (current->next->type == WORD)
+	if (current->next && current->next->type == WORD)
 		return (1);
 	else
 		return (0);
 }
 
-int word_at_left(t_token *token)
+int	word_at_left(t_token *token)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = token;
 	if (!current->prev)
 		return (0);
 	if (current->prev->type == SSPACE)
 		current = token->prev;
-	if (current->prev->type == WORD)
+	if (current->prev && current->prev->type == WORD)
 		return (1);
 	else
 		return (0);
@@ -53,7 +67,8 @@ int	pipe_check(t_token *token)
 	}
 	return (1);
 }
-//particulierment chiant celui la pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<< 
+
+//pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<< 
 int	redir_check(t_token *token)
 {
 	if (word_at_right(token))
