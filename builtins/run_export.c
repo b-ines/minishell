@@ -21,7 +21,10 @@
 //je peux faire une copie qui malloc le nombre de str mais pas les str plus leger
 //si strchr est null ya pas de egal donc jexport juste
 
-int	valid_arg_export(char *str, int sep)
+//jai pas pris en compte si ya des guillemts mais jcrois ca marche
+//si jai 2 variables du meme nom il me la recreee quand meme
+
+int	valid_arg_export(char *str)
 {
 	int	i;
 
@@ -32,7 +35,7 @@ int	valid_arg_export(char *str, int sep)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == sep)
+		if (str[i] == '=')
 			break ;
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
 			return (0);
@@ -41,85 +44,177 @@ int	valid_arg_export(char *str, int sep)
 	return (1);
 }
 
-char	**env_cpy_light(t_terminal *terminal)
+char	**env_cpy(char	**src)
 {
-	char	**copy;
+	char	**dest;
 	int		i;
 
 	i = 0;
-	copy = malloc(sizeof(char *) * (tab_size(terminal->envp[i]) + 1));
-	if (!copy)
+	dest = malloc(sizeof(char *) * (tab_size(src) + 1));
+	if (!dest)
 		return (0);
-	while (terminal->envp[i])
+	while (src[i])
 	{
-		copy[i] = terminal->envp[i];
+		dest[i] = src[i];
 		i++;
 	}
-	copy[i] = 0;
-	return (copy);
+	dest[i] = 0;
+	return (dest);
 }
 
-void	sort_env_cpy(char **env_cpy)
+char	*get_key(char *str)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	key = ft_strndup(str, i);
+	return (key);
+}
+
+char	*get_value(char *str)
+{
+	int		i;
+	char	*value;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (!str[i])
+		return (0);
+	value = ft_strdup(&str[i]);
+	return (value);
+}
+
+int	export_in_envp_index(t_terminal *terminal, char *cmd)
+{
+	char	*new_key;
+	char	*curr_key;
+	int		i;
+
+	i = 0;
+	new_key = get_key(cmd);
+	while (terminal->envp[i])
+	{
+		curr_key = get_key(terminal->envp[i]);
+		if (!ft_strcmp(new_key, curr_key))
+		{
+			free(new_key);
+			free(curr_key);
+			return (i);
+		}
+		free(curr_key);
+		i++;
+	}
+	free(new_key);
+	return (0);
+}
+
+void	append_var(t_terminal *terminal, char *cmd)
+{
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	new_env = malloc((tab_size(terminal->envp) + 2) * sizeof(char *));
+	if (!new_env)
+		return ;
+	while (terminal->envp[i])
+	{	
+		new_env[i] = ft_strdup(terminal->envp[i]);
+		i++;
+	}
+	new_env[i] = ft_strdup(cmd);
+	new_env[i + 1] = 0;
+	ft_free_split(terminal->envp);
+	terminal->envp = new_env;
+}
+
+char	**env_cpy_sorted(char **envp)
 {
 	int		i;
 	int		j;
+	char	**env;
 	char	*key;
-	int		env_size;
+	char	*next_key;
 
 	i = 0;
-	env_size = tab_size(env_cpy);
-	while (i < env_size - 1)
+	env = env_cpy(envp);
+	while (i < tab_size(envp) - 1)
 	{
 		j = 0;
-		while (j < env_size - i - 1)
+		while (j < tab_size(envp) - i - 1)
 		{
-			key = get_key_by_index(env_cpy[j])
-			if (ft_strncmp())
+			key = get_key(env[j]);
+			next_key = get_key(env[j + 1]);
+			if (ft_strcmp(key, next_key) > 0)
+				ft_swap_ptr((void *)env[j], (void *)env[j + 1]);
+			free(key);
+			free(next_key);
+			j++;
 		}
+		i++;
 	}
+	return (env);
 }
 
-//    int i, j;
-//     bool swapped;
-//     for (i = 0; i < n - 1; i++) {
-//         swapped = false;
-//         for (j = 0; j < n - i - 1; j++) {
-//             if (arr[j] > arr[j + 1]) {
-//                 swap(&arr[j], &arr[j + 1]);
-//                 swapped = true;
-//             }
-//         }
+void	print_sorted_envp(t_terminal *terminal)
+{
+	char	**env_cpy;
+	int		i;
+	int		j;
 
-//         // If no two elements were swapped by inner loop,
-//         // then break
-//         if (swapped == false)
-//             break;
-
+	i = 0;
+	j = 0;
+	env_cpy = env_cpy_sorted(terminal->envp);
+	while (env_cpy[i])
+	{
+		j = 0;
+		printf("export ");
+		while (env_cpy[i][j] && env_cpy[i][j] != '=')
+			printf("%c", env_cpy[i][j++]);
+		if (env_cpy[i][j] && env_cpy[i][j] == '=')
+		{
+			printf("%c\"", env_cpy[i][j++]);
+			while (env_cpy[i][j])
+				printf("%c", env_cpy[i][j++]);
+			printf("\"");
+		}
+		printf("\n");
+		i++;
+	}
+	ft_free_split(env_cpy);
+}
 
 void	run_export(t_terminal *terminal, t_cmd *cmd)
 {
-	// int	size;
-	// int	i = 0;
-	(void)terminal;
-	(void)cmd;
-	char *buffer;
+	int	i;
+	char	*key;
 
-	buffer = 0;
-	// size = ft_strchr(cmd->argv[1], '=');
-	if (!valid_arg_export(cmd->argv[1], '=') && ft_isprint(cmd->argv[1]))
+	i = 1;
+	if (!cmd->argv[1])
+		print_sorted_envp(terminal);
+	terminal->exit_status = 0;
+	while (cmd->argv[i])
 	{
-		//machin not a valid argument
+		if (!valid_arg_export(cmd->argv[i]))
+		{
+			ft_putstr_fd("mimishell: export: `", 2);
+			ft_putstr_fd(cmd->argv[i], 2);
+			ft_putendl_fd("': not a valid indentifier", 2);
+			terminal->exit_status = 1;
+		}
+		else
+		{	
+			key = get_key(cmd->argv[i]);
+			if (get_index_by_key(terminal, cmd->argv[i]) != -1)
+				change_value_by_key(terminal, key, get_value_by_key(terminal, key));
+			else
+				append_var(terminal, cmd->argv[i]);
+			free(key);
+		}
+		i++;
 	}
-		printf("VALIDE\n");
-	else
-		printf("INVALIDE\n");
-	// while (cmd->argv[1][i] && i < size)
-	// 	printf("%c", cmd->argv[1][i]);
-	// printf("\n");
-
-
-	// if (!cmd->argv[1])
-	// {
-	// 	print export trie par ascii
-	// }
 }

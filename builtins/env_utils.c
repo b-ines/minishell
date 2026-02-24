@@ -17,9 +17,11 @@ int	get_index_by_key(t_terminal *terminal, char *key)
 	int	i;
 
 	i = 0;
+	if (!key)
+		return (-1);
 	while (terminal->envp[i])
 	{
-		if (!ft_strncmp(terminal->envp[i], key, ft_strlen(key)) && terminal->envp[i][ft_strlen(key)] == '=')	
+		if (ft_strlen(terminal->envp[i]) >= ft_strlen(key) && !ft_strncmp(terminal->envp[i], key, ft_strlen(key)) && (terminal->envp[i][ft_strlen(key)] == '=' || !terminal->envp[i][ft_strlen(key)]))	
 			return (i);
 		i++;
 	}
@@ -57,22 +59,16 @@ char	*get_value_by_key(t_terminal *terminal, char *key)
 
 void	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 {
-	int		i;
 	int		index_to_change;
 	char	*buffer;
 
-	i = 0;
 	index_to_change = get_index_by_key(terminal, key);
-	while (terminal->envp[i])
+	if (index_to_change != -1)
 	{
-		if (i == index_to_change)
-		{
-			free(terminal->envp[i]);
-			terminal->envp[i] = 0;
-			buffer = ft_strjoin(key, "=");
-			terminal->envp[i] = ft_strjoin_free(buffer, new_value);
-		}
-		i++;
+		free(terminal->envp[index_to_change]);
+		terminal->envp[index_to_change] = 0;
+		buffer = ft_strjoin(key, "=");
+		terminal->envp[index_to_change] = ft_strjoin_free(buffer, new_value);
 	}
 }
 

@@ -12,7 +12,6 @@
 
 #include "builtins.h"
 
-//possiblement pas accepter plusieurs parametres pcq env test env path ca fait des trucs bizzares donc erreur ?
 void    run_env(t_terminal *terminal, t_cmd *cmd, int fd)
 {
 	int i;
