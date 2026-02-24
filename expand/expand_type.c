@@ -36,7 +36,12 @@ void	make_expand_env(t_token *token, int index, char **envp)
 			ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
 	}
 	else
-		final_token = var;
+	{	
+		if (!var)
+			final_token = ft_strdup("");
+		else
+			final_token = ft_strdup(var);
+	}
 	free(token->token);
 	token->token = final_token;
 }

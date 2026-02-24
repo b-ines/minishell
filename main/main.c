@@ -23,13 +23,13 @@ int	program(char *line, t_terminal *terminal)
 	free(line);
 	if (!token)
 		return (0);
-	printf_list(&token);
+	//printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	printf_cmd(terminal->cmd_blocks);
+	//printf_cmd(terminal->cmd_blocks);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
 	builtins(terminal);
 	//exec(terminal);

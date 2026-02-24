@@ -1,6 +1,6 @@
 NAME = minishell
 MAKEFLAGS += --no-print-directory
-CFLAGS = -Wall -Werror -Wextra -g3 -O0
+CFLAGS = -Wall -Werror -Wextra -g3 -O0 -fPIE
 DEPENDENCIES = -lreadline -lncurses
 CFILES = main/main.c main/signals.c main/early_parser.c main/terminal_init.c \
 	expand/expand.c expand/expand_type.c expand/expand_utils.c \
@@ -24,7 +24,7 @@ $(NAME): $(OBJ) $(LIBFT)
 	@echo $(LB)[[ Done 💻 ]] $(RST)
 
 .o:.c
-	cc $(CLAGS) $(INCLUDES) $< -o $@
+	cc $(CLFAGS) $(INCLUDES) $< -o $@
 
 $(LIBFT):
 	@make -C libft
