@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 18:25:13 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:27:31 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
-	//builtins(&token, terminal);
-	exec(terminal);
+	builtins(terminal);
+	//exec(terminal);
 	return (1);
 }
 
