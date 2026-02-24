@@ -44,7 +44,6 @@ static t_expand_ctx	is_expand(t_token token)
 void	expand(t_token *token, t_terminal term)
 {
 	t_expand_ctx	ctx;
-	char			*temp;
 
 	//printf("Step to expand\n");
 	while (token != NULL)
@@ -54,12 +53,6 @@ void	expand(t_token *token, t_terminal term)
 			make_expand_env(token, ctx.index, term.envp);
 		else if (ctx.ex_type == EXIT_STATUS)
 			make_exit_status(token, term);
-		else if (ctx.ex_type == NONE && token->token && ft_strchr(token->token, '$'))
-		{
-			temp = ft_strdup("");
-			free(token->token);
-			token->token = temp;
-		}
 		token = token->next;
 	}
 }

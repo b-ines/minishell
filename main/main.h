@@ -46,7 +46,7 @@ typedef struct s_token t_token;
 #include <stdio.h>
 
 //signals.c
-void		signal_init(struct sigaction *sa);
+void		signal_init(t_terminal *terminal);
 
 //early_parser.c
 int 		empty_cmd(t_terminal *terminal, char *line);

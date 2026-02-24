@@ -41,6 +41,11 @@ void    run_cd(t_terminal *terminal, t_cmd *cmd)
 	char	*curr_dir;
 	char	new_dir[10000];
 
+	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "~"))
+	{
+		free(cmd->argv[1]);
+		cmd->argv[1] = ft_strdup(get_value_by_key(terminal, "HOME"));
+	}
 	curr_dir = get_value_by_key(terminal, "PWD");
 	if (tab_size(cmd->argv) > 2)
 		cd_error(terminal, cmd->argv[1], ": too many arguments");

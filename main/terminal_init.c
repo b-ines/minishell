@@ -18,7 +18,7 @@ char	**empty_env(void)
 	char	buffer[10000];
 
 	env = malloc(sizeof(char *) * (4));
-	env[0] = ft_strdup("_=usr/bin/env");
+	env[0] = ft_strdup("_=./minishell");
 	env[1] = ft_strjoin("PWD=", getcwd(buffer, 10000));
 	env[2] = ft_strjoin("OLDPWD=", getcwd(buffer, 10000));
 	env[3] = 0;
@@ -31,7 +31,7 @@ char	**envdup(char **envp)
 	int		i;
 
 	i = 0;
-	if (!envp)
+	if (!envp || !envp[0])
 		return (empty_env());
 	while (envp[i])
 		i++;
@@ -42,7 +42,10 @@ char	**envdup(char **envp)
 	while (envp[i])
 	{
 		if (!ft_strchr(envp[i], '='))
+		{	
+			i++;
 			continue;
+		}
 		dup[i] = ft_strdup(envp[i]);
 		i++;
 	}

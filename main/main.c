@@ -44,7 +44,10 @@ void	minishell_loop(t_terminal *terminal)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			break ;
+		{
+			ft_putstr_fd("exit\n", 1);
+			exit(terminal->exit_status);	
+		}
 		add_history(line);
 		rl_on_new_line();
 		program(line, terminal);
@@ -53,16 +56,15 @@ void	minishell_loop(t_terminal *terminal)
 
 int	main(int argc, char **argv, char **envp)
 {
-	struct sigaction	sa;
 	t_terminal			*terminal;
 
 	(void)argv;
 	if (argc != 1)
 		return (0);
 	terminal = 0;
-	signal_init(&sa);
-	signal(SIGQUIT, SIG_IGN);
 	terminal = terminal_init(envp);
+	signal_init(terminal);
+	signal(SIGQUIT, SIG_IGN);
 	minishell_loop(terminal);
 	return (0);
 }
