@@ -24,6 +24,7 @@ typedef struct s_token {
 
 //lexer.c
 t_token	*lexer(t_terminal *terminal, char *line);
+void	set_type(t_token **token_head);
 
 //lists.c
 void    ft_addback(t_token **all_t, char *str, int quote_flag);

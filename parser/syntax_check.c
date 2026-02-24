@@ -53,7 +53,7 @@ int	pipe_check(t_token *token)
 	}
 	return (1);
 }
-//particulierment chiant celui la pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<< 
+//particulierment chiant celui la pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<<
 int	redir_check(t_token *token)
 {
 	if (word_at_right(token))
@@ -85,7 +85,7 @@ int invalid_token(t_token *token)
 {
 	if (token->type == PIPE)
 		return (pipe_check(token));
-	else if (is_redir(token))  
+	else if (is_redir(token))
 		return (redir_check(token));
 	else if (token->type == WORD || token->type == SSPACE)
 		return (1);
@@ -100,9 +100,9 @@ int valid_syntax(t_terminal *terminal, t_token **token_head)
 	current = *token_head;
 	while (current)
 	{
-		error_flag = invalid_token(current); 
+		error_flag = invalid_token(current);
 		if (!error_flag)
-		{	
+		{
 			terminal->exit_status = 2;
 			return (0);
 		}
