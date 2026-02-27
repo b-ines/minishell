@@ -6,14 +6,15 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 15:29:17 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:37:42 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 
-char	*str_append()
+char	*str_append(char *toappend)
 {
+	if (!)
 }
 
 void	here_doc(t_terminal *term, t_cmd *cmd)
@@ -21,6 +22,7 @@ void	here_doc(t_terminal *term, t_cmd *cmd)
 	char	*line;
 	int		fd;
 	char 	*heredoc;
+	
 
 	fd = open(".heredoc", O_RDWR | O_CREAT);
 	if (fd < 0)
@@ -41,7 +43,9 @@ void	here_doc(t_terminal *term, t_cmd *cmd)
 		}
 		add_history(line);
 		rl_on_new_line();
-		heredoc = str_append();
+		if (ft_strncmp(line, cmd->here_doc_delim, ft_strlen(cmd->here_doc_delim)) == 0)
+			break; // envoyer le resultat a la commande et changer le terminal status
+		heredoc = str_append(line);
 		
 	}
 }
