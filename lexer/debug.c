@@ -6,15 +6,17 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:06 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 14:59:07 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:58:28 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-const char* lexer_to_str(t_lexer lexer)
+//switch interdits a supprimer a la fin
+
+const char	*lexer_to_str(t_lexer lexer)
 {
-	switch(lexer)
+	switch (lexer)
 	{
 		case WORD: return "WORD";
 		case PIPE: return "PIPE";

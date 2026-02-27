@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 18:28:38 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 12:11:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 {
 	char	*path;
 
-	path = search_cmd(term->cmd_blocks->argv[0]);
+	path = search_cmd(term, term->cmd_blocks->argv[0]);
+	if (!path)
+	{
+		printf("no such file or directory\n");
+		exit(EXIT_FAILURE) ;
+	}
 	if (*i != 0) // si ce nest pas la premiere commande
 	{
 		dup2(fd[(*i - 1) * 2], 0);
@@ -55,6 +60,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	// 	dup2(fd[*i * 2 + 1], 1);
 	// }
 	clear_fd(fd, cmdc);
+	printf("PATH %s\n", path);
 	execve(path, term->cmd_blocks->argv, term->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
@@ -85,10 +91,15 @@ void	exec(t_terminal *term)
 	cmdc = lst_size(term);
 	ft_create_pipe(&fd, cmdc);
 	i = 0;
+	if (cmdc == 1 && is_builtins(term->cmd_blocks))
+	{	
+		run_builtins(term, term->cmd_blocks);
+		return ;
+	}
 	while (term->cmd_blocks != NULL)
 	{
 		pid1 = fork();
-		if (pid1 == 0) // C'est l'enfant
+		if (pid1 == 0) // C'est l'enfant	
 			ft_execve(term, &i, cmdc, fd);
 		term->cmd_blocks = term->cmd_blocks->next;
 		i++;

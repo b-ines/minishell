@@ -6,13 +6,13 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:09 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 17:30:30 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:57:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer get_token_type(t_token *token)
+t_lexer	get_token_type(t_token *token)
 {
 	if (ft_strncmp("", token->token, ft_strlen(token->token)) == 0)
 		return (WORD);
@@ -27,7 +27,7 @@ t_lexer get_token_type(t_token *token)
 	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0)
 		return (HERE_DOC);
 	else if (ft_strncmp(" ", token->token, ft_strlen(token->token)) == 0
-			&& token->quote_flag == 0)
+		&& token->quote_flag == 0)
 		return (SSPACE);
 	else
 		return (WORD);
@@ -35,7 +35,7 @@ t_lexer get_token_type(t_token *token)
 
 void	set_type(t_token **token_head)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = *token_head;
 	while (current)
@@ -47,7 +47,7 @@ void	set_type(t_token **token_head)
 
 t_token	*lexer(t_terminal *terminal, char *line)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = 0;
 	token = tokenization(line);

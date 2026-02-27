@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 17:36:07 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 11:51:57 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static t_expand_ctx	is_expand(t_token token)
 				return ((t_expand_ctx){i + 1, ENV});
 			else if (token.token[i] == '$' && token.token[i + 1] == '?')
 				return ((t_expand_ctx){i + 1, EXIT_STATUS});
+			else if (token.token[i] == '$' && token.next && token.next->type != SSPACE)
+				return ((t_expand_ctx){i + 1, EMPTY});
 		}
 		i++;
 	}
@@ -53,6 +55,11 @@ void	expand(t_token *token, t_terminal term)
 			make_expand_env(token, ctx.index, term.envp);
 		else if (ctx.ex_type == EXIT_STATUS)
 			make_exit_status(token, term);
+		else if (ctx.ex_type == EMPTY)
+		{
+			free(token->token);
+			token->token = ft_strdup("");	
+		}
 		token = token->next;
 	}
 }

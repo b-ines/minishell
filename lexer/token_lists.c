@@ -6,15 +6,15 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:11 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 17:14:48 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:57:04 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token *create_node(char *str, int quote_flag)
+t_token	*create_node(char *str, int quote_flag)
 {
-	t_token *new_node;
+	t_token	*new_node;
 
 	new_node = malloc(sizeof(t_token));
 	new_node->token = ft_strdup(str);
@@ -24,10 +24,10 @@ t_token *create_node(char *str, int quote_flag)
 	return (new_node);
 }
 
-void    ft_addback(t_token **all_t, char *str, int quote_flag)
+void	ft_addback(t_token **all_t, char *str, int quote_flag)
 {
-	t_token *new_node;
-	t_token *last;
+	t_token	*new_node;
+	t_token	*last;
 
 	new_node = create_node(str, quote_flag);
 	if (!(*all_t))

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 20:00:15 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:08:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 //si jai 2 variables du meme nom il me la recreee quand meme
 
 //a faire : pwd proteger le getcwd mais marche pas
-//unset aussi jsp si ca enleve des 2
 
 //export HO#LA=bonjour	me fait tourner dans le vide jsp ourquoi
 //HO$?LA ca fait pas hola non pus

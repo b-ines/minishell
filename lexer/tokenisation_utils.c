@@ -6,13 +6,13 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:14 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 18:37:38 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:55:23 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	quote_tokenisation(t_token **token, char *line, int	quote_type, int i)
+int	quote_tokenisation(t_token **token, char *line, int quote_type, int i)
 {
 	int	word_len;
 	int	quote_flag;

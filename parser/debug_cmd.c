@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:02:51 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:38:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ void	printf_tab(char **tab)
 	printf("0 ] ");
 }
 
+void	print_files(t_cmd *current)
+{
+	if (!current->infile)
+		printf("infile=0 ");
+	else
+		printf("infile=%s ", current->infile);
+	if (!current->outfile)
+		printf("outfile=0 ");
+	else
+		printf("outfile=%s ", current->outfile);
+	if (!current->here_doc_delim)
+		printf("doc_delim=0 ");
+	else
+		printf("doc_delim=%s ", current->here_doc_delim);
+}
+
 void	printf_cmd(t_cmd *cmd)
 {
 	t_cmd	*current;
@@ -40,18 +56,7 @@ void	printf_cmd(t_cmd *cmd)
 	{
 		printf("%d --> argv=", i);
 		printf_tab(current->argv);
-		if (!current->infile)
-			printf("infile=0 ");
-		else
-			printf("infile=%s ", current->infile);
-		if (!current->outfile)
-			printf("outfile=0 ");
-		else
-			printf("outfile=%s ", current->outfile);
-		if (!cmd->here_doc_delim)
-			printf("doc_delim=0 ");
-		else
-			printf("doc_delim=%s ", current->here_doc_delim);
+		print_files(current);
 		printf("append=%d\n", current->append);
 		current = current->next;
 		i++;

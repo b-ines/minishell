@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 14:59:17 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:56:27 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	token_delimiter(char c)
 {
-	if (c == '|' || c == '"' || c == '\'' || c == ' ' ||  c == '<' || c == '>')
+	if (c == '|' || c == '"' || c == '\'' || c == ' ' || c == '<' || c == '>')
 		return (1);
 	return (0);
 }
@@ -26,7 +26,8 @@ int	word_tokenisation(t_token **token, char *line, int i)
 	word_len = 0;
 	if (line[i + word_len] && line[i + word_len] == '$')
 		word_len++;
-	while (line[i + word_len] && ft_isprint(line[i + word_len]) && !token_delimiter(line[i + word_len]) && line[i + word_len] != '$')
+	while (line[i + word_len] && ft_isprint(line[i + word_len])
+		&& !token_delimiter(line[i + word_len]) && line[i + word_len] != '$')
 		word_len++;
 	ft_addback(token, ft_strndup(&line[i], word_len), 0);
 	return (word_len);
@@ -38,7 +39,7 @@ int	get_next_token(t_token **token, char *line, int i)
 		return (quote_tokenisation(token, line, line[i], i));
 	else if (line[i] == '<' || line[i] == '>')
 		return (redir_tokenisation(token, line, line[i], i));
-	else  if (line[i] == '|')
+	else if (line[i] == '|')
 		return (pipe_tokenisation(token, line, i));
 	else if ((ft_isprint(line[i]) && !token_delimiter(line[i])))
 		return (word_tokenisation(token, line, i));
@@ -46,11 +47,11 @@ int	get_next_token(t_token **token, char *line, int i)
 		return (0);
 }
 
-t_token *tokenization(char *line)
+t_token	*tokenization(char *line)
 {
 	int		i;
 	int		word_len;
-	t_token *token;
+	t_token	*token;
 
 	i = 0;
 	token = 0;
@@ -65,7 +66,7 @@ t_token *tokenization(char *line)
 		word_len = get_next_token(&token, line, i);
 		if (word_len < 0)
 			return (0);
-		i += word_len;	
+		i += word_len;
 	}
 	return (token);
 }

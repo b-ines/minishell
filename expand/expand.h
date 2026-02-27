@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:39:40 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/20 22:56:07 by gabch            ###   ########.fr       */
+/*   Updated: 2026/02/27 11:44:50 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef enum e_expand_type
 	ONE_DOLLARS,
 	EXIT_STATUS,
 	NONE,
+	EMPTY
 }	t_expand_type;
 
 typedef struct s_expand_ctx

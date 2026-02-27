@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 14:35:59 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:34:52 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <sys/stat.h> // lstat
 # include <unistd.h> //opendir
 
+//builtins.c
+int 	is_builtins(t_cmd *cmd);
+void 	run_builtins(t_terminal *terminal, t_cmd *cmd);
 void    builtins(t_terminal *terminal);
 
 //run_builtins.c
