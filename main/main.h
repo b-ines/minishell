@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 14:37:35 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:12:45 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_cmd
 	char			*outfile;
 	char			*here_doc_delim;
 	int				append;
+	int				heredoc_quoted;
 	struct s_cmd	*next;
 } t_cmd;
 

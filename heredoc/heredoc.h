@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/23 14:58:18 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 14:01:55 by inbeaumo         ###   ########.fr       */
+/*   Created: 2026/02/27 14:20:54 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/27 14:21:19 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#ifndef HEREDOC_H
+# define HEREDOC_H
 
-int	tab_size(char **argv)
-{
-	int	i;
+#include "main/main.h"
 
-	if (!argv || !argv[0])
-		return (0);
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
-int	get_fd(t_cmd *cmd)
-{
-	if (cmd->outfile)
-	{
-		if (cmd->append)
-			return (open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644));
-		else
-			return (open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644));
-	}
-	else
-		return (1);
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:30 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 14:25:01 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:18:30 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    run_cd(t_terminal *terminal, t_cmd *cmd)
 	char	*curr_dir;
 	char	new_dir[10000];
 
-	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "~"))
+	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "~") == 0)
 	{
 		free(cmd->argv[1]);
 		cmd->argv[1] = ft_strdup(get_value_by_key(terminal, "HOME"));

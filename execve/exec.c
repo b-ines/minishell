@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/27 12:11:54 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:19:51 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	// 	dup2(fd[*i * 2 + 1], 1);
 	// }
 	clear_fd(fd, cmdc);
-	printf("PATH %s\n", path);
 	execve(path, term->cmd_blocks->argv, term->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);

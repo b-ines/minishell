@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 17:50:26 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 18:05:40 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:15:01 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	add_heredoc(t_token **current, t_cmd *new_node)
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
 		(*current) = (*current)->next;
+	if ((*current) && (*current)->quote_flag != 0)
+		new_node->heredoc_quoted = 1;
 	new_node->here_doc_delim = ft_strdup((*current)->token);
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
