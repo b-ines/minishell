@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 18:15:35 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/28 16:10:50 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,8 @@ int	pipe_check(t_token *token)
 	}
 	return (1);
 }
-<<<<<<< HEAD
 
-//pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<< 
-=======
-//particulierment chiant celui la pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<<
->>>>>>> 9e7ac20 (first commit for retokenisation)
+//pour le  < pour message 4x<=< 5x<=2 + que 5< cest <<<
 int	redir_check(t_token *token)
 {
 	if (word_at_right(token))
@@ -120,6 +116,7 @@ int valid_syntax(t_terminal *terminal, t_token **token_head)
 	while (current)
 	{
 		error_flag = invalid_token(current);
+		error_flag = invalid_token(current);
 		if (!error_flag)
 		{
 			terminal->exit_status = 2;
@@ -129,3 +126,4 @@ int valid_syntax(t_terminal *terminal, t_token **token_head)
 	}
 	return (1);
 }
+

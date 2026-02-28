@@ -8,6 +8,7 @@
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2026/02/24 17:36:00 by inbeaumo         ###   ########.fr       */
 =======
 /*   Updated: 2026/02/24 16:38:56 by gchalmel         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2026/02/24 17:48:16 by gchalmel         ###   ########.fr       */
 >>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
+=======
+/*   Updated: 2026/02/28 15:14:27 by gchalmel         ###   ########.fr       */
+>>>>>>> origin/Expand-ReTokenisation
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +26,7 @@
 #include "../libft/libft.h"
 #include "expand.h"
 
+<<<<<<< HEAD
 void retokenize(t_token **token, t_token *curr, char *final_token,
                 t_token *ret_node)
 {
@@ -84,6 +89,18 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	printf("Expand detected on: %s\n", curr->token);
 	var = ft_getenv(envp, &curr->token[index]);
 >>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
+=======
+t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
+{
+	char	*var;
+	char	*final_token;
+	int		len_before_dollar;
+	size_t	len_var;
+	t_token	*ret_node;
+
+	printf("Expand detected on: %s\n", curr->token);
+	var = ft_getenv(envp, &curr->token[index]);
+>>>>>>> origin/Expand-ReTokenisation
 	if (index > 1)
 	{
 		if (var == NULL)
@@ -91,8 +108,12 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 		else
 			len_var = ft_strlen(var);
 		len_before_dollar = ft_strlen_sep(curr->token, '$');
+<<<<<<< HEAD
 		final_token = malloc(sizeof(char) * len_before_dollar
 				+ len_var + 1);
+=======
+		final_token = malloc(sizeof(char) * len_before_dollar + len_var + 1);
+>>>>>>> origin/Expand-ReTokenisation
 		ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
 		if (var != NULL)
 			ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
@@ -100,6 +121,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	else
 		final_token = var;
 	if (curr->quote_flag == 0)
+<<<<<<< HEAD
 	{
 		char	**split_token;
 		t_token	*token_new;
@@ -144,6 +166,9 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 			ret_node = token_cpy;
 		}
 	}
+=======
+		retokenize(token, curr, final_token, ret_node);
+>>>>>>> origin/Expand-ReTokenisation
 	else
 	{
 		free(curr->token);
@@ -151,6 +176,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 		ret_node = (curr->next);
 	}
 	return (ret_node);
+<<<<<<< HEAD
 =======
     printf("Expand detected on: %s\n", curr->token);
     var = ft_getenv(envp, &curr->token[index]);
@@ -178,6 +204,8 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
     }
     return (ret_node);
 >>>>>>> 5a75caf (norminette)
+=======
+>>>>>>> origin/Expand-ReTokenisation
 }
 
 void make_exit_status(t_token *token, t_terminal term)

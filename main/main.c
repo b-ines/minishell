@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 18:25:13 by inbeaumo         ###   ########.fr       */
-=======
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 17:51:36 by gchalmel         ###   ########.fr       */
->>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
+/*   Updated: 2026/02/28 16:09:11 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +19,16 @@ int	program(char *line, t_terminal *terminal)
 	token = 0;
 	if (empty_cmd(terminal, line))
 		return (free(line), 0);
+		return (free(line), 0);
 	token = lexer(terminal, line);
+	free(line);
 	free(line);
 	if (!token)
 		return (0);
 	printf_list(&token);
+	printf_list(&token);
 	terminal->cmd_blocks = 0;
+	expand(&token, *terminal);
 	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
@@ -61,6 +58,7 @@ void	minishell_loop(t_terminal *terminal)
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
+	t_terminal			*terminal;
 	t_terminal			*terminal;
 
 	(void)argv;

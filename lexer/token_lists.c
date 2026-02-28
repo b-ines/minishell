@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:11 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 17:14:48 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/28 16:07:48 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void    ft_addback(t_token **all_t, char *str, int quote_flag)
 	last->next = new_node;
 	new_node->prev = last;
 }
-<<<<<<< HEAD
 
 void	free_token_list(t_token **token)
 {
@@ -56,5 +55,3 @@ void	free_token_list(t_token **token)
 	}
 	free(token);
 }
-=======
->>>>>>> 9e7ac20 (first commit for retokenisation)

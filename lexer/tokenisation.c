@@ -24,6 +24,7 @@ int word_tokenisation(t_token **token, char *line, int i)
     int word_len;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	word_len = 0;
 	if (line[i + word_len] && line[i + word_len] == '$')
 		word_len++;
@@ -32,17 +33,23 @@ int word_tokenisation(t_token **token, char *line, int i)
 	ft_addback(token, ft_strndup(&line[i], word_len), 0);
 	return (word_len);
 =======
+=======
+>>>>>>> origin/Expand-ReTokenisation
     word_len = 0;
     while (ft_isprint(line[i + word_len]) &&
            !token_delimiter(line[i + word_len]))
         word_len++;
     ft_addback(token, ft_strndup(&line[i], word_len), 0);
     return (word_len);
+<<<<<<< HEAD
 >>>>>>> 5a75caf (norminette)
+=======
+>>>>>>> origin/Expand-ReTokenisation
 }
 
 int get_next_token(t_token **token, char *line, int i)
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
 	if (line[i] == '"' || line[i] == '\'')
 		return (quote_tokenisation(token, line, line[i], i));
@@ -55,6 +62,8 @@ int get_next_token(t_token **token, char *line, int i)
 	else
 		return (0);
 =======
+=======
+>>>>>>> origin/Expand-ReTokenisation
     if (line[i] == '"' || line[i] == '\'')
         return (quote_tokenisation(token, line, line[i], i));
     else if (line[i] == '<' || line[i] == '>')
@@ -65,7 +74,10 @@ int get_next_token(t_token **token, char *line, int i)
         return (word_tokenisation(token, line, i));
     else
         return (0);
+<<<<<<< HEAD
 >>>>>>> 5a75caf (norminette)
+=======
+>>>>>>> origin/Expand-ReTokenisation
 }
 
 t_token *tokenization(char *line)
