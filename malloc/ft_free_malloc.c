@@ -25,6 +25,8 @@ void	ft_free_malloc(void *ptr)
 	prev_node_ptr = ptr_node->prev;
 	if (prev_node_ptr != NULL)
 		prev_node_ptr->next = next_node_ptr;
+	else
+		*malloc_list = next_node_ptr;
 	if (next_node_ptr != NULL)
 		next_node_ptr->prev = prev_node_ptr;
 	free(ptr_node);
