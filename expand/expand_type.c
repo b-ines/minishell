@@ -6,19 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2026/02/24 17:36:00 by inbeaumo         ###   ########.fr       */
-=======
-/*   Updated: 2026/02/24 16:38:56 by gchalmel         ###   ########.fr       */
->>>>>>> 9e7ac20 (first commit for retokenisation)
-=======
-/*   Updated: 2026/02/24 17:48:16 by gchalmel         ###   ########.fr       */
->>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
-=======
 /*   Updated: 2026/02/28 15:14:27 by gchalmel         ###   ########.fr       */
->>>>>>> origin/Expand-ReTokenisation
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,70 +14,6 @@
 #include "../libft/libft.h"
 #include "expand.h"
 
-<<<<<<< HEAD
-void retokenize(t_token **token, t_token *curr, char *final_token,
-                t_token *ret_node)
-{
-    char **split_token;
-    t_token	*token_new;
-    t_token	*token_cpy;
-    int i;
-    t_token	*head;
-
-    token_new = NULL;
-    split_token = ft_split(final_token, ' ');
-    i = 1;
-    ft_addback(&token_new, split_token[0], 0);
-    while (split_token[i] != NULL)
-    {
-        ft_addback(&token_new, " ", 0);
-        ft_addback(&token_new, split_token[i++], 0);
-    }
-    set_type(&token_new);
-    token_cpy = curr->next;
-    if (curr->prev != NULL)
-    {
-        curr = curr->prev;
-        // free((*token)->next->token);
-        // free((*token)->next);
-        curr->next = NULL;
-        curr->next = token_new;
-        token_new->prev = curr;
-        ret_node = NULL;
-    }
-    else
-    {
-        (*token) = token_new;
-        ret_node = NULL;
-    }
-    if (token_cpy != NULL)
-    {
-        head = *token;
-        while (head->next != NULL)
-            head = head->next;
-        head->next = token_cpy;
-        token_cpy->prev = head;
-        ret_node = token_cpy;
-    }
-}
-
-t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
-{
-    char *var;
-    char *final_token;
-    int len_before_dollar;
-    size_t len_var;
-    t_token	*ret_node;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-	//printf("Expand detected on: %s\n", token->token);
-	var = ft_getenv(envp, &token->token[index]);
-=======
-	printf("Expand detected on: %s\n", curr->token);
-	var = ft_getenv(envp, &curr->token[index]);
->>>>>>> ba39bd7 (add first implementation for retokenise Warining : need more test and norm)
-=======
 t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 {
 	char	*var;
@@ -98,88 +22,9 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	size_t	len_var;
 	t_token	*ret_node;
 
-	printf("Expand detected on: %s\n", curr->token);
-	var = ft_getenv(envp, &curr->token[index]);
->>>>>>> origin/Expand-ReTokenisation
-	if (index > 1)
-	{
-		if (var == NULL)
-			len_var = 0;
-		else
-			len_var = ft_strlen(var);
-		len_before_dollar = ft_strlen_sep(curr->token, '$');
-<<<<<<< HEAD
-		final_token = malloc(sizeof(char) * len_before_dollar
-				+ len_var + 1);
-=======
-		final_token = malloc(sizeof(char) * len_before_dollar + len_var + 1);
->>>>>>> origin/Expand-ReTokenisation
-		ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
-		if (var != NULL)
-			ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
-	}
-	else
-		final_token = var;
-	if (curr->quote_flag == 0)
-<<<<<<< HEAD
-	{
-		char	**split_token;
-		t_token	*token_new;
-		t_token	*token_cpy;
-		int		i;
-
-		token_new = NULL;
-		split_token = ft_split(final_token, ' ');
-		i = 1;
-		ft_addback(&token_new, split_token[0], 0);
-		while (split_token[i] != NULL)
-		{
-			ft_addback(&token_new, " ", 0);
-			ft_addback(&token_new, split_token[i++], 0);
-		}
-		set_type(&token_new);
-		token_cpy = curr->next;
-		if (curr->prev != NULL)
-		{
-			curr = curr->prev;
-			// free((*token)->next->token);
-			// free((*token)->next);
-			curr->next = NULL;
-			curr->next = token_new;
-			token_new->prev = curr;
-			ret_node = NULL;
-		}
-		else
-		{
-			(*token) = token_new;
-			ret_node = NULL;
-		}
-		if (token_cpy != NULL)
-		{
-			t_token	*head;
-
-			head = *token;
-			while (head->next != NULL)
-				head = head->next;
-			head->next = token_cpy;
-			token_cpy->prev = head;
-			ret_node = token_cpy;
-		}
-	}
-=======
-		retokenize(token, curr, final_token, ret_node);
->>>>>>> origin/Expand-ReTokenisation
-	else
-	{
-		free(curr->token);
-		curr->token = final_token;
-		ret_node = (curr->next);
-	}
-	return (ret_node);
-<<<<<<< HEAD
-=======
     printf("Expand detected on: %s\n", curr->token);
     var = ft_getenv(envp, &curr->token[index]);
+    ret_node = NULL;
     if (index > 1)
     {
         if (var == NULL)
@@ -187,7 +32,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
         else
             len_var = ft_strlen(var);
         len_before_dollar = ft_strlen_sep(curr->token, '$');
-        final_token = malloc(sizeof(char) * len_before_dollar + len_var + 1);
+        final_token = ft_malloc(sizeof(char) * len_before_dollar + len_var + 1);
         ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
         if (var != NULL)
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
@@ -195,21 +40,18 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
     else
         final_token = var;
     if (curr->quote_flag == 0)
-        retokenize(token, curr, final_token, ret_node);
+        ret_node = retokenize(token, curr, final_token);
     else
     {
-        free(curr->token);
+        ft_free_malloc(curr->token);
         curr->token = final_token;
         ret_node = (curr->next);
     }
     return (ret_node);
->>>>>>> 5a75caf (norminette)
-=======
->>>>>>> origin/Expand-ReTokenisation
 }
 
 void make_exit_status(t_token *token, t_terminal term)
 {
-    free(token->token);
+    ft_free_malloc(token->token);
     token->token = ft_itoa(term.exit_status);
 }

@@ -77,14 +77,14 @@ int	key_already_in_env(t_terminal *terminal, char *cmd)
 		curr_key = get_key(terminal->envp_export[i]);
 		if (ft_strcmp(new_key, curr_key) == 0)
 		{
-			free(new_key);
-			free(curr_key);
+			ft_free_malloc(new_key);
+			ft_free_malloc(curr_key);
 			return (i);
 		}
-		free(curr_key);
+		ft_free_malloc(curr_key);
 		i++;
 	}
-	free(new_key);
+	ft_free_malloc(new_key);
 	return (-1);
 }
 
@@ -94,7 +94,7 @@ void	append_var(t_terminal *terminal, char **env, char *cmd, int env_flag)
 	int		i;
 
 	i = 0;
-	new_env = malloc((tab_size(env) + 2) * sizeof(char *));
+	new_env = ft_malloc((tab_size(env) + 2) * sizeof(char *));
 	if (!new_env)
 		return ;
 	while (env[i])
@@ -118,13 +118,13 @@ void	change_var(t_terminal *terminal, char *cmd, int env_flag)
 	index_to_change = key_already_in_env(terminal, cmd);
 	if (env_flag == 0)
 	{
-		free(terminal->envp[index_to_change]);
+		ft_free_malloc(terminal->envp[index_to_change]);
 		terminal->envp[index_to_change] = 0;
 		terminal->envp[index_to_change] = ft_strdup(cmd);
 	}
 	if (env_flag == 1)
 	{
-		free(terminal->envp_export[index_to_change]);
+		ft_free_malloc(terminal->envp_export[index_to_change]);
 		terminal->envp_export[index_to_change] = 0;
 		terminal->envp_export[index_to_change] = ft_strdup(cmd);
 	}

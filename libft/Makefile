@@ -50,7 +50,11 @@ CFILES = ft_isalpha.c \
 	ft_lstiter_bonus.c \
 	ft_lstmap_bonus.c \
 	ft_strndup.c \
-	ft_swap_str.c
+	ft_swap_str.c \
+	get_malloc_list.c \
+	ft_malloc.c \
+	ft_free_malloc.c \
+	ft_free_all_malloc.c
 
 all: $(NAME)
 

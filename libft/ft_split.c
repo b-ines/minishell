@@ -20,11 +20,11 @@ int	ft_free_split(char **split)
 	while (split[i])
 	{
 		if (split[i])
-			free(split[i]);
+			ft_free_malloc(split[i]);
 		i++;
 	}
 	if (split)
-		free(split);
+		ft_free_malloc(split);
 	return (1);
 }
 
@@ -51,7 +51,7 @@ static char	*ft_strndup_split(char const *str, size_t len)
 	size_t	i;
 
 	i = 0;
-	copy = malloc(sizeof(char) * (len + 1));
+	copy = ft_malloc(sizeof(char) * (len + 1));
 	if (!copy)
 		return (0);
 	while (i < len)
@@ -96,7 +96,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	count_words = ft_count_words(s, c);
-	split = malloc(sizeof(char *) * (count_words + 1));
+	split = ft_malloc(sizeof(char *) * (count_words + 1));
 	if (!split)
 		return (0);
 	if (fill_split(split, s, c, count_words) == 0)

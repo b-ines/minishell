@@ -20,16 +20,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s || len == 0 || s[0] == '\0' || start > ft_strlen(s))
 	{	
-		substring = malloc(1);
+		substring = ft_malloc(1);
 		if (!substring)
 			return (0);
 		substring[0] = 0;
 		return (substring);
 	}
 	if (ft_strlen(s + start) < len)
-		substring = malloc((ft_strlen(s + start) + 1) * sizeof(char));
+		substring = ft_malloc((ft_strlen(s + start) + 1) * sizeof(char));
 	else
-		substring = malloc((len + 1) * sizeof(char));
+		substring = ft_malloc((len + 1) * sizeof(char));
 	if (!substring)
 		return (0);
 	while (i < len && s[start + i])

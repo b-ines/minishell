@@ -35,5 +35,6 @@ t_token *make_expand_env(t_token **token, t_token *curr, int index,
 int ft_strlen_sep(char *s, char fin);
 void make_exit_status(t_token *token, t_terminal term);
 char *ft_getenv(char **envp, char *var);
+t_token	*retokenize(t_token **token, t_token *curr, char *final_token);
 
 #endif

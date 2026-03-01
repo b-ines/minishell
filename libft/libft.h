@@ -22,6 +22,18 @@ typedef struct s_list
 	struct s_list	*next;
 }		t_list;
 
+typedef struct s_malloc_list
+{
+	void					*ptr;
+	struct s_malloc_list	*next;
+	struct s_malloc_list	*prev;
+}	t_malloc_list;
+
+t_malloc_list	**get_malloc_list(void);
+void			ft_free_all_malloc(void);
+void			*ft_malloc(unsigned int size);
+void			ft_free_malloc(void *ptr);
+
 int			ft_atoi(const char *str);
 long long	ft_atol(const char *str);
 void		ft_bzero(void *str, size_t len);

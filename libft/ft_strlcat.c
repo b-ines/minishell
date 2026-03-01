@@ -45,8 +45,8 @@ int	main(void)
 	//char *dest;
 	//char test[82];
 	//printf("%lu", sizeof(test));
-	//ft_dest = (char *)malloc(15);
-	//dest = (char *)malloc(15);
+	//ft_dest = (char *)ft_malloc(15);
+	//dest = (char *)ft_malloc(15);
 	//ft_dest[14] = 'a';
 	//dest[14] = 'a';
 

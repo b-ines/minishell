@@ -1,6 +1,6 @@
 
 #include <stdlib.h>
-#include "ft_malloc.h"
+#include "libft.h"
 
 void	*ft_malloc(unsigned int size)
 {

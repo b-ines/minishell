@@ -1,4 +1,4 @@
-#include "ft_malloc.h"
+#include "libft.h"
 #include <stdlib.h>
 
 void	ft_free_all_malloc(void)

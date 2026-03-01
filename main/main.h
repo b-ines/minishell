@@ -41,9 +41,9 @@ typedef struct s_token t_token;
 # include "../execve/exec.h"
 # include <signal.h>
 //readline
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdio.h>
 
 //signals.c
 void		signal_init(struct sigaction *sa);

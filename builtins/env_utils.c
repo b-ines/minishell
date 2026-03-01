@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "../libft/libft.h"
 
 int	get_index_by_key(t_terminal *terminal, char *key)
 {
@@ -65,7 +66,7 @@ int	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 	index_to_change = get_index_by_key(terminal, key);
 	if (index_to_change != -1)
 	{
-		free(terminal->envp[index_to_change]);
+		ft_free_malloc(terminal->envp[index_to_change]);
 		terminal->envp[index_to_change] = 0;
 		buffer = ft_strjoin(key, "=");
 		terminal->envp[index_to_change] = ft_strjoin_free(buffer, new_value);

@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include "../libft/libft.h"
 
 char	**empty_env(void)
 {
 	char	**env;
 	char	buffer[10000];
 
-	env = malloc(sizeof(char *) * (4));
+	env = ft_malloc(sizeof(char *) * (4));
 	env[0] = ft_strdup("_=usr/bin/env");
 	env[1] = ft_strjoin("PWD=", getcwd(buffer, 10000));
 	env[2] = ft_strjoin("OLDPWD=", getcwd(buffer, 10000));
@@ -35,7 +36,7 @@ char	**envdup(char **envp)
 		return (empty_env());
 	while (envp[i])
 		i++;
-	dup = malloc(sizeof(char *) * (i + 1));
+	dup = ft_malloc(sizeof(char *) * (i + 1));
 	if (!dup)
 		return (0);
 	i = 0;
@@ -60,7 +61,7 @@ char	**envdup_export(char **envp)
 		return (empty_env());
 	while (envp[i])
 		i++;
-	dup = malloc(sizeof(char *) * (i + 1));
+	dup = ft_malloc(sizeof(char *) * (i + 1));
 	if (!dup)
 		return (0);
 	i = 0;
@@ -78,7 +79,7 @@ t_terminal	*terminal_init(char **envp)
 	t_terminal *terminal;
 
 	terminal = 0;
-	terminal = malloc(sizeof(t_terminal));
+	terminal = ft_malloc(sizeof(t_terminal));
 	terminal->exit_status = 0;
 	terminal->envp = envdup(envp);
 	terminal->envp_export = envdup_export(envp);

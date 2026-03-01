@@ -6,7 +6,7 @@ char	*ft_strndup(char *src, int len)
 	int		i;
 
 	i = 0;
-	dest = (char *)malloc(sizeof(char) * (len + 1));
+	dest = (char *)ft_malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
 	while (src[i] && i < len)

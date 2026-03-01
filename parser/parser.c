@@ -22,7 +22,7 @@ char	**make_argv(t_token *token, int size)
 	i = 0;
 	current = token;
 	new_argv = 0;
-	new_argv = malloc(sizeof(char *) * (size + 2));
+	new_argv = ft_malloc(sizeof(char *) * (size + 2));
 	if (!new_argv)
 		return (0);
 	while (current && i < size)

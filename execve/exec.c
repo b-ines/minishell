@@ -66,7 +66,7 @@ void	ft_create_pipe(int **fd, int cmdc)
 	int	i;
 
 	i = 0;
-	*fd = malloc(sizeof(int) * ((cmdc - 1) * 2));
+	*fd = ft_malloc(sizeof(int) * ((cmdc - 1) * 2));
 	while (i < (cmdc - 1))
 	{
 		pipe(*fd + i * 2);

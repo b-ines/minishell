@@ -31,13 +31,14 @@ static t_token	*split_expand(char *final_token)
 	return (token_new);
 }
 
-void	retokenize(t_token **token, t_token *curr, char *final_token,
-				t_token *ret_node)
+t_token	*retokenize(t_token **token, t_token *curr, char *final_token)
 {
 	t_token	*token_new;
 	t_token	*token_cpy;
 	t_token	*head;
+	t_token	*ret_node;
 
+	ret_node = NULL;
 	token_new = split_expand(final_token);
 	token_cpy = curr->next;
 	if (curr->prev != NULL)
@@ -61,4 +62,5 @@ void	retokenize(t_token **token, t_token *curr, char *final_token,
 		token_cpy->prev = head;
 		ret_node = token_cpy;
 	}
+	return (ret_node);
 }

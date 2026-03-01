@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "../libft/libft.h"
 
 char	**env_cpy(char	**src)
 {
@@ -19,7 +20,7 @@ char	**env_cpy(char	**src)
 
 	i = 0;
 	dest = 0;
-	dest = malloc(sizeof(char *) * (tab_size(src) + 1));
+	dest = ft_malloc(sizeof(char *) * (tab_size(src) + 1));
 	if (!dest)
 		return (0);
 	while (src[i])
@@ -51,8 +52,8 @@ char	**env_cpy_sorted(char **envp)
 			next_key = get_key(env[j + 1]);
 			if (ft_strcmp(key, next_key) > 0)
 				ft_swap_str(&env[j], &env[j + 1]);
-			free(key);
-			free(next_key);
+			ft_free_malloc(key);
+			ft_free_malloc(next_key);
 			j++;
 		}
 		i++;
@@ -86,5 +87,5 @@ void	print_sorted_envp(char	**envp_export, int fd)
 		ft_putchar_fd('\n', fd);
 		i++;
 	}
-	free(env_cpy);
+	ft_free_malloc(env_cpy);
 }

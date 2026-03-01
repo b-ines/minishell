@@ -23,7 +23,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		temp = current;
 		current = current->next;
 		del(temp->content);
-		free(temp);
+		ft_free_malloc(temp);
 	}
 	*lst = 0;
 }
