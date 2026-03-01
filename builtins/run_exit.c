@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "../libft/libft.h"
 
 int	ft_str_isdigit(char *str)
 {
@@ -56,6 +57,7 @@ int	valid_arg(char *str)
 void    run_exit(t_terminal *terminal, t_cmd *cmd)
 {
 	ft_putstr_fd("exit\n", 1);
+	ft_free_all_malloc();
 	if (!cmd->argv[1])
 		exit(0);
 	if (cmd->argv[1] && !valid_arg(cmd->argv[1]))
