@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "heredoc.h"
-#include <errno.h>
 
 //aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
 
@@ -39,10 +38,6 @@ void	here_doc_signal_init(void)
 
 int	heredoc_eof(char *line, char *heredoc_delim)
 {
-	if (line == -1 && errno == EINTR)
-	{
-		return (1);
-	}
 	if (!line)
 	{
 		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
@@ -74,8 +69,6 @@ int	here_doc(t_cmd *current)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
-		if (line == -1  && errno == EINTR)
-			return (1);
 		if (heredoc_eof(line, current->here_doc_delim) == 1)
 			return (1) ;
 		ft_putendl_fd(line, pipefds[0]);
