@@ -30,11 +30,11 @@ int	program(char *line, t_terminal *terminal)
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	printf_cmd(terminal->cmd_blocks);
+	//printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
 	//builtins(terminal);
-	//exec(terminal);
+	exec(terminal);
 	return (1);
 }
 
