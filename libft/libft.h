@@ -34,6 +34,10 @@ void			ft_free_all_malloc(void);
 void			*ft_malloc(unsigned int size);
 void			ft_free_malloc(void *ptr);
 
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 7
+#endif
+
 int			ft_atoi(const char *str);
 long long	ft_atol(const char *str);
 void		ft_bzero(void *str, size_t len);
@@ -83,5 +87,9 @@ void		ft_lstclear(t_list **list, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void		ft_swap_str(char **ptr1, char **ptr2);
+int			ft_n_index(char *str);
+void		*ft_free(char **to_free, void *to_return);
+char		*ft_strjoin_gnl(char *stash, char *buffer);
+char		*get_next_line(int fd);
 
 #endif

@@ -6,43 +6,15 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/02/28 16:10:50 by gchalmel         ###   ########.fr       */
+=======
+/*   Updated: 2026/02/26 17:48:23 by inbeaumo         ###   ########.fr       */
+>>>>>>> branch_inb
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-//il faut print les erreur sur stderr
-
-int	word_at_right(t_token *token)
-{
-	t_token	*current;
-
-	current = token;
-	if (!current->next)
-		return (0);
-	if (current->next->type == SSPACE)
-		current = token->next;
-	if (current->next && current->next->type == WORD)
-		return (1);
-	else
-		return (0);
-}
-
-int	word_at_left(t_token *token)
-{
-	t_token	*current;
-
-	current = token;
-	if (!current->prev)
-		return (0);
-	if (current->prev->type == SSPACE)
-		current = token->prev;
-	if (current->prev && current->prev->type == WORD)
-		return (1);
-	else
-		return (0);
-}
 
 int	is_redir(t_token *token)
 {
@@ -53,6 +25,7 @@ int	is_redir(t_token *token)
 	return (0);
 }
 
+<<<<<<< HEAD
 int	pipe_check(t_token *token)
 {
 	if (!word_at_left(token))
@@ -97,6 +70,9 @@ int	redir_check(t_token *token)
 }
 
 int invalid_token(t_token *token)
+=======
+int	invalid_token(t_token *token)
+>>>>>>> branch_inb
 {
 	if (token->type == PIPE)
 		return (pipe_check(token));
@@ -107,16 +83,19 @@ int invalid_token(t_token *token)
 	return (0);
 }
 
-int valid_syntax(t_terminal *terminal, t_token **token_head)
+int	valid_syntax(t_terminal *terminal, t_token **token_head)
 {
-	t_token *current;
-	int	error_flag;
+	t_token	*current;
+	int		error_flag;
 
 	current = *token_head;
 	while (current)
 	{
 		error_flag = invalid_token(current);
+<<<<<<< HEAD
 		error_flag = invalid_token(current);
+=======
+>>>>>>> branch_inb
 		if (!error_flag)
 		{
 			terminal->exit_status = 2;
@@ -126,4 +105,7 @@ int valid_syntax(t_terminal *terminal, t_token **token_head)
 	}
 	return (1);
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch_inb

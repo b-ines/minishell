@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:28 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 15:36:01 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:12:36 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	get_index_by_key(t_terminal *terminal, char *key)
 		return (-1);
 	while (terminal->envp[i])
 	{
-		if (ft_strlen(terminal->envp[i]) >= ft_strlen(key) && !ft_strncmp(terminal->envp[i], key, ft_strlen(key)) && (terminal->envp[i][ft_strlen(key)] == '=' || !terminal->envp[i][ft_strlen(key)]))	
+		if (ft_strlen(terminal->envp[i]) >= ft_strlen(key)
+			&& !ft_strncmp(terminal->envp[i], key, ft_strlen(key))
+				&& (terminal->envp[i][ft_strlen(key)] == '='
+					|| !terminal->envp[i][ft_strlen(key)]))	
 			return (i);
 		i++;
 	}

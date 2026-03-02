@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:38 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 18:09:35 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:13:24 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,71 +39,6 @@ char	**make_argv(t_token *token, int size)
 	}
 	new_argv[i] = 0;
 	return (new_argv);
-}
-
-void	add_argv(t_token **current, t_cmd *new_node)
-{
-	int		size;
-	t_token	*temp;
-
-	size = 1;
-	temp = *current;
-	while (temp && (temp->type == WORD || temp->type == SSPACE))
-	{
-		if (temp && temp->next && temp->next->type == WORD
-			&& temp->type == SSPACE)
-			size++;
-		temp = temp->next;
-	}
-	new_node->argv = make_argv((*current), size);
-	while ((*current) && ((*current)->type == WORD
-			|| (*current)->type == SSPACE))
-		(*current) = (*current)->next;
-}
-
-void	add_append(t_token **current, t_cmd *new_node)
-{
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-	new_node->outfile = ft_strdup((*current)->token);
-	new_node->append = 1;
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-}
-
-void	add_heredoc(t_token **current, t_cmd *new_node)
-{
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-	new_node->here_doc_delim = ft_strdup((*current)->token);
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-}
-
-void	add_redir_input(t_token **current, t_cmd *new_node)
-{
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-	new_node->infile = ft_strdup((*current)->token);
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-}
-
-void	add_redir_output(t_token **current, t_cmd *new_node)
-{
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
-	new_node->outfile = ft_strdup((*current)->token);
-	(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
 }
 
 void	fill_new_node(t_token **current, t_cmd *new_node)

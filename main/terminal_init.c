@@ -32,7 +32,7 @@ char	**envdup(char **envp)
 	int		i;
 
 	i = 0;
-	if (!envp)
+	if (!envp || !envp[0])
 		return (empty_env());
 	while (envp[i])
 		i++;
@@ -43,7 +43,10 @@ char	**envdup(char **envp)
 	while (envp[i])
 	{
 		if (!ft_strchr(envp[i], '='))
+		{	
+			i++;
 			continue;
+		}
 		dup[i] = ft_strdup(envp[i]);
 		i++;
 	}

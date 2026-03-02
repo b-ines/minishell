@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/02/27 15:37:55 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "heredoc.h"
+
+//aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+
+void	heredoc_handler(int sig, siginfo_t *info, void *context)
+{
+	(void)info;
+	(void)context;
+
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
+}
+
+void	here_doc_signal_init(void)
+{
+	struct sigaction sa;
+
+	sa.sa_sigaction = heredoc_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+}
+
+int	heredoc_eof(char *line, char *heredoc_delim)
+{
+	if (!line)
+	{
+		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
+		ft_putstr_fd("by end-of-file (wanted `", 2);
+		ft_putstr_fd(heredoc_delim, 2);
+		ft_putendl_fd("')", 2);
+		free(line);
+		return (1) ; // ca fait quand meme 0 comme code et ca fait la commande
+	}
+	if (ft_strcmp(line, heredoc_delim) == 0)
+	{
+		free(line);
+		return (1) ;
+	}
+	return (0);
+}
+
+int	here_doc(t_cmd *current)
+{
+	char	*line;
+	int		pipefds[2];
+
+	if (pipe(pipefds) == -1)
+	{
+		ft_putendl_fd("minishell: pipe error", 2);
+		return (-1);
+	}
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (heredoc_eof(line, current->here_doc_delim) == 1)
+			return (1) ;
+		ft_putendl_fd(line, pipefds[0]);
+		current->heredoc_fd = pipefds[0];
+		close(pipefds[1]);
+		free(line); 
+	}
+	return (0);
+}
+
+int	parse_heredoc(t_terminal *term)
+{
+	t_cmd	*current;
+
+	current = term->cmd_blocks;
+	while (current)
+	{
+		if (current->here_doc_delim)
+		{	
+			//here_doc_signal_init();
+			here_doc(current);
+			//signal_init(term);
+		}
+		current = current->next;
+	}
+	return (1);
+}

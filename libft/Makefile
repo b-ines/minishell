@@ -54,7 +54,9 @@ CFILES = ft_isalpha.c \
 	get_malloc_list.c \
 	ft_malloc.c \
 	ft_free_malloc.c \
-	ft_free_all_malloc.c
+	ft_free_all_malloc.c \
+	get_next_line_utils.c \
+	get_next_line.c
 
 all: $(NAME)
 

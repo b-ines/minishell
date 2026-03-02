@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 14:37:35 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:12:45 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef struct s_cmd
 	char			*outfile;
 	char			*here_doc_delim;
 	int				append;
+	int				heredoc_quoted;
+	int				heredoc_fd;
 	struct s_cmd	*next;
 } t_cmd;
 
@@ -37,6 +39,7 @@ typedef struct s_token t_token;
 # include "../libft/libft.h"
 # include "../parser/parser.h"
 # include "../expand/expand.h"
+# include "../heredoc/heredoc.h"
 # include "../builtins/builtins.h"
 # include "../execve/exec.h"
 # include <signal.h>
@@ -46,7 +49,8 @@ typedef struct s_token t_token;
 #include <readline/history.h>
 
 //signals.c
-void		signal_init(struct sigaction *sa);
+void		handler(int sig, siginfo_t *info, void *context);
+void		signal_init(t_terminal *terminal);
 
 //early_parser.c
 int 		empty_cmd(t_terminal *terminal, char *line);

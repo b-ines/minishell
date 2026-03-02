@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:51 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 11:27:48 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:14:08 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,16 @@ void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 	{
 		if (!ft_strncmp(terminal->envp[i], "PWD=", 4))
 		{
-			getcwd(buffer, 10000);
-			ft_putendl_fd(buffer, fd);
-			terminal->exit_status = 0;
-			 break ;
+			if (!getcwd(buffer, 10000))
+			{
+				perror("error: ");
+			}
+			else
+			{
+				ft_putendl_fd(buffer, fd);
+				terminal->exit_status = 0;
+			 	break ;
+			}
 		}
 		i++;
 	}

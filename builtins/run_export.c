@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 16:59:11 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:08:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 //si jai 2 variables du meme nom il me la recreee quand meme
 
 //a faire : pwd proteger le getcwd mais marche pas
-//unset aussi jsp si ca enleve des 2
+
+//export HO#LA=bonjour	me fait tourner dans le vide jsp ourquoi
+//HO$?LA ca fait pas hola non pus
+// au final meme tant quon donne le = on change genre HOLA=bonjour puis HOLA= env est change aussi
 
 int	valid_arg_export(char *str)
 {
@@ -29,6 +32,7 @@ int	valid_arg_export(char *str)
 		return (0);
 	while (str[i])
 	{
+		printf("%c ", str[i]);
 		if (str[i] == '=')
 			break ;
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
@@ -138,7 +142,7 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 	if (!cmd->argv[1])
 		print_sorted_envp(terminal->envp_export, fd);
 	terminal->exit_status = 0;
-	while (cmd->argv[i])
+	while (cmd->argv[i]) //ptet || cmd->argv[i + 1]
 	{
 		if (!valid_arg_export(cmd->argv[i]))
 		{
@@ -147,19 +151,19 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 			ft_putendl_fd("': not a valid indentifier", 2);
 			terminal->exit_status = 1;
 		}
-		else // je segault quand il faut changer une variable qui existe deja // ya les sans = dans env
+		else // je segault quand il faut changer une variable qui existe deja // ya les sans = dans env la quand $DONTEXIST 
 		{
 			if (key_already_in_env(terminal, cmd->argv[i]) != -1)
 			{
 				printf("la condition donne : %s\n", ft_strchr(cmd->argv[i], '='));
 				if (!ft_strchr(cmd->argv[i], '='))
 					break ;
-				change_var(terminal, cmd->argv[i], 0);
+				change_var(terminal, cmd->argv[i], 0); // si jexport Hola il est dans env la
 				change_var(terminal, cmd->argv[i], 1);
 			}
 			else
 			{
-				if (!ft_strchr(cmd->argv[i], '='))
+				if (ft_strchr(cmd->argv[i], '=') != NULL)
 					append_var(terminal, terminal->envp, cmd->argv[i], 0);
 				append_var(terminal, terminal->envp_export, cmd->argv[i], 1);
 			}

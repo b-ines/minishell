@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:33 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 15:01:51 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/27 15:13:17 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_cmd	*create_node_cmd(void)
 	new_node->append = 0;
 	new_node->here_doc_delim = 0;
 	new_node->infile = 0;
+	new_node->heredoc_quoted = 0;
 	new_node->outfile = 0;
 	new_node->next = 0;
 	return (new_node);
