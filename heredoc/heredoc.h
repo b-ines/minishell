@@ -13,6 +13,8 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-#include "main/main.h"
+#include "../main/main.h"
+
+int	parse_heredoc(t_terminal *term);
 
 #endif

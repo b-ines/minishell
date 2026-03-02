@@ -91,8 +91,9 @@ void	exec(t_terminal *term)
 	ft_create_pipe(&fd, cmdc);
 	i = 0;
 	if (cmdc == 1 && is_builtins(term->cmd_blocks))
-	{	
-		run_builtins(term, term->cmd_blocks);
+	{
+		if (term->cmd_blocks)
+			run_builtins(term, term->cmd_blocks);
 		return ;
 	}
 	while (term->cmd_blocks != NULL)

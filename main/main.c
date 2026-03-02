@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-//HO$?LA on a plus acces au la donc ca fait pas HO0LA ca stoppe la chaine
+volatile sig_atomic_t flag = 0;
 
 int	program(char *line, t_terminal *terminal)
 {
@@ -32,9 +32,10 @@ int	program(char *line, t_terminal *terminal)
 	if (!terminal->cmd_blocks)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
+	parse_heredoc(terminal);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
 	//builtins(terminal);
-	//exec(terminal);
+	exec(terminal);
 	return (1);
 }
 
@@ -45,6 +46,18 @@ void	minishell_loop(t_terminal *terminal)
 	while (1)
 	{
 		line = readline("minishell$ ");
+		if (flag)
+		{
+			printf("ctrl c!\n");
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			terminal->exit_status = 130;
+			flag = 0;
+			//free(line);
+			continue ;
+		}
 		if (!line)
 		{
 			ft_putstr_fd("exit\n", 1);

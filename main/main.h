@@ -21,6 +21,7 @@ typedef struct s_cmd
 	char			*here_doc_delim;
 	int				append;
 	int				heredoc_quoted;
+	int				heredoc_fd;
 	struct s_cmd	*next;
 } t_cmd;
 
@@ -38,13 +39,16 @@ typedef struct s_token t_token;
 # include "../libft/libft.h"
 # include "../parser/parser.h"
 # include "../expand/expand.h"
+# include "../heredoc/heredoc.h"
 # include "../builtins/builtins.h"
 # include "../execve/exec.h"
 # include <signal.h>
 //readline
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdio.h>
+
+extern volatile sig_atomic_t flag;
 
 //signals.c
 void		signal_init(t_terminal *terminal);

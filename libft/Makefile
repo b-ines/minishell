@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fPIE
+CFLAGS = -Wall -Werror -Wextra
 NAME = libft.a
 MAKEFLAGS += --silent
 OBJ = $(CFILES:.c=.o)
