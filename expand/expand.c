@@ -35,8 +35,6 @@ static t_expand_ctx is_expand(t_token token) {
 				return ((t_expand_ctx){i + 1, ENV});
 			else if (token.token[i] == '$' && token.token[i + 1] == '?')
 				return ((t_expand_ctx){i + 1, EXIT_STATUS});
-			else if (token.token[i] == '$' && token.next && token.next->type != SSPACE)
-				return ((t_expand_ctx){i + 1, EMPTY});
 		}
 		i++;
 	}
