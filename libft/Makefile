@@ -50,7 +50,9 @@ CFILES = ft_isalpha.c \
 	ft_lstiter_bonus.c \
 	ft_lstmap_bonus.c \
 	ft_strndup.c \
-	ft_swap_str.c
+	ft_swap_str.c \
+	get_next_line_utils.c \
+	get_next_line.c
 
 all: $(NAME)
 

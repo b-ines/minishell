@@ -51,7 +51,7 @@ void	add_heredoc(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 	if ((*current) && (*current)->quote_flag != 0)
 		new_node->heredoc_quoted = 1;
-	new_node->here_doc_delim = ft_strdup((*current)->token);
+	new_node->here_doc_delim = ft_strjoin((*current)->token, "\n");
 	(*current) = (*current)->next;
 	if ((*current) && (*current)->type == SSPACE)
 		(*current) = (*current)->next;

@@ -11,15 +11,38 @@
 /* ************************************************************************** */
 
 #include "heredoc.h"
+#include <errno.h>
 
-//oublie de push 
+//aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+
+void	heredoc_handler(int sig, siginfo_t *info, void *context)
+{
+	(void)info;
+	(void)context;
+
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
+}
+
+void	here_doc_signal_init(void)
+{
+	struct sigaction sa;
+
+	sa.sa_sigaction = heredoc_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+}
 
 int	heredoc_eof(char *line, char *heredoc_delim)
 {
-	// if (sig == SIGINT)
-	// {
-	// 	return (1);
-	// }
+	if (line == -1 && errno == EINTR)
+	{
+		return (1);
+	}
 	if (!line)
 	{
 		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
@@ -49,10 +72,12 @@ int	here_doc(t_cmd *current)
 	}
 	while (1)
 	{
-		line = readline("> ");
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (line == -1  && errno == EINTR)
+			return (1);
 		if (heredoc_eof(line, current->here_doc_delim) == 1)
 			return (1) ;
-		rl_on_new_line();
 		ft_putendl_fd(line, pipefds[0]);
 		current->heredoc_fd = pipefds[0];
 		close(pipefds[1]);
@@ -69,7 +94,11 @@ int	parse_heredoc(t_terminal *term)
 	while (current)
 	{
 		if (current->here_doc_delim)
+		{	
+			//here_doc_signal_init();
 			here_doc(current);
+			//signal_init(term);
+		}
 		current = current->next;
 	}
 	return (1);
