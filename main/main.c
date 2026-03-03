@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/03 17:01:14 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:05:50 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ int	program(char *line, t_terminal *terminal)
 void	minishell_loop(t_terminal *terminal)
 {
 	char	*line;
+	int		exit_status_cpy;
 
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
 		{
+			exit_status_cpy = terminal->exit_status;
 			ft_free_all_malloc();
 			ft_putstr_fd("exit\n", 1);
-			exit(terminal->exit_status);
+			exit(exit_status_cpy);
 		}
 		add_history(line);
 		rl_on_new_line();
