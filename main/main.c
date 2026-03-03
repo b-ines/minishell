@@ -6,7 +6,7 @@
 /*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/28 16:09:11 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:01:14 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void	minishell_loop(t_terminal *terminal)
 		line = readline("minishell$ ");
 		if (!line)
 		{
+			ft_free_all_malloc();
 			ft_putstr_fd("exit\n", 1);
-			exit(terminal->exit_status);	
+			exit(terminal->exit_status);
 		}
 		add_history(line);
 		rl_on_new_line();
