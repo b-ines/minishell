@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/03 16:42:06 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 18:03:51 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+// il faut ajouter le check is a directory avant lexec
 
 int	lst_size(t_terminal *term)
 {
@@ -49,12 +51,14 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
 	if (!path)
 	{
-		printf("no such file or directory\n");
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		exit(EXIT_FAILURE) ;
 	}
 	if (is_builtins(term->cmd_blocks))
 	{
-		output_fd = get_ouput_fd(term->cmd_blocks);
+		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
 		if (output_fd < 0)
 			return ;
 		run_builtins(term, term->cmd_blocks, output_fd);
@@ -103,7 +107,7 @@ void	exec(t_terminal *term)
 	i = 0;
 	if (cmdc == 1 && is_builtins(term->cmd_blocks))
 	{
-		output_fd = get_ouput_fd(term->cmd_blocks);
+		output_fd = get_output_fd(term->cmd_blocks, &i, cmdc, fd);
 		if (output_fd < 0)
 			return ;
 		run_builtins(term, term->cmd_blocks, output_fd);

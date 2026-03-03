@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 15:45:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 16:50:16 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:48:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,18 @@ int	redir_management(t_terminal *term, int *i, int cmdc, int *fd)
 	return (1);
 }
 
-int	get_ouput_fd(t_cmd *cmd)
+int	get_output_fd(t_cmd *cmd, int *i, int cmdc, int *fd)
 {
 	int	output_fd;
 
 	output_fd = 1;
 	if (check_fds(cmd, 1))
-	{	
+	{
 		output_fd = get_fd_exec(cmd, 1);
 		if (output_fd < 0)
 			return (fd_error(cmd->outfile));
 	}
+	else if (*i < (cmdc - 1)) // si ce nest pas la derniere commande
+		output_fd = fd[*i * 2 + 1];
 	return (output_fd);
 }
