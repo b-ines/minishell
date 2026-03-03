@@ -14,6 +14,8 @@ void	*ft_malloc(unsigned int size)
 	if (ptr == NULL)
 		return (NULL);
 	node = malloc(sizeof(t_malloc_list));
+	if (node == NULL)
+		return (NULL);
 	node->ptr = ptr;
 	node->next = NULL;
 	node->prev = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:25:34 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 17:09:24 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:24:21 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ char	**envdup(char **envp)
 	while (envp[i])
 	{
 		if (!ft_strchr(envp[i], '='))
-		{	
+		{
 			i++;
 			continue;
 		}
 		dup[i] = ft_strdup(envp[i]);
+		if (!dup[i])
+			return (NULL);
 		i++;
 	}
 	dup[i] = 0;
@@ -71,6 +73,8 @@ char	**envdup_export(char **envp)
 	while (envp[i])
 	{
 		dup[i] = ft_strdup(envp[i]);
+		if (dup[i] == NULL)
+			return (NULL);
 		i++;
 	}
 	dup[i] = 0;
@@ -83,6 +87,11 @@ t_terminal	*terminal_init(char **envp)
 
 	terminal = 0;
 	terminal = ft_malloc(sizeof(t_terminal));
+	if (!terminal)
+	{
+		ft_free_all_malloc();
+		exit(EXIT_FAILURE);
+	}
 	terminal->exit_status = 0;
 	terminal->envp = envdup(envp);
 	terminal->envp_export = envdup_export(envp);

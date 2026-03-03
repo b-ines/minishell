@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:38 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 15:13:24 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:19:14 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ char	**make_argv(t_token *token, int size)
 		if (current && current->type == SSPACE)
 			current = current->next;
 		word = ft_strdup("");
+		if (!word)
+			return (NULL);
 		while (current && current->type == WORD)
 		{
 			word = ft_strjoin_free(word, current->token);
+			if (!word)
+				return (NULL);
 			current = current->next;
 		}
 		new_argv[i++] = word;

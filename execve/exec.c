@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 14:59:28 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:32:31 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	exec(t_terminal *term)
 	while (term->cmd_blocks != NULL)
 	{
 		pid1 = fork();
-		if (pid1 == 0) // C'est l'enfant	
+		if (pid1 == 0) // C'est l'enfant
 			ft_execve(term, &i, cmdc, fd);
 		term->cmd_blocks = term->cmd_blocks->next;
 		i++;

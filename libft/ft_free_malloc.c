@@ -19,6 +19,8 @@ void	ft_free_malloc(void *ptr)
 		return ;
 	// search ptr node
 	malloc_list = get_malloc_list();
+	if (malloc_list == NULL)
+		return ;
 	ptr_node = search_node(ptr, *malloc_list);
 	free(ptr_node->ptr);
 	next_node_ptr = ptr_node->next;
