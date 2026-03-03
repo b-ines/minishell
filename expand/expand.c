@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/28 16:06:39 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:46:59 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ void expand(t_token **token, t_terminal term) {
   t_expand_ctx ctx;
   t_token *curr;
 
-	printf("Step to expand\n");
+	//printf("Step to expand\n");
 	curr = *token;
 	while (curr != NULL)
 	{
-		ctx = is_expand(*curr);
 		ctx = is_expand(*curr);
 		if (ctx.ex_type == ENV)
 			curr = make_expand_env(token, curr, ctx.index, term.envp);

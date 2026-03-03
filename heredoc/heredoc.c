@@ -6,35 +6,38 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 11:17:47 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 13:52:12 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 
-//aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+// //aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+// extern volatile sig_atomic_t gsignal = 0;
 
-void	heredoc_handler(int sig, siginfo_t *info, void *context)
-{
-	(void)info;
-	(void)context;
+// void	heredoc_handler(int sig, siginfo_t *info, void *context)
+// {
+// 	(void)info;
+// 	(void)context;
 
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		return ;
-	}
-}
+// 	if (sig == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		return ;
+// 	}
+// }
 
-void	here_doc_signal_init(void)
-{
-	struct sigaction sa;
+// int	here_doc_signal_init(void)
+// {
+// 	struct sigaction sa;
 
-	sa.sa_sigaction = heredoc_handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-}
+// 	if (gsignal == SIGINT)
+// 	{}
+// 	sa.sa_sigaction = heredoc_handler;
+// 	sa.sa_flags = SA_SIGINFO;
+// 	sigemptyset(&sa.sa_mask);
+// 	sigaction(SIGINT, &sa, NULL);
+// }
 
 int	heredoc_eof(char *line, char *heredoc_delim)
 {

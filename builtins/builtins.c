@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:21 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 14:02:00 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:44:16 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,8 @@ int is_builtins(t_cmd *cmd)
 		return (0);
 }
 
-void run_builtins(t_terminal *terminal, t_cmd *cmd)
+void run_builtins(t_terminal *terminal, t_cmd *cmd, int fd)
 {
-	int	fd;
-
-	fd = get_fd(cmd);
-	if (fd < 0)
-	{
-		ft_putendl_fd("minishell: fd error", 2);
-		terminal->exit_status = 1;
-		return ;
-	}
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		run_echo(terminal, cmd, fd);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
@@ -59,21 +50,6 @@ void run_builtins(t_terminal *terminal, t_cmd *cmd)
 		run_env(terminal, cmd, fd);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
 		run_exit(terminal, cmd);
-	// else
-	// 	return ;
-	if (cmd->outfile)
+	if (fd != 1)
 		close(fd);
-}
-
-void    builtins(t_terminal *terminal)
-{
-	t_cmd   *current;
-
-	current = terminal->cmd_blocks;
-	while (current)
-	{
-		if (is_builtins(current))
-			run_builtins(terminal, current);
-		current = current->next;
-	}
 }
