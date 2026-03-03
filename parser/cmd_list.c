@@ -16,7 +16,7 @@ t_cmd	*create_node_cmd(void)
 {
 	t_cmd	*new_node;
 
-	new_node = malloc(sizeof(t_cmd));
+	new_node = ft_malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (0);
 	new_node->argv = 0;

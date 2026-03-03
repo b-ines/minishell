@@ -6,49 +6,52 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/27 11:43:57 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/28 15:14:27 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
+#include "../lexer/lexer.h"
 #include "../libft/libft.h"
+#include "expand.h"
 
-void	make_expand_env(t_token *token, int index, char **envp)
+t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 {
 	char	*var;
 	char	*final_token;
 	int		len_before_dollar;
 	size_t	len_var;
+	t_token	*ret_node;
 
-	//printf("Expand detected on: %s\n", token->token);
-	var = ft_getenv(envp, &token->token[index]);
-	if (index > 1)
-	{
-		if (var == NULL)
-			len_var = 0;
-		else
-			len_var = ft_strlen(var);
-		len_before_dollar = ft_strlen_sep(token->token, '$');
-		final_token = malloc(sizeof(char) * len_before_dollar
-				+ len_var + 1);
-		ft_strlcpy(final_token, token->token, len_before_dollar + 1);
-		if (var != NULL)
-			ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
-	}
-	else
-	{	
-		if (!var)
-			final_token = ft_strdup("");
-		else
-			final_token = ft_strdup(var);
-	}
-	free(token->token);
-	token->token = final_token;
+    printf("Expand detected on: %s\n", curr->token);
+    var = ft_getenv(envp, &curr->token[index]);
+    ret_node = NULL;
+    if (index > 1)
+    {
+        if (var == NULL)
+            len_var = 0;
+        else
+            len_var = ft_strlen(var);
+        len_before_dollar = ft_strlen_sep(curr->token, '$');
+        final_token = ft_malloc(sizeof(char) * len_before_dollar + len_var + 1);
+        ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
+        if (var != NULL)
+            ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
+    }
+    else
+        final_token = var;
+    if (curr->quote_flag == 0)
+        ret_node = retokenize(token, curr, final_token);
+    else
+    {
+        ft_free_malloc(curr->token);
+        curr->token = final_token;
+        ret_node = (curr->next);
+    }
+    return (ret_node);
 }
 
-void	make_exit_status(t_token *token, t_terminal term)
+void make_exit_status(t_token *token, t_terminal term)
 {
-	free(token->token);
-	token->token = ft_itoa(term.exit_status);
+    ft_free_malloc(token->token);
+    token->token = ft_itoa(term.exit_status);
 }
-

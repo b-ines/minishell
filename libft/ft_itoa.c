@@ -40,7 +40,7 @@ char	*ft_itoa(int n)
 
 	nb = (long)n;
 	size = ft_size(nb);
-	str = malloc(sizeof(char) * (size + 1));
+	str = ft_malloc(sizeof(char) * (size + 1));
 	if (!str)
 		return (0);
 	if (nb < 0)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "../libft/libft.h"
 
 void    run_env(t_terminal *terminal, t_cmd *cmd, int fd)
 {
@@ -36,7 +37,7 @@ void	unset_envp(t_terminal *terminal, int rm_i)
 
 	i = 0;
 	j = 0;
-	new_env = malloc(tab_size(terminal->envp) * sizeof(char *));
+	new_env = ft_malloc(tab_size(terminal->envp) * sizeof(char *));
 	if (!new_env)
 		return ; 
 	while (terminal->envp[i])
@@ -58,7 +59,7 @@ void	unset_envp_export(t_terminal *terminal, int rm_i)
 
 	i = 0;
 	j = 0;
-	new_env = malloc(tab_size(terminal->envp_export) * sizeof(char *));
+	new_env = ft_malloc(tab_size(terminal->envp_export) * sizeof(char *));
 	if (!new_env)
 		return ; 
 	while (terminal->envp_export[i])

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
 /*   Updated: 2026/02/26 17:48:23 by inbeaumo         ###   ########.fr       */
@@ -21,7 +21,7 @@ int	is_redir(t_token *token)
 	return (0);
 }
 
-int	invalid_token(t_token *token)
+int invalid_token(t_token *token)
 {
 	if (token->type == PIPE)
 		return (pipe_check(token));
@@ -42,7 +42,7 @@ int	valid_syntax(t_terminal *terminal, t_token **token_head)
 	{
 		error_flag = invalid_token(current);
 		if (!error_flag)
-		{	
+		{
 			terminal->exit_status = 2;
 			return (0);
 		}

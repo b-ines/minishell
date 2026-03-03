@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/27 14:49:18 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/28 16:09:11 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,15 @@ int	program(char *line, t_terminal *terminal)
 	if (!token)
 		return (0);
 	terminal->cmd_blocks = 0;
-	expand(token, *terminal);
-	printf_list(&token);
+	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	printf_cmd(terminal->cmd_blocks);
+	//printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	/*en theoprie a partir de la on free token et on utilise que cmd_blocks*/
 	//builtins(terminal);
-	//exec(terminal);
+	exec(terminal);
 	return (1);
 }
 

@@ -18,7 +18,7 @@ void	*ft_calloc(size_t num, size_t size)
 
 	if (num != 0 && (size * num) / num != size)
 		return (0);
-	ptr = malloc(num * size);
+	ptr = ft_malloc(num * size);
 	if (!ptr)
 		return ((void *)0);
 	ft_bzero(ptr, size * num);
@@ -32,8 +32,8 @@ int	main(void)
 	char *ft_str = ft_calloc(5, 1);
 	char *str = calloc(5, 1);
 	printf("memcmp: %d\n", memcmp(ft_str, str, 10));
-	free(ft_str);
-	free(str);
+	ft_free_malloc(ft_str);
+	ft_free_malloc(str);
 	return (0);
 }
 */

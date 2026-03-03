@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/27 14:19:51 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:59:28 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	{
 		dup2(fd[(*i - 1) * 2], 0);
 	}
-	// if (&i < (cmdc - 1)) // si ce nest pas la derniere commande
-	// {
-	// 	dup2(fd[*i * 2 + 1], 1);
-	// }
+	if (*i < (cmdc - 1)) // si ce nest pas la derniere commande
+	{
+		dup2(fd[*i * 2 + 1], 1);
+	}
 	clear_fd(fd, cmdc);
 	execve(path, term->cmd_blocks->argv, term->envp);
 	perror("execve");
@@ -71,10 +71,10 @@ void	ft_create_pipe(int **fd, int cmdc)
 	int	i;
 
 	i = 0;
-	*fd = malloc(sizeof(int) * ((cmdc - 1) * 2));
+	*fd = ft_malloc(sizeof(int) * ((cmdc - 1) * 2));
 	while (i < (cmdc - 1))
 	{
-		//pipe(fd + i * 2);
+		pipe(*fd + i * 2);
 		i++;
 	}
 }

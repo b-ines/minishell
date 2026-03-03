@@ -48,8 +48,6 @@ typedef struct s_token t_token;
 #include <readline/readline.h>
 #include <readline/history.h>
 
-extern volatile sig_atomic_t flag;
-
 //signals.c
 void		handler(int sig, siginfo_t *info, void *context);
 void		signal_init(t_terminal *terminal);

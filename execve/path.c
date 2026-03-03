@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 
 /*
@@ -43,13 +44,13 @@ char	*search_cmd(t_terminal *term, char *cmd)
 	{
 		// +2 pour \0 et '/' entre path[i] et cmd
 		len_abs = ft_strlen(path[i]) + ft_strlen(cmd) + 2;
-		abs_cmd = malloc(sizeof(char) * len_abs);
+		abs_cmd = ft_malloc(sizeof(char) * len_abs);
 		ft_strlcpy(abs_cmd, path[i], len_abs);
 		ft_strlcat(abs_cmd, "/", len_abs);
 		ft_strlcat(abs_cmd, cmd, len_abs);
 		if (access(abs_cmd, F_OK) == 0)
 			return (abs_cmd);
-		free(abs_cmd);
+		ft_free_malloc(abs_cmd);
 		i++;
 	}
 	return (0);

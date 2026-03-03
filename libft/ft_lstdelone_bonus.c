@@ -17,6 +17,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 	if (lst)
 	{	
 		del(lst->content);
-		free(lst);
+		ft_free_malloc(lst);
 	}
 }

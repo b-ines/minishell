@@ -22,7 +22,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	j = 0;
 	if (!s1)
 		return (0);
-	join = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	join = ft_malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!join)
 		return (0);
 	while (s1[i])
@@ -37,6 +37,6 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	}
 	join[i + j] = '\0';
 	if (s1)
-		free(s1);
+		ft_free_malloc(s1);
 	return (join);
 }

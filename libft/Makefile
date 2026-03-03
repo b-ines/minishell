@@ -51,6 +51,10 @@ CFILES = ft_isalpha.c \
 	ft_lstmap_bonus.c \
 	ft_strndup.c \
 	ft_swap_str.c \
+	get_malloc_list.c \
+	ft_malloc.c \
+	ft_free_malloc.c \
+	ft_free_all_malloc.c \
 	get_next_line_utils.c \
 	get_next_line.c
 
