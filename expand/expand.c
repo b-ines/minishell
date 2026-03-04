@@ -19,22 +19,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static t_expand_ctx is_expand(t_token token) {
-  int i;
+static t_expand_ctx is_expand(t_token *token) {
+	int i;
+	char	*tmp;
 
 	i = 0;
-	if (token.quote_flag == 1)
+	if (token->quote_flag == 1)
 		return ((t_expand_ctx){i, NONE});
-	while (token.token[i] != '\0')
+	while (token->token[i] != '\0')
 	{
-		if (token.type == WORD)
+		if (token->type == WORD)
 		{
-			if (token.token[i] == '$' && ft_isalpha(token.token[i + 1]))
+			if (token->token[i] == '$' && ft_isalpha(token->token[i + 1]))
+			{
+				if (i != 0 && token->token[i - 1] != '\\')
+					return ((t_expand_ctx){i + 1, ENV});
+				else
+				{
+					tmp = ft_strdup(&token->token[i]);
+					ft_free_malloc(token->token);
+					token->token = tmp;
+					return ((t_expand_ctx){i + 1, NONE});
+				}
+			}
+			else if (token->token[i] == '$' && token->token[i + 1] == '$')
 				return ((t_expand_ctx){i + 1, ENV});
-			else if (token.token[i] == '$' && token.token[i + 1] == '$')
-				return ((t_expand_ctx){i + 1, ENV});
-			else if (token.token[i] == '$' && token.token[i + 1] == '?')
-				return ((t_expand_ctx){i + 1, EXIT_STATUS});
+			else if (token->token[i] == '$' && token->token[i + 1] == '?')
+					return ((t_expand_ctx){i + 1, EXIT_STATUS});
 		}
 		i++;
 	}
@@ -50,7 +61,7 @@ void expand(t_token **token, t_terminal term) {
 	curr = *token;
 	while (curr != NULL)
 	{
-		ctx = is_expand(*curr);
+		ctx = is_expand(curr);
 		if (ctx.ex_type == ENV)
 			curr = make_expand_env(token, curr, ctx.index, term.envp);
 		else if (ctx.ex_type == EXIT_STATUS)
