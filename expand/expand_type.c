@@ -50,8 +50,30 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
     return (ret_node);
 }
 
-void make_exit_status(t_token *token, t_terminal term)
+void make_exit_status(t_token *token, t_terminal term, int index)
 {
+	char	*var;
+	char	*final_token;
+	int		len_before_dollar;
+	size_t	len_var;
+
+    var = ft_itoa(term.exit_status);
+	if (token->token[index + 1] != '\0')
+		var = ft_strjoin(var, &token->token[index + 1]);
+    if (index > 1)
+    {
+        if (var == NULL)
+            len_var = 0;
+        else
+            len_var = ft_strlen(var);
+        len_before_dollar = ft_strlen_sep(token->token, '$');
+        final_token = ft_malloc(sizeof(char) * len_before_dollar + len_var + 1);
+        ft_strlcpy(final_token, token->token, len_before_dollar + 1);
+        if (var != NULL)
+            ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
+    }
+    else
+        final_token = var;
     ft_free_malloc(token->token);
-    token->token = ft_itoa(term.exit_status);
+    token->token = final_token;
 }

@@ -54,7 +54,7 @@ void expand(t_token **token, t_terminal term) {
 		if (ctx.ex_type == ENV)
 			curr = make_expand_env(token, curr, ctx.index, term.envp);
 		else if (ctx.ex_type == EXIT_STATUS)
-			make_exit_status(curr, term);
+			make_exit_status(curr, term, ctx.index);
 		else
 			curr = curr->next;
 	}

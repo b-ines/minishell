@@ -34,6 +34,7 @@ int	get_fd_exec(t_cmd *cmd, int io_flag)
 {
 	int	fd;
 
+	fd = 0;
 	if (io_flag == 0)
 	{
 		if (cmd->here_doc_delim)
