@@ -16,7 +16,7 @@ int	is_redir(t_token *token)
 {
 	if (token->type == REDIR_INPUT || token->type == REDIR_OUTPUT)
 		return (1);
-	if (token->type == APPEND || token->type == HERE_DOC)
+	if (token->type == APPEND)
 		return (1);
 	return (0);
 }
@@ -25,11 +25,11 @@ int invalid_token(t_token *token)
 {
 	if (token->type == PIPE)
 		return (pipe_check(token));
-	else if (is_redir(token))
+	else if (is_redir(token) || token->type == HERE_DOC)
 	{	
 		if (!redir_check(token))
 			return (0);
-		if (!make_redir(token))
+		if (token->type != HERE_DOC && !make_redir(token))
 			return (2);
 		return (1);
 	}

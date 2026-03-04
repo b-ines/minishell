@@ -44,34 +44,23 @@ int	redir_error_msg(char *str)
 
 int	make_redir(t_token *token)
 {
-	int	fd;
+	int		fd;
+	t_token	*filename;
+
+	fd = -1;
+	filename = token->next;
+	if (filename && filename->type == SSPACE)
+		filename = filename->next;
+	if (!filename || filename->type != WORD)
+		return (0);
 	if (token->type == REDIR_INPUT)
-	{
-		if (token->next && token->next->type == SSPACE)
-			token = token->next;
-		if (token->next && token->next->type == WORD)
-			fd = open(token->next->token, O_RDONLY);
-		if (fd < 0)
-			return (redir_error_msg(token->next->token));
-	}
+		fd = open(filename->token, O_RDONLY);
 	else if (token->type == REDIR_OUTPUT)
-	{
-		if (token->next && token->next->type == SSPACE)
-			token = token->next;
-		if (token->next && token->next->type == WORD)
-			fd = open(token->next->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-			return (redir_error_msg(token->next->token));
-	}
+		fd = open(filename->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (token->type == APPEND)
-	{
-		if (token->next && token->next->type == SSPACE)
-			token = token->next;
-		if (token->next && token->next->type == WORD)
-			fd = open(token->next->token, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd < 0)
-			return (redir_error_msg(token->next->token));
-	}
+		fd = open(filename->token, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (redir_error_msg(filename->token));
 	close(fd);
 	return (1);
 }

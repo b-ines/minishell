@@ -37,10 +37,6 @@ void	print_files(t_cmd *current)
 		printf("outfile=0 ");
 	else
 		printf("outfile=%s ", current->outfile);
-	if (!current->here_doc_delim)
-		printf("doc_delim=0 ");
-	else
-		printf("doc_delim=%s ", current->here_doc_delim);
 }
 
 void	printf_cmd(t_cmd *cmd)

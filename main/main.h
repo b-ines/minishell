@@ -13,14 +13,21 @@
 #ifndef MAIN_H
 # define MAIN_H
 
+typedef struct s_heredoc
+{
+	char			*here_doc_delim;
+	int				heredoc_quoted;
+	int				heredoc_fd;
+	struct s_heredoc	*next;
+} t_heredoc;
+
 typedef struct s_cmd
 {
 	char			**argv;
 	char		 	*infile;
 	char			*outfile;
-	char			*here_doc_delim;
+	t_heredoc		*heredoc_list;
 	int				append;
-	int				heredoc_quoted;
 	int				heredoc_fd;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;

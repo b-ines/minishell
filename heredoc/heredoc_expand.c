@@ -19,27 +19,41 @@ char	*expand_line(t_terminal *term, char *line)
 	int	i;
 	int	j;
 	char	key[5000];
+	char	*new_line;
+	char	*ret;
+	char	*temp;
 
 	i = 0;
+	ret = ft_strdup("");
 	while (line[i])
 	{
 		if (line[i] == '$')
 		{
 			i++;
 			j = 0;
-			if (line[i + j] && (ft_isalpha(line[i + j]) || line[i + j] == '_'))
-				j++;
-			else
-				break ;
 			while (line[i + j] && (ft_isalnum(line[i + j]) || line[i + j] == '_'))
 				j++;
-			ft_strlcpy(key, &line[i], j);
-			printf("found value %s\n", get_value_by_key(term, key));
+			ft_strlcpy(key, &line[i], j + 1);
+			new_line = get_value_by_key(term, key); 
+			if (!new_line)
+				new_line = "";
+			temp = ret;
+			ret = ft_strjoin(ret, new_line);
+			free(temp);
 			// if (!get_value_by_key(term, key))
 			// 	printf("trimmed %s\n", ft_strtrim(line, key));
 			i += j;
 		}
-		i++;
+		else
+		{
+			char c[2];
+			c[0] = line[i];
+			c[1] = '\0';
+			temp = ret;
+			ret = ft_strjoin(ret, c);
+			free(temp);
+			i++;
+		}
 	}
-	return (line);
+	return (ret);
 }
