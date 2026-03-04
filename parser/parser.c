@@ -32,7 +32,8 @@ char	**make_argv(t_token *token, int size)
 		word = ft_strdup("");
 		while (current && current->type == WORD)
 		{
-			word = ft_strjoin_free(word, current->token);
+			if (current->token != NULL)
+				word = ft_strjoin_free(word, current->token);
 			current = current->next;
 		}
 		new_argv[i++] = word;

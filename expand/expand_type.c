@@ -39,7 +39,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
     }
     else
         final_token = var;
-    if (curr->quote_flag == 0)
+    if (curr->quote_flag == 0 && (final_token != NULL))
         ret_node = retokenize(token, curr, final_token);
     else
     {
