@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/03 18:03:51 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:23:14 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// il faut ajouter le check is a directory avant lexec
+// ajouter le check is a directory avant lexec
+// ajouter creation de fichiers en casace (cat > outfile > outfile > outfile) ca ecrit que dans le dernier mais ca cree les autres
 
 int	lst_size(t_terminal *term)
 {
@@ -54,7 +55,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
-		exit(EXIT_FAILURE) ;
+		exit(127) ;
 	}
 	if (is_builtins(term->cmd_blocks))
 	{

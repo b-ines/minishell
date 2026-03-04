@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:38 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 15:13:24 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:21:42 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ t_cmd	*parser(t_terminal *terminal, t_token *token)
 			ft_addback_cmd(&cmds, new_node);
 		if (current)
 			current = current->next;
-		if (current && !current->next && current->next->next)
-			current = current->next->next;
+		// if (current && !current->next && current->next->next)
+		// 	current = current->next->next;
 	}
 	return (cmds);
 }

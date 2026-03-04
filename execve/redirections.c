@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 15:45:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 17:48:37 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:26:40 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	check_fds(t_cmd *cmd, int io_flag)
 	}
 	else
 	{
-		if (cmd->here_doc_delim)
-			return (1);
 		if (cmd->outfile)
 			return (1);
 		return (0);	
