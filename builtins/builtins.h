@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:34:52 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:17:33 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 
 //builtins.c
 int 	is_builtins(t_cmd *cmd);
-void 	run_builtins(t_terminal *terminal, t_cmd *cmd);
-void    builtins(t_terminal *terminal);
+void 	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd);
 
 //run_builtins.c
 void    run_echo(t_terminal *terminal, t_cmd *cmd, int fd);

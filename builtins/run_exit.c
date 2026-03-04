@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:58 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 14:15:47 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:46:08 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,21 @@ int	valid_arg(char *str)
 
 void    run_exit(t_terminal *terminal, t_cmd *cmd)
 {
+	long long exit_code;
+
 	ft_putstr_fd("exit\n", 1);
-	ft_free_all_malloc();
 	if (!cmd->argv[1])
+	{
+		ft_free_all_malloc();
 		exit(0);
-	if (cmd->argv[1] && !valid_arg(cmd->argv[1]))
+	}
+	else if (cmd->argv[1] && !valid_arg(cmd->argv[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-	 	exit (2);
+	 	ft_free_all_malloc();
+		exit (2);
 	}
 	else if (tab_size(cmd->argv) > 2)
 	{
@@ -74,5 +79,9 @@ void    run_exit(t_terminal *terminal, t_cmd *cmd)
 	 	return ;
 	}
 	else
-		exit(ft_atol(cmd->argv[1]) % 256);
+	{
+		exit_code = ft_atol(cmd->argv[1]) % 256; 
+		ft_free_all_malloc();
+		exit(exit_code);
+	}
 }

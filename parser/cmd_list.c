@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:33 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 15:13:17 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 13:55:46 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd	*create_node_cmd(void)
 	new_node->heredoc_quoted = 0;
 	new_node->outfile = 0;
 	new_node->next = 0;
+	new_node->prev = 0;
 	return (new_node);
 }
 
@@ -42,4 +43,5 @@ void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node)
 	while (last->next)
 		last = last->next;
 	last->next = new_node;
+	new_node->prev = last;
 }

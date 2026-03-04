@@ -6,35 +6,38 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 15:37:55 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:27:13 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 
-//aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+// //aucune idee de comment gerer le ctrl c :FKSJFE:LKJFELSKJ
+// extern volatile sig_atomic_t gsignal = 0;
 
-void	heredoc_handler(int sig, siginfo_t *info, void *context)
-{
-	(void)info;
-	(void)context;
+// void	heredoc_handler(int sig, siginfo_t *info, void *context)
+// {
+// 	(void)info;
+// 	(void)context;
 
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		return ;
-	}
-}
+// 	if (sig == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		return ;
+// 	}
+// }
 
-void	here_doc_signal_init(void)
-{
-	struct sigaction sa;
+// int	here_doc_signal_init(void)
+// {
+// 	struct sigaction sa;
 
-	sa.sa_sigaction = heredoc_handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-}
+// 	if (gsignal == SIGINT)
+// 	{}
+// 	sa.sa_sigaction = heredoc_handler;
+// 	sa.sa_flags = SA_SIGINFO;
+// 	sigemptyset(&sa.sa_mask);
+// 	sigaction(SIGINT, &sa, NULL);
+// }
 
 int	heredoc_eof(char *line, char *heredoc_delim)
 {
@@ -55,7 +58,7 @@ int	heredoc_eof(char *line, char *heredoc_delim)
 	return (0);
 }
 
-int	here_doc(t_cmd *current)
+int	here_doc(t_terminal *term, t_cmd *current)
 {
 	char	*line;
 	int		pipefds[2];
@@ -70,12 +73,14 @@ int	here_doc(t_cmd *current)
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (heredoc_eof(line, current->here_doc_delim) == 1)
-			return (1) ;
-		ft_putendl_fd(line, pipefds[0]);
-		current->heredoc_fd = pipefds[0];
-		close(pipefds[1]);
+			break ;
+		if (!current->heredoc_quoted)
+			line = expand_line(term, line);
+		ft_putstr_fd(line, pipefds[1]);
 		free(line); 
 	}
+	close(pipefds[1]);
+	current->heredoc_fd = pipefds[0];
 	return (0);
 }
 
@@ -89,7 +94,7 @@ int	parse_heredoc(t_terminal *term)
 		if (current->here_doc_delim)
 		{	
 			//here_doc_signal_init();
-			here_doc(current);
+			here_doc(term, current);
 			//signal_init(term);
 		}
 		current = current->next;
