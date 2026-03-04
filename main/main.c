@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/04 11:46:25 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:03:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	terminal->cmd_blocks = 0;
 	expand(&token, *terminal);
+	printf_list(&token);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);

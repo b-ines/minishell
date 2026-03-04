@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:21 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 16:44:16 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:09:32 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 int is_builtins(t_cmd *cmd)
 {
+	if (!cmd->argv || !cmd->argv[0])
+		return (0);
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))

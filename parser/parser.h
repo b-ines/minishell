@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:41 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 18:06:42 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:54:28 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define PARSER_H
 
 # include "../lexer/lexer.h"
+# include "../heredoc/heredoc.h"
 
 //syntax_check_utils.c
 int		word_at_right(t_token *token);
 int		word_at_left(t_token *token);
 int		pipe_check(t_token *token);
 int		redir_check(t_token *token);
+int		make_redir(t_token *token);
 
 //syntax_check.c
 int		is_redir(t_token *token);

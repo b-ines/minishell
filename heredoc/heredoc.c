@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 12:27:13 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:53:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	here_doc(t_terminal *term, t_cmd *current)
 		if (heredoc_eof(line, current->here_doc_delim) == 1)
 			break ;
 		if (!current->heredoc_quoted)
-			line = expand_line(term, line);
+			expand_line(term, line);
 		ft_putstr_fd(line, pipefds[1]);
 		free(line); 
 	}

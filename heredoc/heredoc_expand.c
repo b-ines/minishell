@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:51:18 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 12:33:05 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:15:14 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ char	*expand_line(t_terminal *term, char *line)
 				j++;
 			else
 				break ;
-			while (ft_isalnum(line[i + j]) || line[i + j] == '_')
+			while (line[i + j] && (ft_isalnum(line[i + j]) || line[i + j] == '_'))
 				j++;
 			ft_strlcpy(key, &line[i], j);
-			char *temp = ft_strjoin("$", key);
-			if (!get_value_by_key(term, key))
-				printf("trimmed %s\n", ft_strtrim(line, temp - 1));
+			printf("found value %s\n", get_value_by_key(term, key));
+			// if (!get_value_by_key(term, key))
+			// 	printf("trimmed %s\n", ft_strtrim(line, key));
 			i += j;
 		}
 		i++;
