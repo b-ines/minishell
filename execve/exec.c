@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 14:59:28 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:23:14 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+// ajouter le check is a directory avant lexec
+// ajouter creation de fichiers en casace (cat > outfile > outfile > outfile) ca ecrit que dans le dernier mais ca cree les autres
 
 int	lst_size(t_terminal *term)
 {
@@ -44,37 +47,49 @@ void	clear_fd(int *fd, int cmdc)
 void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 {
 	char	*path;
+	int		output_fd;
 
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
 	if (!path)
 	{
-		printf("no such file or directory\n");
-		exit(EXIT_FAILURE) ;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		exit(127) ;
 	}
-	if (*i != 0) // si ce nest pas la premiere commande
+	if (is_builtins(term->cmd_blocks))
 	{
-		dup2(fd[(*i - 1) * 2], 0);
+		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
+		if (output_fd < 0)
+			return ;
+		run_builtins(term, term->cmd_blocks, output_fd);
+		exit(term->exit_status);
 	}
-	if (*i < (cmdc - 1)) // si ce nest pas la derniere commande
-	{
-		dup2(fd[*i * 2 + 1], 1);
+	if (!redir_management(term, i, cmdc, fd))
+	{	
+		clear_fd(fd, cmdc);
+		return ;
 	}
-	clear_fd(fd, cmdc);
+	clear_fd(fd, cmdc); // la il faut que les fd soient rediriges pour les builtins
 	execve(path, term->cmd_blocks->argv, term->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
 
 }
 
-void	ft_create_pipe(int **fd, int cmdc)
+
+void	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
 {
 	int	i;
+	t_cmd	*current;
 
 	i = 0;
+	current = cmd;
 	*fd = ft_malloc(sizeof(int) * ((cmdc - 1) * 2));
-	while (i < (cmdc - 1))
+	while (current->next)
 	{
 		pipe(*fd + i * 2);
+		current = current->next;
 		i++;
 	}
 }
@@ -86,14 +101,17 @@ void	exec(t_terminal *term)
 	int		*fd;
 	int		cmdc;
 	int		i;
+	int		output_fd;
 
 	cmdc = lst_size(term);
-	ft_create_pipe(&fd, cmdc);
+	ft_create_pipe(term->cmd_blocks, &fd, cmdc);
 	i = 0;
 	if (cmdc == 1 && is_builtins(term->cmd_blocks))
 	{
-		if (term->cmd_blocks)
-			run_builtins(term, term->cmd_blocks);
+		output_fd = get_output_fd(term->cmd_blocks, &i, cmdc, fd);
+		if (output_fd < 0)
+			return ;
+		run_builtins(term, term->cmd_blocks, output_fd);
 		return ;
 	}
 	while (term->cmd_blocks != NULL)

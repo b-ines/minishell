@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 18:08:39 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:47:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	valid_arg_export(char *str)
 		return (0);
 	while (str[i])
 	{
-		printf("%c ", str[i]);
 		if (str[i] == '=')
 			break ;
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
@@ -155,7 +154,6 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 		{
 			if (key_already_in_env(terminal, cmd->argv[i]) != -1)
 			{
-				printf("la condition donne : %s\n", ft_strchr(cmd->argv[i], '='));
 				if (!ft_strchr(cmd->argv[i], '='))
 					break ;
 				change_var(terminal, cmd->argv[i], 0); // si jexport Hola il est dans env la
