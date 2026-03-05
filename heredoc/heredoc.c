@@ -41,7 +41,7 @@
 
 int	heredoc_eof(char *line, char *heredoc_delim)
 {
-	if (!line)
+	if (!line && (get_gmod() != HEREDOC_ABORTED))
 	{
 		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
 		ft_putstr_fd("by end-of-file (wanted `", 2);
