@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:14 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:55:23 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:02:48 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	redir_tokenisation(t_token **token, char *line, int redir_type, int i)
 
 	word_len = 0;
 	if (line [i + 1] != redir_type)
-	{	
+	{
 		word_len = 1;
 		ft_addback(token, ft_strndup(&line[i], word_len), 0);
 	}
 	else if (line [i + 1] == redir_type)
-	{	
+	{
 		word_len = 2;
 		ft_addback(token, ft_strndup(&line[i], word_len), 0);
 	}

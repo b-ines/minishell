@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:09 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:57:37 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:59:44 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token	*lexer(t_terminal *terminal, char *line)
 	token = 0;
 	token = tokenization(line);
 	if (!token)
-	{	
+	{
 		terminal->exit_status = 2;
 		return (0);
 	}

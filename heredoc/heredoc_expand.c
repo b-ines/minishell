@@ -6,13 +6,13 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:51:18 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 16:15:14 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:53:57 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 
-//
+// a refaire proprement
 
 char	*expand_line(t_terminal *term, char *line)
 {
@@ -40,8 +40,6 @@ char	*expand_line(t_terminal *term, char *line)
 			temp = ret;
 			ret = ft_strjoin(ret, new_line);
 			free(temp);
-			// if (!get_value_by_key(term, key))
-			// 	printf("trimmed %s\n", ft_strtrim(line, key));
 			i += j;
 		}
 		else

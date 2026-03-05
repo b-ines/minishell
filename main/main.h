@@ -6,28 +6,21 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 14:59:44 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:47:34 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-typedef struct s_heredoc
-{
-	char			*here_doc_delim;
-	int				heredoc_quoted;
-	int				heredoc_fd;
-	struct s_heredoc	*next;
-} t_heredoc;
-
 typedef struct s_cmd
 {
 	char			**argv;
 	char		 	*infile;
 	char			*outfile;
-	t_heredoc		*heredoc_list;
+	char			*here_doc_delim;
 	int				append;
+	int				heredoc_quoted;
 	int				heredoc_fd;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;

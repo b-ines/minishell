@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:24:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/03 17:48:31 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:46:05 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define EXEC_H
 
 # include <sys/wait.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 # include "../lexer/lexer.h"
 # include "../builtins/builtins.h"
 

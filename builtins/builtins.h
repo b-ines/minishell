@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 12:13:29 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:34:38 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,22 @@
 
 # include "../main/main.h"
 # include <fcntl.h>
-# include <sys/stat.h> // lstat
-# include <unistd.h> //opendir
+# include <sys/stat.h>
+# include <unistd.h>
 
 //builtins.c
-int 	is_builtins(t_cmd *cmd);
-void 	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd);
+int		tab_size(char **argv);
+int		is_builtins(t_cmd *cmd);
+void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd);
 
 //run_builtins.c
-void    run_echo(t_terminal *terminal, t_cmd *cmd, int fd);
-void    run_exit(t_terminal *terminal, t_cmd *cmd);
-void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd);
+void	run_echo(t_terminal *terminal, t_cmd *cmd, int fd);
+void	run_exit(t_terminal *terminal, t_cmd *cmd);
+void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd);
 
-//utils.c
-int	    get_fd(t_cmd *cmd);
-int	    tab_size(char **argv);
-
-//runenv
-void    run_env(t_terminal *terminal, t_cmd *cmd, int fd);
-void    run_unset(t_terminal *terminal, t_cmd *cmd);
+//run_env_unset.c
+void	run_env(t_terminal *terminal, t_cmd *cmd, int fd);
+void	run_unset(t_terminal *terminal, t_cmd *cmd);
 
 //env_management.c
 int		get_index_by_key(t_terminal *terminal, char *key);
@@ -43,14 +40,20 @@ int		change_value_by_key(t_terminal *terminal, char *key, char *new_value);
 
 //run_cd.c
 int		get_arg_type(char *path);
-void    run_cd(t_terminal *terminal, t_cmd *cmd);
+void	change_dir(t_terminal *terminal, t_cmd *cmd);
+void	run_cd(t_terminal *terminal, t_cmd *cmd);
 
 //run_export.c
 char	*get_key(char *str);
 void	run_export(t_terminal *terminal, t_cmd *cmd, int fd);
 
+//run_export_utils.c
+int		valid_arg_export(char *str);
+char	*get_key(char *str);
+char	*get_value(char *str);
+int		key_already_in_env(t_terminal *terminal, char *cmd);
+
 //print_sorted_env.c
 void	print_sorted_envp(char **envp_export, int fd);
-
 
 #endif

@@ -6,18 +6,13 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/05 12:15:13 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:47:03 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-// ajouter le check is a directory avant lexec
-// ajouter creation de fichiers en casace (cat > outfile > outfile > outfile) ca ecrit que dans le dernier mais ca cree les autres
+// is a directory bug et prend ls comme un directory parfois
 
 int	lst_size(t_terminal *term)
 {
@@ -26,7 +21,6 @@ int	lst_size(t_terminal *term)
 
 	i = 0;
 	tmp = term->cmd_blocks;
-
 	while (tmp)
 	{
 		i++;
@@ -50,19 +44,19 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	int		output_fd;
 
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
-	if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
-		ft_putendl_fd(": Is a directory", 2);
-		exit(126);
-	}
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
-		exit(127) ;
+		exit(127);
+	}
+	else if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+		ft_putendl_fd(": Is a directory", 2);
+		exit(126);
 	}
 	if (is_builtins(term->cmd_blocks))
 	{
@@ -73,21 +67,22 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		exit(term->exit_status);
 	}
 	if (!redir_management(term, i, cmdc, fd))
-	{	
+	{
 		clear_fd(fd, cmdc);
 		return ;
 	}
 	clear_fd(fd, cmdc);
 	execve(path, term->cmd_blocks->argv, term->envp);
-	perror("execve");
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
 	exit(EXIT_FAILURE);
-
 }
-
 
 void	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
 {
-	int	i;
+	int		i;
 	t_cmd	*current;
 
 	i = 0;

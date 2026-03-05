@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:51 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 12:12:47 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:15:02 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	is_nflag(char *str)
 	return (1);
 }
 
-void    run_echo(t_terminal *terminal, t_cmd *cmd, int fd)
+void	run_echo(t_terminal *terminal, t_cmd *cmd, int fd)
 {
-	int i;
+	int	i;
 	int	no_nl;
 
 	i = 1;
@@ -52,10 +52,10 @@ void    run_echo(t_terminal *terminal, t_cmd *cmd, int fd)
 	terminal->exit_status = 0;
 }
 
-void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
+void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 {
-	int i;
-	char buffer[10000];
+	int		i;
+	char	buffer[10000];
 
 	i = 0;
 	(void)cmd;
@@ -67,8 +67,7 @@ void    run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 			{
 				ft_putendl_fd(buffer, fd);
 				terminal->exit_status = 0;
-			 	break ;
-
+				break ;
 			}
 			else
 			{
