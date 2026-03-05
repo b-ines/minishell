@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "expand.h"
+#include <stdlib.h>
 #include "../libft/libft.h"
 
 int	ft_strlen_sep(char *s, char fin)
@@ -45,3 +46,24 @@ char	*ft_getenv(char **envp, char *var)
 	}
 	return (NULL);
 }
+
+char	*ft_clear_expand(char *str)
+{
+	char	*ret;
+	int		i;
+	int		size_str;
+
+	i = 0;
+	size_str = ft_strlen(str);
+	ret = malloc(size_str * sizeof(char) + 1);
+	while (str[i] != '\0')
+	{
+		if (!ft_isalpha(str[i]) || (str[i] != '_'))
+			break ;
+		ret[i] = str[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return ret;
+}
+

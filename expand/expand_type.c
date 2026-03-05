@@ -23,7 +23,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	t_token	*ret_node;
 
     printf("Expand detected on: %s\n", curr->token);
-    var = ft_getenv(envp, &curr->token[index]);
+    var = ft_getenv(envp, ft_clear_expand(&curr->token[index]));
     ret_node = NULL;
     if (index > 1)
     {

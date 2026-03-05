@@ -32,7 +32,7 @@ static t_expand_ctx is_expand(t_token *token) {
 		{
 			if (token->token[i] == '$' && ft_isalpha(token->token[i + 1]))
 			{
-				if (i != 0 && token->token[i - 1] != '\\')
+				if ((i != 0 && (token->token[i - 1] != '\\')) || (i == 0))
 					return ((t_expand_ctx){i + 1, ENV});
 				else
 				{
