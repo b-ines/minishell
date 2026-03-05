@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:51:18 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:53:57 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 19:14:28 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*expand_line(t_terminal *term, char *line)
 	char	key[5000];
 	char	*new_line;
 	char	*ret;
-	char	*temp;
+	//char	*temp;
 
 	i = 0;
 	ret = ft_strdup("");
@@ -37,9 +37,9 @@ char	*expand_line(t_terminal *term, char *line)
 			new_line = get_value_by_key(term, key); 
 			if (!new_line)
 				new_line = "";
-			temp = ret;
+			//temp = ret;
 			ret = ft_strjoin(ret, new_line);
-			free(temp);
+			//free(temp);
 			i += j;
 		}
 		else
@@ -47,9 +47,9 @@ char	*expand_line(t_terminal *term, char *line)
 			char c[2];
 			c[0] = line[i];
 			c[1] = '\0';
-			temp = ret;
+			//temp = ret;
 			ret = ft_strjoin(ret, c);
-			free(temp);
+			//free(temp);
 			i++;
 		}
 	}

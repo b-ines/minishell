@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:20:44 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:52:06 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 19:13:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	heredoc_eof(char *line, char *heredoc_delim)
 		ft_putstr_fd("by end-of-file (wanted `", 2);
 		ft_putstr_fd(heredoc_delim, 2);
 		ft_putendl_fd("')", 2);
-		free(line);
+		//free(line);
 		return (1);
 	}
 	if (ft_strcmp(line, heredoc_delim) == 0)
 	{
-		free(line);
+		//free(line);
 		return (1);
 	}
 	return (0);
@@ -48,11 +48,11 @@ int	here_doc(t_terminal *term, t_heredoc *current_hd)
 		if (!current_hd->heredoc_quoted)
 		{
 			expanded_line = expand_line(term, line);
-			free(line);
+			//free(line);
 			line = expanded_line;
 		}
 		ft_putstr_fd(line, pipefds[1]);
-		free(line);
+		//free(line);
 	}
 	close(pipefds[1]);
 	current_hd->heredoc_fd = pipefds[0];

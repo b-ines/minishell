@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:30 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:13:10 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:55:31 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ int	get_arg_type(char *path)
 {
 	struct stat	buffer;
 
-	stat(path, &buffer);
-	if (S_ISDIR(buffer.st_mode))
-		return (2);
-	else if (S_ISREG(buffer.st_mode))
-		return (1);
-	else
-		return (0);
+	if (stat(path, &buffer) == 0)
+	{
+		if (buffer.st_mode && S_ISDIR(buffer.st_mode))
+			return (2);
+		else if (buffer.st_mode && S_ISREG(buffer.st_mode))
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
 }
 
 void	cd_error(t_terminal *terminal, char *var, char *str)

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/05 15:47:03 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 19:06:05 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	char	*path;
 	int		output_fd;
 
+	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
+		return ;
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
 	if (!path)
 	{
@@ -51,7 +53,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
-	else if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
+	if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
