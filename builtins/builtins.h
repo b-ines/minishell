@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 16:17:33 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:13:29 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*get_value_by_key(t_terminal *terminal, char *key);
 int		change_value_by_key(t_terminal *terminal, char *key, char *new_value);
 
 //run_cd.c
+int		get_arg_type(char *path);
 void    run_cd(t_terminal *terminal, t_cmd *cmd);
 
 //run_export.c

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/04 12:23:14 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:15:13 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	int		output_fd;
 
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
+	if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+		ft_putendl_fd(": Is a directory", 2);
+		exit(126);
+	}
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -70,7 +77,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		clear_fd(fd, cmdc);
 		return ;
 	}
-	clear_fd(fd, cmdc); // la il faut que les fd soient rediriges pour les builtins
+	clear_fd(fd, cmdc);
 	execve(path, term->cmd_blocks->argv, term->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
