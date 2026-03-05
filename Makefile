@@ -2,7 +2,7 @@ NAME = minishell
 MAKEFLAGS += --no-print-directory
 CFLAGS = -Wall -Werror -Wextra -g3 -O0
 DEPENDENCIES = -lreadline -lncurses
-CFILES = main/main.c main/signals.c main/early_parser.c main/terminal_init.c \
+CFILES = main/g_mod_access.c main/main.c main/signals.c main/early_parser.c main/terminal_init.c \
 	expand/expand.c expand/expand_type.c expand/expand_utils.c expand/retokenize.c \
 	lexer/lexer.c lexer/token_lists.c lexer/debug.c lexer/tokenisation.c lexer/tokenisation_utils.c \
 	parser/syntax_check_utils.c parser/syntax_check.c parser/cmd_list.c parser/debug_cmd.c parser/parser_utils.c parser/parser.c \

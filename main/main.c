@@ -32,7 +32,8 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
-	exec(terminal);
+	if (get_gmod() != HEREDOC_ABORTED)
+		exec(terminal);
 	return (1);
 }
 
@@ -43,6 +44,7 @@ void	minishell_loop(t_terminal *terminal)
 
 	while (1)
 	{
+		set_gmod(PROMPT);
 		line = readline("minishell$ ");
 		if (!line)
 		{

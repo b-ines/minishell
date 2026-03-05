@@ -34,6 +34,14 @@ typedef struct s_terminal
 	struct s_cmd    *cmd_blocks;
 }   t_terminal;
 
+typedef enum e_gmod 
+{
+	PROMPT,
+	HEREDOC,
+	HEREDOC_ABORTED,
+	EXEC,
+}	t_gmod;
+
 typedef struct s_token t_token;
 
 # include "../lexer/lexer.h"
@@ -58,5 +66,10 @@ int 		empty_cmd(t_terminal *terminal, char *line);
 
 //terminal_init.c
 t_terminal	*terminal_init(char **envp);
+
+// g_mod_access.c
+void	init_gmod();
+void	set_gmod(t_gmod new_mode);
+t_gmod	get_gmod();
 
 #endif

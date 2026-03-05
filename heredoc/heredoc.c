@@ -31,7 +31,7 @@
 // {
 // 	struct sigaction sa;
 
-// 	if (gsignal == SIGINT)
+// 	 if (gsignal == SIGINT)
 // 	{}
 // 	sa.sa_sigaction = heredoc_handler;
 // 	sa.sa_flags = SA_SIGINFO;
@@ -68,7 +68,7 @@ int	here_doc(t_terminal *term, t_cmd *current)
 		ft_putendl_fd("minishell: pipe error", 2);
 		return (-1);
 	}
-	while (1)
+	while (get_gmod() == HEREDOC)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
@@ -92,7 +92,8 @@ int	parse_heredoc(t_terminal *term)
 	while (current)
 	{
 		if (current->here_doc_delim)
-		{	
+		{
+			set_gmod(HEREDOC);
 			//here_doc_signal_init();
 			here_doc(term, current);
 			//signal_init(term);
