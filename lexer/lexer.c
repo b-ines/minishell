@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:09 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:59:44 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:19:34 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ t_lexer	get_token_type(t_token *token)
 {
 	if (ft_strncmp("", token->token, ft_strlen(token->token)) == 0)
 		return (WORD);
-	if (ft_strncmp("|", token->token, ft_strlen(token->token)) == 0)
+	if (ft_strncmp("|", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
 		return (PIPE);
-	else if (ft_strncmp("<", token->token, ft_strlen(token->token)) == 0)
+	else if (ft_strncmp("<", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
 		return (REDIR_INPUT);
-	else if (ft_strncmp(">", token->token, ft_strlen(token->token)) == 0)
+	else if (ft_strncmp(">", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
 		return (REDIR_OUTPUT);
-	else if (ft_strncmp(">>", token->token, ft_strlen(token->token)) == 0)
+	else if (ft_strncmp(">>", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
 		return (APPEND);
-	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0)
+	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
 		return (HERE_DOC);
 	else if (ft_strncmp(" ", token->token, ft_strlen(token->token)) == 0
 		&& token->quote_flag == 0)

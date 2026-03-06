@@ -6,13 +6,11 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:06 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:59:21 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:44:03 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-//switch interdits a supprimer a la fin
 
 char	*lexer_to_str(t_lexer lexer)
 {

@@ -6,18 +6,31 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 18:34:44 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:44:17 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
+typedef struct s_outfile
+{
+	char				*outfile;
+	int					append;
+	struct s_outfile	*next;
+} t_outfile;
+
+typedef struct s_infile
+{
+	char			*infile;
+	struct s_infile	*next;
+} t_infile;
+
 typedef struct s_heredoc
 {
-	char			*here_doc_delim;
-	int				heredoc_quoted;
-	int				heredoc_fd;
+	char				*here_doc_delim;
+	int					heredoc_quoted;
+	int					heredoc_fd;
 	struct s_heredoc	*next;
 } t_heredoc;
 
@@ -26,9 +39,11 @@ typedef struct s_cmd
 	char			**argv;
 	char		 	*infile;
 	char			*outfile;
+	t_infile	 	*infile_list; // il faut garder le dernier quand meme poru lexec et la liste sert que a tout ouvrir et check au debut
+	t_outfile	 	*outfile_list;
 	t_heredoc		*heredoc_list;
-	int				append;
 	int				heredoc_fd;
+	int				append;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 } t_cmd;

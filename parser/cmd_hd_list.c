@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*   cmd_hd_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:33 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 18:44:17 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:18:57 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_cmd	*create_node_cmd(void)
 	new_node->infile = 0;
 	new_node->outfile = 0;
 	new_node->heredoc_list = 0;
+	new_node->infile_list = 0;
+	new_node->outfile_list = 0;
 	new_node->heredoc_fd = -1;
 	new_node->next = 0;
 	new_node->prev = 0;
@@ -45,21 +47,30 @@ void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node)
 	last->next = new_node;
 	new_node->prev = last;
 }
-t_heredoc	*create_node_heredoc(t_token *token)
+t_heredoc	*create_node_heredoc(t_token **token)
 {
 	t_heredoc	*new_node;
+	char		*word;
 
+	word = ft_strdup("");
 	new_node = ft_malloc(sizeof(t_heredoc));
 	if (!new_node)
 		return (0);
 	new_node->heredoc_fd = -1;
-	new_node->here_doc_delim = ft_strjoin(token->token, "\n");
-	new_node->heredoc_quoted = token->quote_flag;
+	new_node->heredoc_quoted = 0;
+	while ((*token) && (*token)->type == WORD)
+	{
+		if ((*token)->quote_flag != 0)
+			new_node->heredoc_quoted = (*token)->quote_flag;
+		word = ft_strjoin_free(word, (*token)->token);
+		(*token) = (*token)->next;
+	}
+	new_node->here_doc_delim = ft_strjoin(word, "\n");
 	new_node->next = 0;
 	return (new_node);
 }
 
-void	addback_heredoc(t_cmd *cmd, t_token *token)
+void	addback_heredoc(t_cmd *cmd, t_token **token)
 {
 	t_heredoc *new_node;
 	t_heredoc *tmp;

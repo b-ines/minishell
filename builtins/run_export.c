@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:44:22 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:32:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 		{
 			ft_putstr_fd("mimishell: export: `", 2);
 			ft_putstr_fd(cmd->argv[i], 2);
-			ft_putendl_fd("': not a valid indentifier", 2);
+			ft_putendl_fd("': not a valid identifier", 2);
 			terminal->exit_status = 1;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/05 18:35:17 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:30:08 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	program(char *line, t_terminal *terminal)
 	if (!token)
 		return (0);
 	terminal->cmd_blocks = 0;
+	//printf_list(&token);
 	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	//printf_cmd(terminal->cmd_blocks);
+	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	exec(terminal);
 	return (1);
@@ -43,6 +44,7 @@ void	minishell_loop(t_terminal *terminal)
 
 	while (1)
 	{
+		line = 0;
 		line = readline("minishell$ ");
 		if (!line)
 		{

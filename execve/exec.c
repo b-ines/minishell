@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/05 19:06:05 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:34:55 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 
 	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
 		return ;
+	if (is_builtins(term->cmd_blocks))
+	{
+		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
+		if (output_fd < 0)
+			return ;
+		run_builtins(term, term->cmd_blocks, output_fd);
+		exit(term->exit_status);
+	}
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
 	if (!path)
 	{
@@ -60,14 +68,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		ft_putendl_fd(": Is a directory", 2);
 		exit(126);
 	}
-	if (is_builtins(term->cmd_blocks))
-	{
-		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
-		if (output_fd < 0)
-			return ;
-		run_builtins(term, term->cmd_blocks, output_fd);
-		exit(term->exit_status);
-	}
+	
 	if (!redir_management(term, i, cmdc, fd))
 	{
 		clear_fd(fd, cmdc);
