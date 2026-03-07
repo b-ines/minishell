@@ -35,32 +35,6 @@
 
 //argv pb aussi si je fais cat > outfile b - ou echo >outf b le b ecrase le echo
 
-
-void	add_argv(t_token **current, t_cmd *new_node)
-{
-	int		size;
-	t_token	*temp;
-
-	size = 1;
-	temp = *current;
-	if (!new_node->argv)
-	{
-		while (temp && (temp->type == WORD || temp->type == SSPACE))
-		{
-			if (temp && temp->next && temp->next->type == WORD
-				&& temp->type == SSPACE)
-				size++;
-			temp = temp->next;
-		}
-		new_node->argv = make_argv((*current), size);
-		while ((*current) && ((*current)->type == WORD
-				|| (*current)->type == SSPACE))
-			(*current) = (*current)->next;
-	}
-	else
-		append_argv(current, new_node);
-}
-
 void	add_append(t_token **current, t_cmd *new_node)
 {
 	(*current) = (*current)->next;

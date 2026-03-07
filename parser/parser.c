@@ -14,7 +14,6 @@
 
 void	fill_new_node(t_token **current, t_cmd *new_node)
 {
-	printf("analyse de %s type %s\n", (*current)->token , lexer_to_str((*current)->type));
 	if ((*current)->type == WORD)
 		add_argv(current, new_node);
 	else if ((*current) && (*current)->type == APPEND)

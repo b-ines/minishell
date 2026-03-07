@@ -52,4 +52,7 @@ void	printf_cmd(t_cmd *cmd);
 void	addback_infile(t_cmd *cmd, t_token **token);
 void	addback_outfile(t_cmd *cmd, t_token **token, int append_flag);
 
+//append_cmd_argv.c
+void	append_argv(t_token **current, t_cmd *new_node, int size);
+
 #endif

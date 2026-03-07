@@ -49,8 +49,8 @@ void	addback_infile(t_cmd *cmd, t_token **token)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_node;
-		cmd->infile = ft_strdup(new_node->infile);
 	}
+	cmd->infile = ft_strdup(new_node->infile);
 }
 
 t_outfile	*create_node_outfile(t_token **token, int append_flag)
@@ -91,7 +91,7 @@ void	addback_outfile(t_cmd *cmd, t_token **token, int append_flag)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_node;
-		cmd->outfile = ft_strdup(new_node->outfile);
-		cmd->append = append_flag;
 	}
+	cmd->outfile = ft_strdup(new_node->outfile);
+	cmd->append = append_flag;
 }
