@@ -12,6 +12,19 @@
 
 #include "libft.h"
 
+void	*ft_calloc_gnl(size_t num, size_t size)
+{
+	void	*ptr;
+
+	if (num != 0 && (size * num) / num != size)
+		return (0);
+	ptr = malloc(num * size);
+	if (!ptr)
+		return ((void *)0);
+	ft_bzero(ptr, size * num);
+	return (ptr);
+}
+
 char	*ft_newline(char *stash, int n_index)
 {
 	int		i;
@@ -20,17 +33,17 @@ char	*ft_newline(char *stash, int n_index)
 	i = 0;
 	if (n_index == 0)
 	{
-		new_line = ft_calloc(2, sizeof(char));
+		new_line = ft_calloc_gnl(2, sizeof(char));
 		new_line[0] = '\n';
 		return (new_line);
 	}
 	if (n_index == -1)
 	{	
-		new_line = ft_calloc(ft_strlen(stash) + 1, sizeof(char));
+		new_line = ft_calloc_gnl(ft_strlen(stash) + 1, sizeof(char));
 		n_index = ft_strlen(stash) - 1;
 	}
 	else
-		new_line = ft_calloc(n_index + 2, sizeof(char));
+		new_line = ft_calloc_gnl(n_index + 2, sizeof(char));
 	if (!new_line)
 		return (0);
 	while (stash && i <= n_index && stash[i])
@@ -53,13 +66,13 @@ void	*ft_trimmed_stash(char *stash, int n_index)
 	stash_len = ft_strlen(stash);
 	if (stash_len - n_index == 1)
 	{
-		new_stash = ft_calloc(1, sizeof(char));
+		new_stash = ft_calloc_gnl(1, sizeof(char));
 		return (ft_free(&stash, new_stash));
 	}
 	if (n_index == 0)
-		new_stash = ft_calloc(stash_len, sizeof(char));
+		new_stash = ft_calloc_gnl(stash_len, sizeof(char));
 	else
-		new_stash = ft_calloc(stash_len - n_index + 2, sizeof(char));
+		new_stash = ft_calloc_gnl(stash_len - n_index + 2, sizeof(char));
 	if (!new_stash)
 		return (0);
 	while (stash && i + 1 + n_index < stash_len && stash[n_index + 1 + i])

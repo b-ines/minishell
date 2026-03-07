@@ -92,7 +92,8 @@ void	add_argv(t_token **current, t_cmd *new_node)
 				temp = temp->next;
 			if (temp && temp->type == WORD)
 				size++;
-			temp = temp->next;
+			if (temp)
+				temp = temp->next;
 		}
 		new_node->argv = make_argv((*current), size);
 		while ((*current) && ((*current)->type == WORD
@@ -107,7 +108,8 @@ void	add_argv(t_token **current, t_cmd *new_node)
 				temp = temp->next;
 			if (temp && temp->type == WORD)
 				size++;
-			temp = temp->next;
+			if (temp)
+				temp = temp->next;
 		}
 		append_argv(current, new_node, size);
 		// while ((*current) && ((*current)->type == WORD

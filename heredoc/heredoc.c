@@ -18,7 +18,7 @@ int	heredoc_eof(char *line, char *heredoc_delim)
 	{
 		ft_putstr_fd("minishell: warning: here-document delimited ", 2);
 		ft_putstr_fd("by end-of-file (wanted `", 2);
-		ft_putstr_fd(heredoc_delim, 2);
+		write(2, heredoc_delim, ft_strlen(heredoc_delim) - 1);
 		ft_putendl_fd("')", 2);
 		//free(line);
 		return (1);

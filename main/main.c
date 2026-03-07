@@ -33,7 +33,7 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
-	if (get_gmod() != HEREDOC_ABORTED || (get_gmod() != HEREDOC_QUIT))
+	if (get_gmod() != HEREDOC_ABORTED && (get_gmod() != HEREDOC_QUIT))
 		exec(terminal);
 	return (1);
 }

@@ -36,14 +36,14 @@ static t_expand_ctx is_expand(t_token *token) {
 					return ((t_expand_ctx){i + 1, ENV});
 				else
 				{
-					tmp = ft_strdup(&token->token[i]);
+					tmp = ft_strdup(&token->token[i]); 
 					ft_free_malloc(token->token);
 					token->token = tmp;
 					return ((t_expand_ctx){i + 1, NONE});
 				}
 			}
-			else if (token->token[i] == '$' && token->token[i + 1] == '$')
-				return ((t_expand_ctx){i + 1, ENV});
+			// else if (token->token[i] == '$') //  && token->token[i + 1] == '$'
+			// 	return ((t_expand_ctx){i + 1, ENV});
 			else if (token->token[i] == '$' && token->token[i + 1] == '?')
 					return ((t_expand_ctx){i + 1, EXIT_STATUS});
 		}
