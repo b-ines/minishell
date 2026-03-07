@@ -106,16 +106,15 @@ jobs:
             fi
             
             # Filter out minishell prompt and echoed command
-            # 1) Remove leading prompt (e.g. "$miniswag> ", "minishell> ")
-            # Do not match if a '$' appears before '>' (prevents eating real output like "Hola$miniswag> ...")
-            sed -E 's/^\$?[^$[:space:]>]*> ?//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
+            # 1) Remove leading prompt (e.g. "minishell$ ")
+            sed -E 's/^minishell\$ ?//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
 
             # 2) Remove appended prompt+exit at end of output lines (echo -n case)
-            # Example: "Hola$miniswag> exit" -> "Hola"
-            sed -E 's/\$[^[:space:]>]*>[[:space:]]*exit[[:space:]]*$//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
+            # Example: "Holaminishell$ exit" -> "Hola"
+            sed -E 's/minishell\$[[:space:]]*exit[[:space:]]*$//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
 
-            # 3) Remove any remaining inline "$prompt> " sequences without touching normal output
-            sed -E 's/\$[^[:space:]>]*> ?//g' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
+            # 3) Remove any remaining inline "minishell$ " sequences without touching normal output
+            sed -E 's/minishell\$ ?//g' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
 
             # If first line is the echoed command itself, drop it
             FIRST_LINE=$(head -n 1 "$MINI_OUT" 2>/dev/null || echo "")
