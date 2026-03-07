@@ -11,11 +11,8 @@ void	ft_free_all_malloc(void)
 	{
 		node_to_free = *malloc_list;
 		*malloc_list = (*malloc_list)->next;
-		node_to_free = 0;
-		node_to_free->ptr = 0;
 		if (node_to_free->ptr)
 			free(node_to_free->ptr);
-		if (node_to_free)
-			free(node_to_free);
+		free(node_to_free);
 	}
 }

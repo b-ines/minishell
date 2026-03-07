@@ -14,6 +14,20 @@
 #include "../libft/libft.h"
 #include "expand.h"
 
+t_token	*del_token(t_token **token, t_token *curr)
+{
+	t_token	*next;
+
+	next = curr->next;
+	if (curr->prev)
+		curr->prev->next = curr->next;
+	else
+		*token = curr->next;
+	if (curr->next)
+		curr->next->prev = curr->prev;
+	return (next);
+}
+
 t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 {
 	char	*var;
@@ -22,7 +36,6 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	size_t	len_var;
 	t_token	*ret_node;
 
-    //printf("Expand detected on: %s\n", curr->token);
     var = ft_getenv(envp, &curr->token[index]);
     ret_node = NULL;
     if (index > 1)
@@ -39,7 +52,9 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
     }
     else
         final_token = var;
-    if (curr->quote_flag == 0 && (final_token != NULL))
+    if (final_token == NULL)
+        return (del_token(token, curr));
+    if (curr->quote_flag == 0)
         ret_node = retokenize(token, curr, final_token);
     else
     {
