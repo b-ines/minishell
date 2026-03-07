@@ -18,7 +18,7 @@ int	check_fds(t_cmd *cmd, int io_flag)
 	{
 		if (cmd->infile)
 			return (1);
-		else if (cmd->here_doc_delim)
+		else if (cmd->heredoc_list)
 			return (1);
 		return (0);
 	}
@@ -37,7 +37,7 @@ int	get_fd_exec(t_cmd *cmd, int io_flag)
 	fd = 0;
 	if (io_flag == 0)
 	{
-		if (cmd->here_doc_delim)
+		if (cmd->heredoc_list)
 			fd = cmd->heredoc_fd;
 		else if (cmd->infile)
 			fd = open(cmd->infile, O_RDONLY);

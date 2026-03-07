@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/28 15:14:27 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:29:14 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	size_t	len_var;
 	t_token	*ret_node;
 
-    printf("Expand detected on: %s\n", curr->token);
-    var = ft_getenv(envp, ft_clear_expand(&curr->token[index]));
+    //printf("Expand detected on: %s\n", curr->token);
+    var = ft_getenv(envp, &curr->token[index]);
     ret_node = NULL;
     if (index > 1)
     {

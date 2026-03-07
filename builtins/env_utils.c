@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:28 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 12:08:08 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:02:59 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	get_index_by_key(t_terminal *terminal, char *key)
 	{
 		if (ft_strlen(terminal->envp[i]) >= ft_strlen(key)
 			&& !ft_strncmp(terminal->envp[i], key, ft_strlen(key))
-				&& (terminal->envp[i][ft_strlen(key)] == '='
-					|| !terminal->envp[i][ft_strlen(key)]))	
+			&& (terminal->envp[i][ft_strlen(key)] == '='
+			|| !terminal->envp[i][ft_strlen(key)]))
 			return (i);
 		i++;
 	}
@@ -44,15 +44,13 @@ char	*get_key_by_index(t_terminal *terminal, int index)
 	return (key);
 }
 
-//pour linstant il me semble que ca sert a rien
 char	*get_value_by_key(t_terminal *terminal, char *key)
 {
-	(void)terminal;
-	int	i;
+	int		i;
 	char	*value;
 
+	(void)terminal;
 	i = get_index_by_key(terminal, key);
-
 	if (i == -1)
 		return (0);
 	value = ft_strchr(terminal->envp[i], '=');
@@ -77,4 +75,3 @@ int	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 	}
 	return (0);
 }
-

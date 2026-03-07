@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 23:49:57 by gabch             #+#    #+#             */
-/*   Updated: 2026/02/27 12:07:25 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:49:08 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*search_cmd(t_terminal *term, char *cmd)
 
 	if (is_abs_or_rel_path(cmd))
 		return (cmd);
-	if (!get_value_by_key(term, "PATH"))
+	if (!get_value_by_key(term, "PATH") || !cmd[0])
 		return (0);
 	path = ft_split(get_value_by_key(term, "PATH"), ':');
 	i = 0;

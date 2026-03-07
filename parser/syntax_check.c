@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:43 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:48:23 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:39:05 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int invalid_token(t_token *token)
 	if (token->type == PIPE)
 		return (pipe_check(token));
 	else if (is_redir(token))
-		return (redir_check(token));
+	{	
+		if (!redir_check(token))
+			return (0);
+		return (1);
+	}
 	else if (token->type == WORD || token->type == SSPACE)
 		return (1);
 	return (0);
@@ -41,7 +45,7 @@ int	valid_syntax(t_terminal *terminal, t_token **token_head)
 	while (current)
 	{
 		error_flag = invalid_token(current);
-		if (!error_flag)
+		if (error_flag == 0)
 		{
 			terminal->exit_status = 2;
 			return (0);
@@ -50,3 +54,44 @@ int	valid_syntax(t_terminal *terminal, t_token **token_head)
 	}
 	return (1);
 }
+
+// int valid_redir(t_terminal *terminal, t_token **token_head)
+// {
+// 	if (token->type == PIPE)
+// 		return (pipe_check(token));
+// 	else if (is_redir(token) || token->type == HERE_DOC)
+// 	{
+// 		if (token->type != HERE_DOC && !make_redir(token))
+// 			return (2);
+// 		return (1);
+// 	}
+// 	else if (token->type == WORD || token->type == SSPACE)
+// 		return (1);
+// 	return (0);
+
+
+
+
+// 	t_token	*current;
+// 	int		error_flag;
+
+// 	current = *token_head;
+// 	while (current)
+// 	{
+// 		while (current && !is_redir(current))
+// 			current = current->next;
+// 		if (is_redir(current))
+// 		{
+// 			error_flag = invalid_token(current);
+// 			if (error_flag == 0)
+// 			{
+// 				terminal->exit_status = 2;
+// 				return (0);
+// 			}
+// 		}
+// 		if (current)
+// 			current = current->next;
+// 	}
+// 	return (1);
+// }
+

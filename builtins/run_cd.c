@@ -6,26 +6,26 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:30 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/27 14:18:30 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:55:31 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-//chdir ca change le repertoire courant 0 succes -1 rate, on peut passer chemin absolu ou relatif au repertoire courant
-//opendir ouvre dir et retourne pointeur  vers dir, null si erreur et errno implemente
-
 int	get_arg_type(char *path)
 {
 	struct stat	buffer;
 
-	stat(path, &buffer);
-	if (S_ISDIR(buffer.st_mode))
-		return (2);
-	else if (S_ISREG(buffer.st_mode))
-		return (1);
-	else
-		return (0);
+	if (stat(path, &buffer) == 0)
+	{
+		if (buffer.st_mode && S_ISDIR(buffer.st_mode))
+			return (2);
+		else if (buffer.st_mode && S_ISREG(buffer.st_mode))
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
 }
 
 void	cd_error(t_terminal *terminal, char *var, char *str)
@@ -36,17 +36,29 @@ void	cd_error(t_terminal *terminal, char *var, char *str)
 	terminal->exit_status = 1;
 }
 
-void    run_cd(t_terminal *terminal, t_cmd *cmd)
+void	change_dir(t_terminal *terminal, t_cmd *cmd)
 {
 	char	*curr_dir;
 	char	new_dir[10000];
 
-	if (cmd->argv[1] && ft_strcmp(cmd->argv[1], "~") == 0)
-	{
-		free(cmd->argv[1]);
-		cmd->argv[1] = ft_strdup(get_value_by_key(terminal, "HOME"));
-	}
 	curr_dir = get_value_by_key(terminal, "PWD");
+	if (chdir(cmd->argv[1]) == -1)
+		cd_error(terminal, cmd->argv[1], ": Permission denied");
+	else
+	{
+		change_value_by_key(terminal, "OLDPWD", curr_dir);
+		if (getcwd(new_dir, 10000) == NULL)
+			perror("minishell: ");
+		else
+		{
+			change_value_by_key(terminal, "PWD", new_dir);
+			terminal->exit_status = 0;
+		}
+	}
+}
+
+void	run_cd(t_terminal *terminal, t_cmd *cmd)
+{
 	if (tab_size(cmd->argv) > 2)
 		cd_error(terminal, cmd->argv[1], ": too many arguments");
 	else if (cmd->argv[1] && get_arg_type(cmd->argv[1]) == 0)
@@ -54,19 +66,5 @@ void    run_cd(t_terminal *terminal, t_cmd *cmd)
 	else if (cmd->argv[1] && get_arg_type(cmd->argv[1]) == 1)
 		cd_error(terminal, cmd->argv[1], ": Not a directory");
 	else if (cmd->argv[1] && get_arg_type(cmd->argv[1]) == 2)
-	{
-		if (chdir(cmd->argv[1]) == -1)
-			cd_error(terminal, cmd->argv[1], ": Permission denied");
-		else
-		{
-			change_value_by_key(terminal, "OLDPWD", curr_dir);
-			if (!getcwd(new_dir, 10000))
-				perror("minishell: ");
-			else
-			{
-				change_value_by_key(terminal, "PWD", new_dir);
-				terminal->exit_status = 0;
-			}
-		}
-	}
+		change_dir(terminal, cmd);
 }

@@ -6,42 +6,46 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:06 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:58:28 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:44:03 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-//switch interdits a supprimer a la fin
-
-const char	*lexer_to_str(t_lexer lexer)
+char	*lexer_to_str(t_lexer lexer)
 {
-	switch (lexer)
-	{
-		case WORD: return "WORD";
-		case PIPE: return "PIPE";
-		case REDIR_INPUT: return "REDIR_INPUT";   
-		case REDIR_OUTPUT: return "REDIR_OUTPUT";
-		case HERE_DOC: return "HERE_DOC";
-		case APPEND: return "APPEND";
-		case SSPACE: return "SSPACE";
-		default:    return "INCONNU";
-	}
+	if (lexer == WORD)
+		return ("WORD");
+	else if (lexer == PIPE)
+		return ("PIPE");
+	else if (lexer == REDIR_INPUT)
+		return ("REDIR_INPUT");
+	else if (lexer == REDIR_OUTPUT)
+		return ("REDIR_OUTPUT");
+	else if (lexer == APPEND)
+		return ("APPEND");
+	else if (lexer == HERE_DOC)
+		return ("HERE_DOC");
+	else if (lexer == SSPACE)
+		return ("SSPACE");
+	else
+		return ("INCONNU");
 }
 
-void    printf_list(t_token **head)
+void	printf_list(t_token **head)
 {
-	t_token *current;
+	t_token	*current;
 
 	if (!head || !(*head))
-	{	
+	{
 		printf("pb de liste\n");
 		return ;
 	}
 	current = *head;
 	while (current)
 	{
-		printf("flag = %d | type = %s | str = %s\n", current->quote_flag, lexer_to_str(current->type), current->token);
+		printf("flag = %d | type = %s | str = %s\n", current->quote_flag,
+			lexer_to_str(current->type), current->token);
 		current = current->next;
 	}
 }

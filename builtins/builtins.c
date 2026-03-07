@@ -6,16 +6,28 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:21 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 16:44:16 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:00:17 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-//ptet gerer les redirections fd dans le run_builtins pour alleger
-
-int is_builtins(t_cmd *cmd)
+int	tab_size(char **argv)
 {
+	int	i;
+
+	if (!argv || !argv[0])
+		return (0);
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
+}
+
+int	is_builtins(t_cmd *cmd)
+{
+	if (!cmd->argv || !cmd->argv[0])
+		return (0);
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
@@ -34,7 +46,7 @@ int is_builtins(t_cmd *cmd)
 		return (0);
 }
 
-void run_builtins(t_terminal *terminal, t_cmd *cmd, int fd)
+void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		run_echo(terminal, cmd, fd);

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/26 17:38:54 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:34:59 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,54 @@ void	printf_tab(char **tab)
 	printf("0 ] ");
 }
 
+void	printf_heredoc(t_heredoc **hd_head)
+{
+	t_heredoc	*current;
+
+	current = *hd_head;
+	if (!hd_head)
+		return ;
+	printf("[");
+	while (current)
+	{
+		printf("%s, ", current->here_doc_delim);
+		current = current->next;
+	}
+	printf("] ");
+}
+
+void	printf_infile(t_infile **inf_head)
+{
+	t_infile	*current;
+
+	current = *inf_head;
+	if (!inf_head)
+		return ;
+	printf("[");
+	while (current)
+	{
+		printf("%s, ", current->infile);
+		current = current->next;
+	}
+	printf("] ");
+}
+
+void	printf_outfile(t_outfile **outf_head)
+{
+	t_outfile	*current;
+
+	current = *outf_head;
+	if (!outf_head)
+		return ;
+	printf("[");
+	while (current)
+	{
+		printf("%s, ", current->outfile);
+		current = current->next;
+	}
+	printf("] ");
+}
+
 void	print_files(t_cmd *current)
 {
 	if (!current->infile)
@@ -37,10 +85,6 @@ void	print_files(t_cmd *current)
 		printf("outfile=0 ");
 	else
 		printf("outfile=%s ", current->outfile);
-	if (!current->here_doc_delim)
-		printf("doc_delim=0 ");
-	else
-		printf("doc_delim=%s ", current->here_doc_delim);
 }
 
 void	printf_cmd(t_cmd *cmd)
@@ -56,7 +100,14 @@ void	printf_cmd(t_cmd *cmd)
 	{
 		printf("%d --> argv=", i);
 		printf_tab(current->argv);
+		printf("heredoc=");
+		printf_heredoc(&current->heredoc_list);
+		printf("inf_list=");
+		printf_infile(&current->infile_list);
+		printf("outf_list=");
+		printf_outfile(&current->outfile_list);
 		print_files(current);
+		printf("heredocfd=%d ", current->heredoc_fd);
 		printf("append=%d\n", current->append);
 		current = current->next;
 		i++;

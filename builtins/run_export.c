@@ -6,90 +6,11 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:15 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/03 16:47:54 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:32:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-//si strchr est null ya pas de egal donc jexport juste
-//si jai 2 variables du meme nom il me la recreee quand meme
-
-//a faire : pwd proteger le getcwd mais marche pas
-
-//export HO#LA=bonjour	me fait tourner dans le vide jsp ourquoi
-//HO$?LA ca fait pas hola non pus
-// au final meme tant quon donne le = on change genre HOLA=bonjour puis HOLA= env est change aussi
-
-int	valid_arg_export(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || !str[0])
-		return (0);		
-	if (!(ft_isalpha(str[0]) || str[0] == '_'))
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == '=')
-			break ;
-		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	*get_key(char *str)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	key = ft_strndup(str, i);
-	return (key);
-}
-
-char	*get_value(char *str)
-{
-	int		i;
-	char	*value;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (!str[i])
-		return (0);
-	value = ft_strdup(&str[i]);
-	return (value);
-}
-
-int	key_already_in_env(t_terminal *terminal, char *cmd)
-{
-	char	*new_key;
-	char	*curr_key;
-	int		i;
-
-	i = 0;
-	new_key = get_key(cmd);
-	while (terminal->envp_export[i])
-	{
-		curr_key = get_key(terminal->envp_export[i]);
-		if (ft_strcmp(new_key, curr_key) == 0)
-		{
-			ft_free_malloc(new_key);
-			ft_free_malloc(curr_key);
-			return (i);
-		}
-		ft_free_malloc(curr_key);
-		i++;
-	}
-	ft_free_malloc(new_key);
-	return (-1);
-}
 
 void	append_var(t_terminal *terminal, char **env, char *cmd, int env_flag)
 {
@@ -101,7 +22,7 @@ void	append_var(t_terminal *terminal, char **env, char *cmd, int env_flag)
 	if (!new_env)
 		return ;
 	while (env[i])
-	{	
+	{
 		new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
@@ -133,6 +54,23 @@ void	change_var(t_terminal *terminal, char *cmd, int env_flag)
 	}
 }
 
+void	change_envs(t_terminal *terminal, t_cmd *cmd, int i)
+{
+	if (key_already_in_env(terminal, cmd->argv[i]) != -1)
+	{
+		if (!ft_strchr(cmd->argv[i], '='))
+			return ;
+		change_var(terminal, cmd->argv[i], 0);
+		change_var(terminal, cmd->argv[i], 1);
+	}
+	else
+	{
+		if (ft_strchr(cmd->argv[i], '=') != NULL)
+			append_var(terminal, terminal->envp, cmd->argv[i], 0);
+		append_var(terminal, terminal->envp_export, cmd->argv[i], 1);
+	}
+}
+
 void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 {
 	int		i;
@@ -141,31 +79,17 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 	if (!cmd->argv[1])
 		print_sorted_envp(terminal->envp_export, fd);
 	terminal->exit_status = 0;
-	while (cmd->argv[i]) //ptet || cmd->argv[i + 1]
+	while (cmd->argv[i])
 	{
 		if (!valid_arg_export(cmd->argv[i]))
 		{
 			ft_putstr_fd("mimishell: export: `", 2);
 			ft_putstr_fd(cmd->argv[i], 2);
-			ft_putendl_fd("': not a valid indentifier", 2);
+			ft_putendl_fd("': not a valid identifier", 2);
 			terminal->exit_status = 1;
 		}
-		else // je segault quand il faut changer une variable qui existe deja // ya les sans = dans env la quand $DONTEXIST 
-		{
-			if (key_already_in_env(terminal, cmd->argv[i]) != -1)
-			{
-				if (!ft_strchr(cmd->argv[i], '='))
-					break ;
-				change_var(terminal, cmd->argv[i], 0); // si jexport Hola il est dans env la
-				change_var(terminal, cmd->argv[i], 1);
-			}
-			else
-			{
-				if (ft_strchr(cmd->argv[i], '=') != NULL)
-					append_var(terminal, terminal->envp, cmd->argv[i], 0);
-				append_var(terminal, terminal->envp_export, cmd->argv[i], 1);
-			}
-		}
+		else
+			change_envs(terminal, cmd, i);
 		i++;
 	}
 }

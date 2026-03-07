@@ -6,41 +6,11 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:38 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 11:21:42 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:12:48 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-char	**make_argv(t_token *token, int size)
-{
-	char	**new_argv;
-	int		i;
-	t_token	*current;
-	char	*word;
-
-	i = 0;
-	current = token;
-	new_argv = 0;
-	new_argv = ft_malloc(sizeof(char *) * (size + 2));
-	if (!new_argv)
-		return (0);
-	while (current && i < size)
-	{
-		if (current && current->type == SSPACE)
-			current = current->next;
-		word = ft_strdup("");
-		while (current && current->type == WORD)
-		{
-			if (current->token != NULL)
-				word = ft_strjoin_free(word, current->token);
-			current = current->next;
-		}
-		new_argv[i++] = word;
-	}
-	new_argv[i] = 0;
-	return (new_argv);
-}
 
 void	fill_new_node(t_token **current, t_cmd *new_node)
 {
@@ -77,8 +47,11 @@ t_cmd	*parser(t_terminal *terminal, t_token *token)
 			ft_addback_cmd(&cmds, new_node);
 		if (current)
 			current = current->next;
-		// if (current && !current->next && current->next->next)
-		// 	current = current->next->next;
 	}
+	// if (!valid_redir(terminal, token))
+	// {	
+	// 	terminal->exit_status = 1;
+	// 	return (0);
+	// }
 	return (cmds);
 }
