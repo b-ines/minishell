@@ -32,7 +32,7 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
-	if (get_gmod() != HEREDOC_ABORTED)
+	if (get_gmod() != HEREDOC_ABORTED || (get_gmod() != HEREDOC_QUIT))
 		exec(terminal);
 	return (1);
 }
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	terminal = 0;
 	terminal = terminal_init(envp);
 	signal_init(terminal);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	minishell_loop(terminal);
 	return (0);
 }

@@ -11,15 +11,18 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include <signal.h>
 
 static t_terminal *signal_terminal;
 //interdit dutiliser une structure en variable globale
 
 void	handler(int sig, siginfo_t *info, void *context)
 {
+	t_terminal *term;
 	(void)info;
 	(void)context;
 
+	term = get_term();
 	if (sig == SIGINT)
 	{
 		if (get_gmod() == PROMPT)
@@ -28,16 +31,16 @@ void	handler(int sig, siginfo_t *info, void *context)
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
-			signal_terminal->exit_status = 130;
+			term->exit_status = 130;
 			return ;
 		}
 		else if (get_gmod() == HEREDOC)
 		{
 			write(1 , "\n", 1);
 			set_gmod(HEREDOC_ABORTED);
+			term->exit_status = 130;
 		}
 	}
-
 }
 
 void	signal_init(t_terminal *terminal)

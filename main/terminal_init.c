@@ -81,8 +81,7 @@ t_terminal	*terminal_init(char **envp)
 {
 	t_terminal *terminal;
 
-	terminal = 0;
-	terminal = ft_malloc(sizeof(t_terminal));
+	terminal = get_term();
 	terminal->exit_status = 0;
 	terminal->envp = envdup(envp);
 	terminal->envp_export = envdup_export(envp);

@@ -39,6 +39,7 @@ typedef enum e_gmod
 	PROMPT,
 	HEREDOC,
 	HEREDOC_ABORTED,
+	HEREDOC_QUIT,
 	EXEC,
 }	t_gmod;
 
@@ -56,6 +57,8 @@ typedef struct s_token t_token;
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+t_terminal *get_term();
 
 //signals.c
 void		handler(int sig, siginfo_t *info, void *context);
