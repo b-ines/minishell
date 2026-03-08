@@ -55,6 +55,11 @@ jobs:
           FAILED=0
           SYNTAX_ERROR=0
           
+          # Detect prompt string and prepare filters (once, outside the loop)
+          PROMPT=$(echo -e "\nexit\n" | ./minishell 2>/dev/null | head -n 1 | sed 's/\x1B\[[0-9;]*[A-Za-z]//g')
+          REMOVE_COLORS="sed s/\x1B\[[0-9;]*[A-Za-z]//g"
+          PROMPT_ESC=$(printf '%s' "$PROMPT" | sed 's/[[\.*^$()+?{|\\]/\\&/g')
+
           # Test comparison function
           run_test() {
             local test_num="$1"
@@ -105,30 +110,21 @@ jobs:
               return
             fi
             
-            # Filter out minishell prompt and echoed command
-            # 1) Remove leading prompt (e.g. "minishell$ ")
-            sed -E 's/^minishell\$ ?//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
-
-            # 2) Remove appended prompt+exit at end of output lines (echo -n case)
-            # Example: "Holaminishell$ exit" -> "Hola"
-            sed -E 's/minishell\$[[:space:]]*exit[[:space:]]*$//' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
-
-            # 3) Remove any remaining inline "minishell$ " sequences without touching normal output
-            sed -E 's/minishell\$ ?//g' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
-
-            # If first line is the echoed command itself, drop it
-            FIRST_LINE=$(head -n 1 "$MINI_OUT" 2>/dev/null || echo "")
-            if [ "$FIRST_LINE" = "$cmd" ]; then
-              tail -n +2 "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
-            fi
-
-            # Remove last line if it's exactly "exit" (from the appended command)
-            if [ -s "$MINI_OUT" ]; then
-              LAST_LINE=$(tail -n 1 "$MINI_OUT" 2>/dev/null || true)
-              if echo "$LAST_LINE" | grep -qE '^[[:space:]]*exit[[:space:]]*$'; then
-                sed '$d' "$MINI_OUT" > "${MINI_OUT}.tmp" 2>/dev/null && mv "${MINI_OUT}.tmp" "$MINI_OUT"
-              fi
-            fi
+            # Filter minishell output to extract only program output:
+            # - Remove ANSI color codes
+            # - Strip prompt and everything after it on each line
+            #   (prompt-only lines become empty; "Holaminishell$ exit" -> "Hola")
+            # - Remove lines that are now empty (were prompt/command echo lines)
+            # - Remove standalone "exit" line
+            $REMOVE_COLORS < "$MINI_OUT" \
+              | sed "s/${PROMPT_ESC}.*//" \
+              | grep -v '^$' \
+              | grep -v '^exit$' \
+              > "${MINI_OUT}.tmp" 2>/dev/null || true
+            mv "${MINI_OUT}.tmp" "$MINI_OUT"
+            # Also strip empty lines from bash output for fair comparison
+            grep -v '^$' "$BASH_OUT" > "${BASH_OUT}.tmp" 2>/dev/null || true
+            mv "${BASH_OUT}.tmp" "$BASH_OUT"
             
             # Check for syntax errors in bash
             if grep -qE "syntax error|parse error" "$BASH_ERR"; then
