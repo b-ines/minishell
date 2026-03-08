@@ -27,7 +27,7 @@ char	**make_argv(t_token *token, int size)
 		return (0);
 	while (current && i < size)
 	{
-		if (current && current->type == SSPACE)
+		while (current && current->type == SSPACE)
 			current = current->next;
 		if (!current || (current->type != WORD && current->type != SSPACE))
 			break ;
@@ -59,7 +59,7 @@ void	append_argv(t_token **current, t_cmd *new_node, int size)
 	}
 	while (i < size + tab_size(new_node->argv))
 	{
-		if ((*current) && (*current)->type == SSPACE)
+		while ((*current) && (*current)->type == SSPACE)
 			(*current) = (*current)->next;
 		if (!(*current) || ((*current)->type != WORD
 				&& (*current)->type != SSPACE))
