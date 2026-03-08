@@ -220,6 +220,57 @@ jobs:
             exit 0
           fi
 
+      - name: Run Valgrind tests
+        run: |
+          mkdir -p ci_logs
+          VALLOG=ci_logs/valgrind.log
+          echo "Running Valgrind memory checks..." > $VALLOG
+
+          TEST_FILE=".github/tests/test_cases.txt"
+
+          if [ ! -f "$TEST_FILE" ]; then
+            echo "Test file not found!" >> $VALLOG
+            exit 1
+          fi
+
+          FAILED=0
+          TEST_NUM=0
+
+          while IFS= read -r line || [ -n "$line" ]; do
+            if [ -z "$line" ] || echo "$line" | grep -q "^#"; then
+              continue
+            fi
+
+            TEST_NUM=$((TEST_NUM + 1))
+
+            printf "%s\nexit\n" "$line" | \
+            valgrind \
+              --leak-check=full \
+              --show-leak-kinds=all \
+              --track-origins=yes \
+              --error-exitcode=42 \
+              ./minishell \
+              > /dev/null 2>> "$VALLOG"
+
+            RC=$?
+
+            if [ $RC -eq 42 ]; then
+              echo "[VALGRIND TEST $TEST_NUM] ❌ Leak detected: $line" >> $VALLOG
+              FAILED=$((FAILED + 1))
+            fi
+
+          done < "$TEST_FILE"
+
+          echo "" >> $VALLOG
+          echo "Valgrind failures: $FAILED" >> $VALLOG
+
+          if [ $FAILED -gt 0 ]; then
+            echo "❌ Valgrind detected memory errors"
+            exit 1
+          else
+            echo "✅ No memory leaks detected"
+          fi
+
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -229,6 +280,7 @@ jobs:
             ci_logs/summary.txt
             ci_logs/test.log
             ci_logs/differences.log
+            ci_logs/valgrind.log
             ci_logs/build.log
             ci_logs/*.out
             ci_logs/*.err

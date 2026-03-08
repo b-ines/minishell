@@ -14,6 +14,8 @@
 #include "../libft/libft.h"
 #include "expand.h"
 
+//il faut prendre la longueur de la chaine a expand pour le compare et pour la changer ensuite
+
 t_token	*del_token(t_token **token, t_token *curr)
 {
 	t_token	*next;
