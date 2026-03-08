@@ -43,37 +43,53 @@ void	printf_heredoc(t_heredoc **hd_head)
 	printf("] ");
 }
 
-void	printf_infile(t_infile **inf_head)
+void	printf_infile(t_files **f_head)
 {
-	t_infile	*current;
+	t_files	*current;
 
-	current = *inf_head;
-	if (!inf_head)
+	current = *f_head;
+	if (!f_head)
 		return ;
 	printf("[");
 	while (current)
 	{
-		printf("%s, ", current->infile);
+		printf("%s (%d), ", current->file, current->type);
 		current = current->next;
 	}
 	printf("] ");
 }
 
-void	printf_outfile(t_outfile **outf_head)
-{
-	t_outfile	*current;
+// void	printf_infile(t_infile **inf_head)
+// {
+// 	t_infile	*current;
 
-	current = *outf_head;
-	if (!outf_head)
-		return ;
-	printf("[");
-	while (current)
-	{
-		printf("%s, ", current->outfile);
-		current = current->next;
-	}
-	printf("] ");
-}
+// 	current = *inf_head;
+// 	if (!inf_head)
+// 		return ;
+// 	printf("[");
+// 	while (current)
+// 	{
+// 		printf("%s, ", current->infile);
+// 		current = current->next;
+// 	}
+// 	printf("] ");
+// }
+
+// void	printf_outfile(t_outfile **outf_head)
+// {
+// 	t_outfile	*current;
+
+// 	current = *outf_head;
+// 	if (!outf_head)
+// 		return ;
+// 	printf("[");
+// 	while (current)
+// 	{
+// 		printf("%s, ", current->outfile);
+// 		current = current->next;
+// 	}
+// 	printf("] ");
+// }
 
 void	print_files(t_cmd *current)
 {
@@ -102,10 +118,12 @@ void	printf_cmd(t_cmd *cmd)
 		printf_tab(current->argv);
 		printf("heredoc=");
 		printf_heredoc(&current->heredoc_list);
-		printf("inf_list=");
-		printf_infile(&current->infile_list);
-		printf("outf_list=");
-		printf_outfile(&current->outfile_list);
+		printf("files=");
+		printf_infile(&current->files_list);
+		// printf("inf_list=");
+		// printf_infile(&current->infile_list);
+		// printf("outf_list=");
+		// printf_outfile(&current->outfile_list);
 		print_files(current);
 		printf("heredocfd=%d ", current->heredoc_fd);
 		printf("append=%d\n", current->append);

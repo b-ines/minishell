@@ -36,6 +36,7 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
 	size_t	len_var;
 	t_token	*ret_node;
 
+   // printf("expand env\n");
     var = ft_getenv(envp, &curr->token[index]);
     ret_node = NULL;
     if (index > 1)
@@ -73,7 +74,7 @@ void make_exit_status(t_token *token, t_terminal term, int index)
 	size_t	len_var;
 
     var = ft_itoa(term.exit_status);
-	if (token->token[index + 1] != '\0')
+    if (token->token[index + 1] != '\0')
 		var = ft_strjoin(var, &token->token[index + 1]);
     if (index > 1)
     {

@@ -12,7 +12,9 @@
 
 #include "exec.h"
 
-// is a directory bug et prend ls comme un directory parfois
+// il faudrait ouvrir et check les infiles ici separe par pipe plutot que tout dun coup
+// no such file or directory on check de droite a gauche et on cree on stop quand ca existe plus
+
 
 int	lst_size(t_terminal *term)
 {
@@ -37,12 +39,60 @@ void	clear_fd(int *fd, int cmdc)
 	while (j < (cmdc - 1) * 2)
 		close(fd[j++]);
 }
+//faut changer la logique juste check que yai une list infile ou outfile et selon le flag open et close, malheurement on peut pas check lordre
+int	redir_error_msg(char *str)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
+	return (0);
+}
+
+int	valid_redir(t_files *file_node)
+{
+	int		fd;
+
+	fd = -1;
+	if (file_node->type == 0)
+		fd = open(file_node->file, O_RDONLY);
+	else if (file_node->type == 1 && file_node->append == 0)
+		fd = open(file_node->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (file_node->type == 1 && file_node->append == 1)
+		fd = open(file_node->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (redir_error_msg(file_node->file));
+	close(fd);
+	return (1);
+}
+
+int	parse_files(t_terminal *term)
+{
+	t_files	*current;
+	int		fd;
+
+	current = term->cmd_blocks->files_list;
+	fd = -1;
+	while (current)
+	{
+		if (!valid_redir(current))
+			return (0);
+		current = current->next;
+	}
+	close(fd);
+	return (1);
+}
 
 void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 {
 	char	*path;
 	int		output_fd;
 
+	if (!parse_files(term))
+	{
+		//clear_fd(fd, cmdc);
+		exit(1);
+	}
 	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
 		return ;
 	if (is_builtins(term->cmd_blocks))
@@ -124,8 +174,8 @@ void	exec(t_terminal *term)
 		pid1 = fork();
 		if (pid1 == 0) // C'est l'enfant	
 			ft_execve(term, &i, cmdc, fd);
-		term->cmd_blocks = term->cmd_blocks->next;
 		i++;
+		term->cmd_blocks = term->cmd_blocks->next;
 	}
 	clear_fd(fd, cmdc);
 	while (wait(&status) > 0);

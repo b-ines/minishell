@@ -13,18 +13,26 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-typedef struct s_outfile
-{
-	char				*outfile;
-	int					append;
-	struct s_outfile	*next;
-} t_outfile;
+// typedef struct s_outfile
+// {
+// 	char				*outfile;
+// 	int					append;
+// 	struct s_outfile	*next;
+// } t_outfile;
 
-typedef struct s_infile
+// typedef struct s_infile
+// {
+// 	char			*infile;
+// 	struct s_infile	*next;
+// } t_infile;
+
+typedef struct s_files
 {
-	char			*infile;
-	struct s_infile	*next;
-} t_infile;
+	char			*file;
+	int				type; // 0 infile 1 outfile
+	int				append;
+	struct s_files	*next;
+} t_files;
 
 typedef struct s_heredoc
 {
@@ -39,8 +47,9 @@ typedef struct s_cmd
 	char			**argv;
 	char		 	*infile;
 	char			*outfile;
-	t_infile	 	*infile_list; // il faut garder le dernier quand meme poru lexec et la liste sert que a tout ouvrir et check au debut
-	t_outfile	 	*outfile_list;
+	// t_infile	 	*infile_list; // il faut garder le dernier quand meme poru lexec et la liste sert que a tout ouvrir et check au debut
+	// t_outfile	 	*outfile_list;
+	t_files			*files_list; // type 0 infile 1 outfile
 	t_heredoc		*heredoc_list;
 	int				heredoc_fd;
 	int				append;

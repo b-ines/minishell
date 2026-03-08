@@ -12,7 +12,7 @@
 
 #include "heredoc.h"
 
-// a refaire proprement
+//si $USER$ABCDEF il faut rm abcdef
 
 char	*expand_line(t_terminal *term, char *line)
 {
@@ -28,15 +28,32 @@ char	*expand_line(t_terminal *term, char *line)
 		if (line[i] == '$')
 		{
 			i++;
-			j = 0;
-			while (line[i + j] && (ft_isalnum(line[i + j]) || line[i + j] == '_'))
-				j++;
-			ft_strlcpy(key, &line[i], j + 1);
-			new_line = get_value_by_key(term, key); 
-			if (!new_line)
-				new_line = "";
-			ret = ft_strjoin(ret, new_line);
-			i += j;
+			if (line[i] == '?')
+			{
+				new_line = ft_itoa(term->exit_status);
+				ret = ft_strjoin(ret, new_line);
+				free(new_line);
+				i++;
+			}
+			else if (ft_isalpha(line[i]) || line[i] == '_')
+			{
+				j = 0;
+				while (line[i + j] && (ft_isalnum(line[i + j]) || line[i + j] == '_'))
+					j++;
+				ft_strlcpy(key, &line[i], j + 1);
+				new_line = get_value_by_key(term, key); 
+				if (!new_line)
+					new_line = "";
+				ret = ft_strjoin(ret, new_line);
+				i += j;
+			}
+			else
+			{
+				char c[2];
+				c[0] = '$';
+				c[1] = '\0';
+				ret = ft_strjoin(ret, c);
+			}
 		}
 		else
 		{

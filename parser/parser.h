@@ -26,7 +26,6 @@ int		make_redir(t_token *token);
 //syntax_check.c
 int		is_redir(t_token *token);
 int		valid_syntax(t_terminal *terminal, t_token **token_head);
-int 	valid_redir(t_terminal *terminal, t_token *token);
 
 //termp_cmds_utils.c
 void	add_argv(t_token **current, t_cmd *new_node);
@@ -51,6 +50,7 @@ void	printf_cmd(t_cmd *cmd);
 //inf_outf_list.c
 void	addback_infile(t_cmd *cmd, t_token **token);
 void	addback_outfile(t_cmd *cmd, t_token **token, int append_flag);
+void	addback_files(t_cmd *cmd, t_token **token, int type, int append_flag);
 
 //append_cmd_argv.c
 void	append_argv(t_token **current, t_cmd *new_node, int size);

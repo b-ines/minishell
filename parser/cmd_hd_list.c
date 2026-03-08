@@ -24,8 +24,9 @@ t_cmd	*create_node_cmd(void)
 	new_node->infile = 0;
 	new_node->outfile = 0;
 	new_node->heredoc_list = 0;
-	new_node->infile_list = 0;
-	new_node->outfile_list = 0;
+	// new_node->infile_list = 0;
+	// new_node->outfile_list = 0;
+	new_node->files_list = 0;
 	new_node->heredoc_fd = -1;
 	new_node->next = 0;
 	new_node->prev = 0;
