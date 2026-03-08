@@ -12,10 +12,6 @@
 
 #include "exec.h"
 
-// il faudrait ouvrir et check les infiles ici separe par pipe plutot que tout dun coup
-// no such file or directory on check de droite a gauche et on cree on stop quand ca existe plus
-
-
 int	lst_size(t_terminal *term)
 {
 	int		i;
@@ -38,8 +34,9 @@ void	clear_fd(int *fd, int cmdc)
 	j = 0;
 	while (j < (cmdc - 1) * 2)
 		close(fd[j++]);
+
 }
-//faut changer la logique juste check que yai une list infile ou outfile et selon le flag open et close, malheurement on peut pas check lordre
+
 int	redir_error_msg(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -62,24 +59,22 @@ int	valid_redir(t_files *file_node)
 		fd = open(file_node->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 		return (redir_error_msg(file_node->file));
-	close(fd);
+	if (fd != -1)
+		close(fd);
 	return (1);
 }
 
 int	parse_files(t_terminal *term)
 {
 	t_files	*current;
-	int		fd;
 
 	current = term->cmd_blocks->files_list;
-	fd = -1;
 	while (current)
 	{
 		if (!valid_redir(current))
 			return (0);
 		current = current->next;
 	}
-	close(fd);
 	return (1);
 }
 

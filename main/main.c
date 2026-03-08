@@ -13,6 +13,7 @@
 #include "main.h"
 
 //HO$?LA on a plus acces au la donc ca fait pas HO0LA ca stoppe la chaine
+//le heredoc leak
 
 int	program(char *line, t_terminal *terminal)
 {
