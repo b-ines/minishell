@@ -33,7 +33,7 @@ char	*ft_getenv(char **envp, char *var)
 	//printf("%s\n", var);
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0)
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && envp[i][ft_strlen(var)] == '=')
 			break ;
 		i++;
 	}
