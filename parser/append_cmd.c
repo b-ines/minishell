@@ -42,10 +42,6 @@ void	add_append(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 	if (*current && (*current)->type == WORD)
 		addback_files(new_node, current, 1, 1);
-	if ((*current) && (*current)->next)
-		(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
 }
 
 void	add_heredoc(t_token **current, t_cmd *new_node)
@@ -55,10 +51,6 @@ void	add_heredoc(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 	if (*current && (*current)->type == WORD)
 		addback_heredoc(new_node, current);
-	if ((*current) && (*current)->next)
-		(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
 }
 
 void	add_redir_input(t_token **current, t_cmd *new_node)
@@ -68,10 +60,6 @@ void	add_redir_input(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 	if (*current && (*current)->type == WORD)
 		addback_files(new_node, current, 0, 0);
-	if (*current && (*current)->next)
-		(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
 }
 
 void	add_redir_output(t_token **current, t_cmd *new_node)
@@ -81,8 +69,4 @@ void	add_redir_output(t_token **current, t_cmd *new_node)
 		(*current) = (*current)->next;
 	if (*current && (*current)->type == WORD)
 		addback_files(new_node, current, 1, 0);
-	if (*current && (*current)->next)
-		(*current) = (*current)->next;
-	if ((*current) && (*current)->type == SSPACE)
-		(*current) = (*current)->next;
 }

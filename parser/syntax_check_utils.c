@@ -44,12 +44,18 @@ int	word_at_left(t_token *token)
 
 int	pipe_check(t_token *token)
 {
+	t_token	*current;
+
+	current = token;
 	if (!word_at_left(token))
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
 		return (0);
 	}
-	if (!(word_at_right(token) || (token->next && is_redir(token->next))))
+	current = token->next;
+	if (current && current->type == SSPACE)
+		current = current->next;
+	if (!current || !(current->type == WORD || is_redir(current)))
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
 		return (0);

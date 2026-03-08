@@ -69,7 +69,7 @@ int	redir_management(t_terminal *term, int *i, int cmdc, int *fd)
 	{
 		redir_fd = get_fd_exec(term->cmd_blocks, 0);
 		if (redir_fd < 0)
-			return (fd_error(term->cmd_blocks->infile));
+			return (0);
 		else
 			dup2(redir_fd, 0);
 		close(redir_fd);
@@ -80,7 +80,7 @@ int	redir_management(t_terminal *term, int *i, int cmdc, int *fd)
 	{
 		redir_fd = get_fd_exec(term->cmd_blocks, 1);
 		if (redir_fd < 0)
-			return (fd_error(term->cmd_blocks->outfile));
+			return (0);
 		else
 			dup2(redir_fd, 1);
 		close(redir_fd);

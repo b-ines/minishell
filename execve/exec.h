@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 # include "../lexer/lexer.h"
 # include "../builtins/builtins.h"
 

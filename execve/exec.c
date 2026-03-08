@@ -87,6 +87,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 {
 	char	*path;
 	int		output_fd;
+	int		exec_errno;
 
 	if (!parse_files(term))
 	{
@@ -94,12 +95,12 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		exit(1);
 	}
 	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
-		return ;
+		exit(0);
 	if (is_builtins(term->cmd_blocks))
 	{
 		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
 		if (output_fd < 0)
-			return ;
+			exit(1);
 		run_builtins(term, term->cmd_blocks, output_fd);
 		exit(term->exit_status);
 	}
@@ -122,14 +123,19 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	if (!redir_management(term, i, cmdc, fd))
 	{
 		clear_fd(fd, cmdc);
-		return ;
+		exit(1);
 	}
 	clear_fd(fd, cmdc);
 	execve(path, term->cmd_blocks->argv, term->envp);
+	exec_errno = errno;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(term->cmd_blocks->argv[0], 2);
 	ft_putstr_fd(": ", 2);
 	perror("");
+	if (exec_errno == EACCES) // permission denied
+		exit (126);
+	if (exec_errno == ENOENT) // no such file or directory/ does not exist
+		exit (127);
 	exit(EXIT_FAILURE);
 }
 
@@ -152,6 +158,7 @@ void	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
 void	exec(t_terminal *term)
 {
 	int		pid1;
+	int		last_pid;
 	int		status;
 	int		*fd;
 	int		cmdc;
@@ -163,21 +170,30 @@ void	exec(t_terminal *term)
 	i = 0;
 	if (cmdc == 1 && is_builtins(term->cmd_blocks))
 	{
+		if (!parse_files(term))
+		{
+			term->exit_status = 1;
+			return ;
+		}
 		output_fd = get_output_fd(term->cmd_blocks, &i, cmdc, fd);
 		if (output_fd < 0)
 			return ;
 		run_builtins(term, term->cmd_blocks, output_fd);
 		return ;
 	}
+	last_pid = -1;
 	while (term->cmd_blocks != NULL)
 	{
 		pid1 = fork();
-		if (pid1 == 0) // C'est l'enfant	
+		if (pid1 == 0)
 			ft_execve(term, &i, cmdc, fd);
+		last_pid = pid1;
 		i++;
 		term->cmd_blocks = term->cmd_blocks->next;
 	}
 	clear_fd(fd, cmdc);
-	while (wait(&status) > 0);
+	waitpid(last_pid, &status, 0);
+	while (wait(NULL) > 0)
+		;
 	term->exit_status = WEXITSTATUS(status);
 }
