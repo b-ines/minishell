@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/06 13:29:14 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:17:07 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     int expand_size = ft_strlen(to_expand);
     var = ft_getenv(envp, to_expand);
     ret_node = NULL;
-    if (index > 1)
-    {
+    // if (index > 1)
+    // {
         if (var == NULL)
             len_var = 0;
         else
             len_var = ft_strlen(var);
         len_before_dollar = ft_strlen_sep(curr->token, '$');
+        printf("leb before = %d\n", len_before_dollar);
         len_after_dollar = ft_strlen(curr->token) - (len_before_dollar + expand_size + 1);
         final_token = ft_malloc(sizeof(char) * (len_before_dollar + len_var + len_after_dollar + 1));
         ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
@@ -58,9 +59,10 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
         //ft_strcat(final_token, &curr->token[len_before_dollar + expand_size + 1]);
         final_token = ft_strjoin(final_token, &curr->token[len_before_dollar + expand_size + 1]);
-    }
-    else
-        final_token = var;
+        printf("final token = %s\n", final_token);
+    //}
+    // else
+    //     final_token = var;
     if (final_token == NULL)
         return (del_token(token, curr));
     if (curr->quote_flag == 0)
