@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:15:55 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:42:05 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static t_expand_ctx is_expand(t_token *token) {
 					return ((t_expand_ctx){i + 1, expand_size(&token->token[i + 1]), ENV});
 				else
 				{ // cas pour pas faire lexpension si \ avant $
-					printf("la ? \n");
 					tmp = ft_strdup(&token->token[i]);
 					ft_free_malloc(token->token);
 					token->token = tmp;
