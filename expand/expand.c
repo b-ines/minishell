@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:42:05 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:48:13 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_expand_ctx is_expand(t_token *token) {
 	{
 		if (token->type == WORD)
 		{
-			if (token->token[i] == '$' && !token->token[i + 1] && token->next && token->next->quote_flag != 0)
+			if (token->quote_flag == 0 && token->token[i] == '$' && !token->token[i + 1] && token->next && token->next->quote_flag != 0)
 				return ((t_expand_ctx){i, 0, ENV});
 			else if (token->token[i] == '$' && (ft_isalpha(token->token[i + 1]) || token->token[i + 1] == '_'))
 			{
