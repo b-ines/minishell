@@ -67,7 +67,13 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     if (!final_token || !final_token[0])
         return (del_token(token, curr));
     if (curr->quote_flag == 0)
+    { 
         ret_node = retokenize(token, curr, final_token);
+        if (ft_strchr(final_token, '$'))
+            return ((*token));
+        return (((*token)->next));
+
+    }
     else
     {
         ft_free_malloc(curr->token);
