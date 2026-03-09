@@ -46,7 +46,7 @@ int	is_builtins(t_cmd *cmd)
 		return (0);
 }
 
-void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd)
+void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd, int piped)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		run_echo(terminal, cmd, fd);
@@ -61,7 +61,7 @@ void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd)
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		run_env(terminal, cmd, fd);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		run_exit(terminal, cmd);
+		run_exit(terminal, cmd, piped);
 	if (fd != 1)
 		close(fd);
 }

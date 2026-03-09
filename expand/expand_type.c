@@ -15,6 +15,7 @@
 #include "expand.h"
 
 //il faut prendre la longueur de la chaine a expand pour le compare et pour la changer ensuite
+//garder lenoeud ou remplacer par "" quand ya que ca ?? jsp c vrmt un detail
 
 t_token	*del_token(t_token **token, t_token *curr)
 {
@@ -30,16 +31,18 @@ t_token	*del_token(t_token **token, t_token *curr)
 	return (next);
 }
 
-t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
+t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, char **envp)
 {
 	char	*var;
 	char	*final_token;
 	int		len_before_dollar;
 	size_t	len_var;
+    int		len_after_dollar;
 	t_token	*ret_node;
 
-   // printf("expand env\n");
-    var = ft_getenv(envp, &curr->token[index]);
+    char *to_expand = ft_strndup(&curr->token[index], end);
+    int expand_size = ft_strlen(to_expand);
+    var = ft_getenv(envp, to_expand);
     ret_node = NULL;
     if (index > 1)
     {
@@ -48,10 +51,13 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, char **envp)
         else
             len_var = ft_strlen(var);
         len_before_dollar = ft_strlen_sep(curr->token, '$');
-        final_token = ft_malloc(sizeof(char) * len_before_dollar + len_var + 1);
+        len_after_dollar = ft_strlen(curr->token) - (len_before_dollar + expand_size + 1);
+        final_token = ft_malloc(sizeof(char) * (len_before_dollar + len_var + len_after_dollar + 1));
         ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
         if (var != NULL)
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
+        //ft_strcat(final_token, &curr->token[len_before_dollar + expand_size + 1]);
+        final_token = ft_strjoin(final_token, &curr->token[len_before_dollar + expand_size + 1]);
     }
     else
         final_token = var;

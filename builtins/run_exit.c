@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:58 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:22:02 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:30:38 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ void	exit_numeric_error(t_cmd *cmd)
 	exit (2);
 }
 
-void	run_exit(t_terminal *terminal, t_cmd *cmd)
+void	run_exit(t_terminal *terminal, t_cmd *cmd, int piped)
 {
-	long long	exit_code;
+	unsigned long long	exit_code;
 
-	ft_putstr_fd("exit\n", 1);
+	if (!piped)
+		ft_putstr_fd("exit\n", 2);
 	if (!cmd->argv[1])
 	{
 		ft_free_all_malloc();
@@ -83,7 +84,8 @@ void	run_exit(t_terminal *terminal, t_cmd *cmd)
 	}
 	else
 	{
-		exit_code = ft_atol(cmd->argv[1]) % 256;
+		exit_code = (unsigned long long)ft_atol(cmd->argv[1]) % 256;
+		//printf("exit code = %llu (from %lld)\n", exit_code, ft_atol(cmd->argv[1]));
 		ft_free_all_malloc();
 		exit(exit_code);
 	}

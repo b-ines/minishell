@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:24 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:34:38 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:19:53 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 //builtins.c
 int		tab_size(char **argv);
 int		is_builtins(t_cmd *cmd);
-void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd);
+void	run_builtins(t_terminal *terminal, t_cmd *cmd, int fd, int piped);
 
 //run_builtins.c
 void	run_echo(t_terminal *terminal, t_cmd *cmd, int fd);
-void	run_exit(t_terminal *terminal, t_cmd *cmd);
+void	run_exit(t_terminal *terminal, t_cmd *cmd, int piped);
 void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd);
 
 //run_env_unset.c

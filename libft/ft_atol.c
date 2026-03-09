@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:37 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/23 14:59:39 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:18:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ long  long	ft_atol(const char *str)
 	i = 0;
 	signe = 1.0;
 	result = 0.0;
-	if (ft_strncmp(str, "9223372036854775807", 19) == 0)
+	if (ft_strcmp(str, "-9223372036854775807") == 0)
+		return (-9223372036854775807);
+	if (ft_strcmp(str, "9223372036854775807") == 0)
 		return (9223372036854775807);
 	while (ft_isspace(str[i]))
 		i++;

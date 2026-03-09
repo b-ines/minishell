@@ -96,7 +96,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 		output_fd = get_output_fd(term->cmd_blocks, i, cmdc, fd);
 		if (output_fd < 0)
 			exit(1);
-		run_builtins(term, term->cmd_blocks, output_fd);
+		run_builtins(term, term->cmd_blocks, output_fd, 1);
 		exit(term->exit_status);
 	}
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
@@ -173,7 +173,7 @@ void	exec(t_terminal *term)
 		output_fd = get_output_fd(term->cmd_blocks, &i, cmdc, fd);
 		if (output_fd < 0)
 			return ;
-		run_builtins(term, term->cmd_blocks, output_fd);
+		run_builtins(term, term->cmd_blocks, output_fd, 0);
 		return ;
 	}
 	last_pid = -1;

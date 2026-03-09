@@ -83,7 +83,7 @@ void	run_export(t_terminal *terminal, t_cmd *cmd, int fd)
 	{
 		if (!valid_arg_export(cmd->argv[i]))
 		{
-			ft_putstr_fd("mimishell: export: `", 2);
+			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(cmd->argv[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			terminal->exit_status = 1;

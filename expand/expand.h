@@ -26,11 +26,12 @@ typedef enum e_expand_type
 typedef struct s_expand_ctx
 {
     int index;
+    int end;
     t_expand_type ex_type;
 } t_expand_ctx;
 
 void expand(t_token **token, t_terminal term);
-t_token *make_expand_env(t_token **token, t_token *curr, int index,
+t_token *make_expand_env(t_token **token, t_token *curr, int index, int end, 
                          char **envp);
 int ft_strlen_sep(char *s, char fin);
 void make_exit_status(t_token *token, t_terminal term, int index);
