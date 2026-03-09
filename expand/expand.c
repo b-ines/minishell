@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:48:13 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:31:19 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static t_expand_ctx is_expand(t_token *token) {
 	char	*tmp;
 
 	i = 0;
+	if (!token)
+		return ((t_expand_ctx){i, 0, ENV});
 	if (token->quote_flag == 1)
 		return ((t_expand_ctx){i, 0, NONE});
 	while (token->token[i] != '\0')
@@ -76,14 +78,21 @@ void expand(t_token **token, t_terminal term) {
 
 	//printf("Step to expand\n");
 	curr = *token;
-	while (curr != NULL)
+	while (curr != NULL) // while (ctx.ex_type != NONE) ? segfault
 	{
 		ctx = is_expand(curr);
-		if (ctx.ex_type == ENV)
-			curr = make_expand_env(token, curr, ctx.index, ctx.end, term.envp);
-		else if (ctx.ex_type == EXIT_STATUS)
-			make_exit_status(curr, term, ctx.index);
-		else
+		//while (curr && ctx.ex_type != NONE)
+		//{
+			if (ctx.ex_type == ENV)
+				make_expand_env(token, curr, ctx.index, ctx.end, term.envp);
+			else if (ctx.ex_type == EXIT_STATUS)
+				make_exit_status(curr, term, ctx.index);
+			else
 			curr = curr->next;
+		//}
+		//	else
+		// //if (curr)
+		// else
+		// 	curr = curr->next;
 	}
 }

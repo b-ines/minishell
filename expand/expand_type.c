@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:31:48 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:34:45 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*del_token(t_token **token, t_token *curr)
 	return (next);
 }
 
-t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, char **envp)
+void    make_expand_env(t_token **token, t_token *curr, int index, int end, char **envp)
 {
 	char	*var;
 	char	*final_token;
@@ -65,16 +65,21 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     // else
     //     final_token = var;
     if (!final_token || !final_token[0])
-        return (del_token(token, curr));
-    if (curr->quote_flag == 0)
-        ret_node = retokenize(token, curr, final_token);
-    else
-    {
-        ft_free_malloc(curr->token);
-        curr->token = final_token;
-        ret_node = (curr->next);
+    { 
+        del_token(token, curr);
+        return ;
     }
-    return (ret_node);
+       if (curr->quote_flag == 0)
+        ret_node = retokenize(token, curr, final_token);
+    // else
+    // {
+    //     ft_free_malloc(curr->token);
+    //     curr->token = final_token;
+    //     ret_node = (curr->next);
+    // }
+    ft_free_malloc(curr->token);
+    curr->token = final_token;
+    //return (ret_node);
 }
 
 void make_exit_status(t_token *token, t_terminal term, int index)
