@@ -78,7 +78,9 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     {
         ft_free_malloc(curr->token);
         curr->token = final_token;
-        ret_node = (curr->next);
+        if (ft_strchr(final_token, '$'))
+            return (curr);
+        return (curr->next);
     }
     return (ret_node);
 }
