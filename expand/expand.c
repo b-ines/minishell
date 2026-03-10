@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:48:13 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:07:03 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_expand_ctx is_expand(t_token *token) {
 	i = 0;
 	if (token->quote_flag == 1)
 		return ((t_expand_ctx){i, 0, NONE});
-	while (token->token[i] != '\0')
+	while (token->token != NULL && (token->token[i] != '\0'))
 	{
 		if (token->type == WORD)
 		{

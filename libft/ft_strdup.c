@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 15:50:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2025/11/13 12:34:09 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:18:38 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ char	*ft_strdup(const char *src)
 	int		i;
 	int		size;
 
+	if (src == NULL)
+		return (NULL);
 	size = ft_strlen(src);
 	i = 0;
 	dest = (char *)ft_malloc(sizeof(char) * (size + 1));
+	printf("malloc_list = %p\n", get_malloc_list());
 	if (!dest)
 		return (NULL);
 	while (src[i])

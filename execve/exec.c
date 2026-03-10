@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/06 13:34:55 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:28:07 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
+int	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
 {
 	int		i;
 	t_cmd	*current;
@@ -142,12 +142,27 @@ void	ft_create_pipe(t_cmd *cmd, int **fd, int cmdc)
 	i = 0;
 	current = cmd;
 	*fd = ft_malloc(sizeof(int) * ((cmdc - 1) * 2));
+	if (*fd == NULL)
+	{
+		// ft_free_all_malloc();
+		return (-1);
+	}
 	while (current->next)
 	{
-		pipe(*fd + i * 2);
+		if (pipe(*fd + i * 2) == -1)
+		{
+			while (i > 0)
+			{
+				i--;
+				close((*fd)[i * 2]);
+				close((*fd)[i * 2 + 1]);
+			}
+			return (-1);
+		}
 		current = current->next;
 		i++;
 	}
+	return (0);
 }
 
 void	exec(t_terminal *term)
@@ -161,7 +176,8 @@ void	exec(t_terminal *term)
 	int		output_fd;
 
 	cmdc = lst_size(term);
-	ft_create_pipe(term->cmd_blocks, &fd, cmdc);
+	if (ft_create_pipe(term->cmd_blocks, &fd, cmdc) == -1)
+		return ;
 	i = 0;
 	if (cmdc == 1 && is_builtins(term->cmd_blocks))
 	{

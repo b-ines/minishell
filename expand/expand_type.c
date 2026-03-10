@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:31:48 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:55:38 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
         len_after_dollar = ft_strlen(curr->token) - (len_before_dollar + expand_size + 1);
         //printf("before = %d, var = %zu, after = %d\n", len_before_dollar, len_var, len_after_dollar);
         final_token = ft_malloc(sizeof(char) * (len_before_dollar + len_var + len_after_dollar + 1));
+		if (final_token == NULL)
+			return (NULL);
         ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
         if (var != NULL)
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
@@ -103,6 +105,8 @@ void make_exit_status(t_token *token, t_terminal term, int index)
             len_var = ft_strlen(var);
         len_before_dollar = ft_strlen_sep(token->token, '$');
         final_token = ft_malloc(sizeof(char) * len_before_dollar + len_var + 1);
+		if (final_token == NULL)
+			return ;
         ft_strlcpy(final_token, token->token, len_before_dollar + 1);
         if (var != NULL)
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);

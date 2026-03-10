@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_cmd_argv.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:11:23 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/06 19:25:30 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:24:38 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	add_argv(t_token **current, t_cmd *new_node)
 
 	size = 0;
 	temp = *current;
+	if (new_node == NULL)
+		return ;
 	if (!new_node->argv || !new_node->argv[0]) // 
 	{
 		while (temp && (temp->type == WORD || temp->type == SSPACE))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/09 17:31:54 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:30:39 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //HO$?LA on a plus acces au la donc ca fait pas HO0LA ca stoppe la chaine
 //le heredoc leak
 
-int	program(char *line, t_terminal *terminal)
+int program(char *line, t_terminal *terminal)
 {
 	t_token	*token;
 
@@ -54,6 +54,7 @@ void	minishell_loop(t_terminal *terminal)
 			exit_status_cpy = terminal->exit_status;
 			ft_free_all_malloc();
 			ft_putstr_fd("exit\n", 1);
+			rl_clear_history();
 			exit(exit_status_cpy);
 		}
 		add_history(line);

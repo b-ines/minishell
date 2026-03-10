@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:11 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/28 16:07:48 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:05:06 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ t_token	*create_node(char *str, int quote_flag)
 	t_token	*new_node;
 
 	new_node = ft_malloc(sizeof(t_token));
+	if (new_node == NULL)
+		return (NULL);
 	new_node->token = ft_strdup(str);
+	if (new_node->token == NULL)
+		return (NULL);
 	new_node->quote_flag = quote_flag;
 	new_node->next = 0;
 	new_node->prev = 0;
