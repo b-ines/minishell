@@ -64,6 +64,18 @@ int	valid_redir(t_files *file_node)
 	return (1);
 }
 
+int	check_ambiguous_redirect(t_files *file_node)
+{
+	if (file_node->file && !ft_strncmp(file_node->file, "|", 1))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file_node->file + 1, 2);
+		ft_putendl_fd(": ambiguous redirect", 2);
+		return (0);
+	}
+	return (1);
+}
+
 int	parse_files(t_terminal *term)
 {
 	t_files	*current;
@@ -71,6 +83,8 @@ int	parse_files(t_terminal *term)
 	current = term->cmd_blocks->files_list;
 	while (current)
 	{
+		if (!check_ambiguous_redirect(current))
+			return (0);
 		if (!valid_redir(current))
 			return (0);
 		current = current->next;

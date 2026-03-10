@@ -24,6 +24,8 @@ int	expand_size(char *str)
 	int	i;
 
 	i = 0;
+	if (ft_isdigit(str[0]))
+		return (1);
 	if (str[i] == '_' || ft_isalpha(str[i]))
 		i++;
 	else
@@ -41,13 +43,15 @@ static t_expand_ctx is_expand(t_token *token) {
 	i = 0;
 	if (token->quote_flag == 1)
 		return ((t_expand_ctx){i, 0, NONE});
-	while (token->token != NULL && (token->token[i] != '\0'))
+	if (token->prev && token->prev->type == HERE_DOC)
+		return ((t_expand_ctx){i, 0, NONE});
+	while (token->token[i] != '\0')
 	{
 		if (token->type == WORD)
 		{
 			if (token->quote_flag == 0 && token->token[i] == '$' && !token->token[i + 1] && token->next && token->next->quote_flag != 0)
 				return ((t_expand_ctx){i, 0, ENV});
-			else if (token->token[i] == '$' && (ft_isalpha(token->token[i + 1]) || token->token[i + 1] == '_'))
+			else if (token->token[i] == '$' && (ft_isalnum(token->token[i + 1]) || token->token[i + 1] == '_'))
 			{
 				if ((i != 0 && (token->token[i - 1] != '\\')) || (i == 0))
 					return ((t_expand_ctx){i + 1, expand_size(&token->token[i + 1]), ENV});
@@ -79,11 +83,11 @@ void expand(t_token **token, t_terminal term) {
 	while (curr != NULL)
 	{
 		ctx = is_expand(curr);
-		if (ctx.ex_type == ENV)
+		if (curr && ctx.ex_type == ENV)
 			curr = make_expand_env(token, curr, ctx.index, ctx.end, term.envp);
-		else if (ctx.ex_type == EXIT_STATUS)
+		else if (curr && ctx.ex_type == EXIT_STATUS)
 			make_exit_status(curr, term, ctx.index);
-		else
+		else if (curr)
 			curr = curr->next;
 	}
 }

@@ -43,20 +43,29 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     char *to_expand = ft_strndup(&curr->token[index], end);
     int expand_size = ft_strlen(to_expand);
     var = ft_getenv(envp, to_expand);
+    //printf("var %s currprev %p curr prev type = %s\n", var, curr->prev, lexer_to_str(curr->prev->type));
     //printf("var = %s\n", var);
     ret_node = NULL;
     // if (index > 1)
     // {
+
+        
         if (var == NULL)
             len_var = 0;
         else
             len_var = ft_strlen(var);
         len_before_dollar = ft_strlen_sep(curr->token, '$');
         len_after_dollar = ft_strlen(curr->token) - (len_before_dollar + expand_size + 1);
+        if (!var && ((curr->prev && is_redir(curr->prev)) || (curr->prev && curr->prev->type == SSPACE && curr->prev->prev && is_redir(curr->prev->prev))) && len_before_dollar == 0 && len_after_dollar == 0)
+        {
+            if (curr->quote_flag == 2)
+                curr->token = ft_strdup("");
+            else
+                curr->token = ft_strjoin("|", curr->token);
+            return (curr->next);
+        }
         //printf("before = %d, var = %zu, after = %d\n", len_before_dollar, len_var, len_after_dollar);
         final_token = ft_malloc(sizeof(char) * (len_before_dollar + len_var + len_after_dollar + 1));
-		if (final_token == NULL)
-			return (NULL);
         ft_strlcpy(final_token, curr->token, len_before_dollar + 1);
         if (var != NULL)
             ft_strlcat(final_token, var, len_before_dollar + len_var + 1);
@@ -66,6 +75,13 @@ t_token	*make_expand_env(t_token **token, t_token *curr, int index, int end, cha
     //}
     // else
     //     final_token = var;
+    // if ((!final_token || !final_token[0]) && (curr->prev && curr->prev->type == HERE_DOC))
+    // {
+    //     ft_putstr_fd("minishell: ", 2);
+    //     ft_putstr_fd(curr->token, 2);
+    //     ft_putstr_fd(": ambiguous redirect", 2);
+    //     ft_free_all_malloc(token)
+    // }
     if (!final_token || !final_token[0])
         return (del_token(token, curr));
     if (curr->quote_flag == 0)
