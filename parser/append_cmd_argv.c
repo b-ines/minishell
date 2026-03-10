@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_cmd_argv.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:11:23 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/10 17:24:38 by gabch            ###   ########.fr       */
+/*   Updated: 2026/03/11 00:09:19 by kitz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**make_argv(t_token *token, int size)
 	i = 0;
 	current = token;
 	new_argv = 0;
-	new_argv = ft_malloc(sizeof(char *) * (size + 2)); // javais commente pourquoi +2 j'ai oublie
+	new_argv = ft_malloc(sizeof(char *) * (size + 2));
 	if (!new_argv)
 		return (0);
 	while (current && i < size)

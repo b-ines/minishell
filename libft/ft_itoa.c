@@ -37,22 +37,23 @@ char	*ft_itoa(int n)
 	char	*str;
 	int		size;
 	long	nb;
+	int		neg;
 
+	neg = 0;
 	nb = (long)n;
 	size = ft_size(nb);
-	str = ft_malloc(sizeof(char) * (size + 1));
+	str = ft_calloc((size + 1), sizeof(char));
 	if (!str)
 		return (0);
 	if (nb < 0)
 	{
+		neg = 1;
 		nb = -nb;
 		str[0] = '-';
 	}
 	str[size] = '\0';
-	while (size)
+	while (size > neg)
 	{
-		if (str[0] == '-' && size == 1)
-			break ;
 		size--;
 		str[size] = nb % 10 + '0';
 		nb /= 10;

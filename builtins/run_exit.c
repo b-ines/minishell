@@ -85,7 +85,6 @@ void	run_exit(t_terminal *terminal, t_cmd *cmd, int piped)
 	else
 	{
 		exit_code = (unsigned long long)ft_atol(cmd->argv[1]) % 256;
-		//printf("exit code = %llu (from %lld)\n", exit_code, ft_atol(cmd->argv[1]));
 		ft_free_all_malloc();
 		exit(exit_code);
 	}

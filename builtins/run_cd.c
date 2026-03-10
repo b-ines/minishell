@@ -36,6 +36,15 @@ void	cd_error(t_terminal *terminal, char *var, char *str)
 	terminal->exit_status = 1;
 }
 
+void	print_long_error(t_terminal *terminal, char *str)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": error retrieving current directory: ", 2);
+	ft_putendl_fd("getcwd: cannot access parent directories: ", 2);
+	ft_putendl_fd("No such file or directory", 2);
+	terminal->exit_status = 1;
+}
+
 void	change_dir(t_terminal *terminal, t_cmd *cmd)
 {
 	char	*curr_dir;
@@ -43,20 +52,12 @@ void	change_dir(t_terminal *terminal, t_cmd *cmd)
 
 	curr_dir = get_value_by_key(terminal, "PWD");
 	if (chdir(cmd->argv[1]) == -1)
-	{
-		ft_putendl_fd("chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
-		terminal->exit_status = 1;
-		//cd_error(terminal, cmd->argv[1], ": Permission denied");
-	}	
+		print_long_error(terminal, "chdir");
 	else
 	{
 		change_value_by_key(terminal, "OLDPWD", curr_dir);
 		if (getcwd(new_dir, 10000) == NULL)
-		{
-			ft_putendl_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
-			terminal->exit_status = 1;
-		}	
-		//perror("minishell: ");
+			print_long_error(terminal, "pwd");
 		else
 		{
 			change_value_by_key(terminal, "PWD", new_dir);
@@ -68,7 +69,7 @@ void	change_dir(t_terminal *terminal, t_cmd *cmd)
 void	run_cd(t_terminal *terminal, t_cmd *cmd)
 {
 	if (tab_size(cmd->argv) > 2)
-	{	
+	{
 		terminal->exit_status = 1;
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	}

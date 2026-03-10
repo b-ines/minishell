@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   make_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 15:45:36 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 12:26:40 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/10 23:57:09 by kitz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_fds(t_cmd *cmd, int io_flag)
 	{
 		if (cmd->outfile)
 			return (1);
-		return (0);	
+		return (0);
 	}
 }
 
@@ -44,7 +44,7 @@ int	get_fd_exec(t_cmd *cmd, int io_flag)
 	}
 	else if (io_flag == 1)
 	{
-		if (cmd->append)	
+		if (cmd->append)
 			fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (cmd->outfile)
 			fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -74,7 +74,7 @@ int	redir_management(t_terminal *term, int *i, int cmdc, int *fd)
 			dup2(redir_fd, 0);
 		close(redir_fd);
 	}
-	else if (*i != 0) // si ce n'est pas la premiere commande
+	else if (*i != 0)
 		dup2(fd[(*i - 1) * 2], 0);
 	if (check_fds(term->cmd_blocks, 1))
 	{
@@ -85,23 +85,7 @@ int	redir_management(t_terminal *term, int *i, int cmdc, int *fd)
 			dup2(redir_fd, 1);
 		close(redir_fd);
 	}
-	else if (*i < (cmdc - 1)) // si ce nest pas la derniere commande
+	else if (*i < (cmdc - 1))
 		dup2(fd[*i * 2 + 1], 1);
 	return (1);
-}
-
-int	get_output_fd(t_cmd *cmd, int *i, int cmdc, int *fd)
-{
-	int	output_fd;
-
-	output_fd = 1;
-	if (check_fds(cmd, 1))
-	{
-		output_fd = get_fd_exec(cmd, 1);
-		if (output_fd < 0)
-			return (fd_error(cmd->outfile));
-	}
-	else if (*i < (cmdc - 1)) // si ce nest pas la derniere commande
-		output_fd = fd[*i * 2 + 1];
-	return (output_fd);
 }

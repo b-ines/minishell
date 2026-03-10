@@ -11,14 +11,11 @@
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "../libft/libft.h"
-#include <stdlib.h>
 
-/*
-relative path (./a.out)
-absolute path (ex /bin/ls)
-cmd (ex: ls, echo, etc...)
-*/
+// relative path (./a.out)
+// absolute path (ex /bin/ls)
+// cmd (ex: ls, echo, etc...)
+// +2 pour \0 et '/' entre path[i] et cmd
 
 int	is_abs_or_rel_path(char *cmd)
 {
@@ -42,7 +39,6 @@ char	*search_cmd(t_terminal *term, char *cmd)
 	i = 0;
 	while (path[i] != NULL)
 	{
-		// +2 pour \0 et '/' entre path[i] et cmd
 		len_abs = ft_strlen(path[i]) + ft_strlen(cmd) + 2;
 		abs_cmd = ft_malloc(sizeof(char) * len_abs);
 		ft_strlcpy(abs_cmd, path[i], len_abs);

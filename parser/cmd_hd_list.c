@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_hd_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:33 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/06 18:18:57 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/11 00:06:56 by kitz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_cmd	*create_node_cmd(void)
 	new_node->infile = 0;
 	new_node->outfile = 0;
 	new_node->heredoc_list = 0;
-	// new_node->infile_list = 0;
-	// new_node->outfile_list = 0;
 	new_node->files_list = 0;
 	new_node->heredoc_fd = -1;
 	new_node->next = 0;
@@ -48,6 +46,7 @@ void	ft_addback_cmd(t_cmd **cmd_head, t_cmd *new_node)
 	last->next = new_node;
 	new_node->prev = last;
 }
+
 t_heredoc	*create_node_heredoc(t_token **token)
 {
 	t_heredoc	*new_node;
@@ -73,14 +72,14 @@ t_heredoc	*create_node_heredoc(t_token **token)
 
 void	addback_heredoc(t_cmd *cmd, t_token **token)
 {
-	t_heredoc *new_node;
-	t_heredoc *tmp;
+	t_heredoc	*new_node;
+	t_heredoc	*tmp;
 
 	if (!cmd || !token)
-		return;
+		return ;
 	new_node = create_node_heredoc(token);
 	if (!new_node)
-		return;
+		return ;
 	if (!cmd->heredoc_list)
 		cmd->heredoc_list = new_node;
 	else
