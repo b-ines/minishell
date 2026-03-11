@@ -13,9 +13,6 @@
 #include "main.h"
 #include <signal.h>
 
-//static t_terminal *signal_terminal;
-//interdit dutiliser une structure en variable globale
-
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	t_terminal	*term;
