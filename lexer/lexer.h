@@ -14,7 +14,8 @@
 # define LEXER_H
 
 # include "../libft/libft.h"
-# include "../main/main.h"
+
+typedef struct s_terminal	t_terminal;
 
 typedef enum e_lexer
 {
@@ -35,7 +36,6 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-// quote flag : 0 pas quoted 1 single quoted 2 double quoted
 
 //lexer.c
 t_token	*lexer(t_terminal *terminal, char *line);

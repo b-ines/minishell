@@ -13,8 +13,7 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
-# include "../lexer/lexer.h"
-# include "../libft/libft.h"
+# include "../main/main.h"
 
 typedef enum e_expand_type
 {

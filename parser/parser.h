@@ -13,8 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../lexer/lexer.h"
-# include "../heredoc/heredoc.h"
+# include "../main/main.h"
 
 //syntax_check_utils.c
 int		word_at_right(t_token *token);

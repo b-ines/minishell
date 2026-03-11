@@ -13,26 +13,20 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-// typedef struct s_outfile
-// {
-// 	char				*outfile;
-// 	int					append;
-// 	struct s_outfile	*next;
-// } t_outfile;
-
-// typedef struct s_infile
-// {
-// 	char			*infile;
-// 	struct s_infile	*next;
-// } t_infile;
+# include "../libft/libft.h"
+# include "../lexer/lexer.h"
+# include <signal.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_files
 {
 	char			*file;
-	int				type; // 0 infile 1 outfile
+	int				type;
 	int				append;
 	struct s_files	*next;
-} t_files;
+}	t_files;
 
 typedef struct s_heredoc
 {
@@ -40,32 +34,30 @@ typedef struct s_heredoc
 	int					heredoc_quoted;
 	int					heredoc_fd;
 	struct s_heredoc	*next;
-} t_heredoc;
+}	t_heredoc;
 
 typedef struct s_cmd
 {
 	char			**argv;
-	char		 	*infile;
+	char			*infile;
 	char			*outfile;
-	// t_infile	 	*infile_list; // il faut garder le dernier quand meme poru lexec et la liste sert que a tout ouvrir et check au debut
-	// t_outfile	 	*outfile_list;
-	t_files			*files_list; // type 0 infile 1 outfile
+	t_files			*files_list;
 	t_heredoc		*heredoc_list;
 	int				heredoc_fd;
 	int				append;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-} t_cmd;
+}	t_cmd;
 
 typedef struct s_terminal
 {
 	int				exit_status;
 	char			**envp;
 	char			**envp_export;
-	struct s_cmd    *cmd_blocks;
-}   t_terminal;
+	struct s_cmd	*cmd_blocks;
+}	t_terminal;
 
-typedef enum e_gmod 
+typedef enum e_gmod
 {
 	PROMPT,
 	HEREDOC,
@@ -74,36 +66,21 @@ typedef enum e_gmod
 	EXEC,
 }	t_gmod;
 
-typedef struct s_token t_token;
-
-# include "../lexer/lexer.h"
-# include "../libft/libft.h"
-# include "../parser/parser.h"
-# include "../expand/expand.h"
-# include "../heredoc/heredoc.h"
-# include "../builtins/builtins.h"
-# include "../execve/exec.h"
-# include <signal.h>
-//readline
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-t_terminal *get_term();
+t_terminal	*get_term(void);
 
 //signals.c
 void		handler(int sig, siginfo_t *info, void *context);
-void		signal_init(t_terminal *terminal);
+void		signal_init(void);
 
 //early_parser.c
-int 		empty_cmd(t_terminal *terminal, char *line);
+int			empty_cmd(t_terminal *terminal, char *line);
 
 //terminal_init.c
 t_terminal	*terminal_init(char **envp);
 
 // g_mod_access.c
-void	init_gmod();
-void	set_gmod(t_gmod new_mode);
-t_gmod	get_gmod();
+void		init_gmod(void);
+void		set_gmod(t_gmod new_mode);
+t_gmod		get_gmod(void);
 
 #endif

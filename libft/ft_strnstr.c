@@ -12,20 +12,20 @@
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *search, const char *to_find, size_t len)
+char	*ft_strnstr(const char *search, const char *to_f, size_t len)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	if (to_find[i] == '\0')
+	if (to_f[i] == '\0')
 		return ((char *)search);
 	while (i < len && search[i])
 	{
 		j = 0;
-		while (search[i + j] == to_find[j] && to_find[j] && (i + j) < len)
+		while (search[i + j] == to_f[j] && to_f[j] && (i + j) < len)
 		{
-			if (to_find[j + 1] == '\0')
+			if (to_f[j + 1] == '\0')
 				return ((char *)(search + i));
 			j++;
 		}
@@ -39,9 +39,9 @@ char	*ft_strnstr(const char *search, const char *to_find, size_t len)
 int	main(void)
 {
 	const char search[] = "ca coucou ca va";
-	const char to_find[] = "ca";
-	printf("ft_strnstr : %s\n", ft_strnstr("lorem ipsum dolor sit amet", "", 10));
-	printf("strnstr : %s\n", strnstr("lorem ipsum dolor sit amet", "", 10));
+	const char to_f[] = "ca";
+	printf("ft_strnstr : %s\n", ft_strnstr("ipsum dolor sit amet", "", 10));
+	printf("strnstr : %s\n", strnstr("ipsum dolor sit amet", "", 10));
 	return (0);
 }
 */

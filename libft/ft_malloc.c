@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@learner.42.tech>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/11 18:00:53 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/03/11 18:00:55 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
@@ -11,10 +22,8 @@ void	*ft_malloc(unsigned int size)
 
 	ptr = NULL;
 	ptr = malloc(size);
-	if (ptr == NULL)
-		return (NULL);
 	node = malloc(sizeof(t_malloc_list));
-	if (node == NULL)
+	if (ptr == NULL || node == NULL)
 		return (NULL);
 	node->ptr = ptr;
 	node->next = NULL;

@@ -55,7 +55,7 @@ static char	*ft_strndup_split(char const *str, size_t len)
 	if (!copy)
 		return (0);
 	while (i < len)
-	{	
+	{
 		copy[i] = str[i];
 		i++;
 	}
@@ -100,7 +100,7 @@ char	**ft_split(char const *s, char c)
 	if (!split)
 		return (0);
 	if (fill_split(split, s, c, count_words) == 0)
-	{	
+	{
 		ft_free_split(split);
 		return (0);
 	}

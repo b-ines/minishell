@@ -19,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	if (!s || len == 0 || s[0] == '\0' || start > ft_strlen(s))
-	{	
+	{
 		substring = ft_malloc(1);
 		if (!substring)
 			return (0);

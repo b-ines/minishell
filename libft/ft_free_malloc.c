@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free_malloc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@learner.42.tech>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/11 17:55:44 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/03/11 17:55:45 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <stdlib.h>
 
@@ -17,7 +29,6 @@ void	ft_free_malloc(void *ptr)
 
 	if (ptr == NULL)
 		return ;
-	// search ptr node
 	malloc_list = get_malloc_list();
 	ptr_node = search_node(ptr, *malloc_list);
 	free(ptr_node->ptr);

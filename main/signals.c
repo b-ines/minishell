@@ -13,15 +13,15 @@
 #include "main.h"
 #include <signal.h>
 
-static t_terminal *signal_terminal;
+//static t_terminal *signal_terminal;
 //interdit dutiliser une structure en variable globale
 
 void	handler(int sig, siginfo_t *info, void *context)
 {
-	t_terminal *term;
+	t_terminal	*term;
+
 	(void)info;
 	(void)context;
-
 	term = get_term();
 	if (sig == SIGINT)
 	{
@@ -36,18 +36,17 @@ void	handler(int sig, siginfo_t *info, void *context)
 		}
 		else if (get_gmod() == HEREDOC)
 		{
-			write(1 , "\n", 1);
+			write(1, "\n", 1);
 			set_gmod(HEREDOC_ABORTED);
 			term->exit_status = 130;
 		}
 	}
 }
 
-void	signal_init(t_terminal *terminal)
+void	signal_init(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
-	signal_terminal = terminal;
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);

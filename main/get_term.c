@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_term.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inbeaumo <inbeaumo@learner.42.tech>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/11 18:07:32 by inbeaumo          #+#    #+#             */
+/*   Updated: 2026/03/11 18:07:37 by inbeaumo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 
-t_terminal *get_term()
+t_terminal	*get_term(void)
 {
-	static t_terminal term;
+	static t_terminal	term;
+
 	return (&term);
 }

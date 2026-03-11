@@ -59,38 +59,6 @@ void	printf_infile(t_files **f_head)
 	printf("] ");
 }
 
-// void	printf_infile(t_infile **inf_head)
-// {
-// 	t_infile	*current;
-
-// 	current = *inf_head;
-// 	if (!inf_head)
-// 		return ;
-// 	printf("[");
-// 	while (current)
-// 	{
-// 		printf("%s, ", current->infile);
-// 		current = current->next;
-// 	}
-// 	printf("] ");
-// }
-
-// void	printf_outfile(t_outfile **outf_head)
-// {
-// 	t_outfile	*current;
-
-// 	current = *outf_head;
-// 	if (!outf_head)
-// 		return ;
-// 	printf("[");
-// 	while (current)
-// 	{
-// 		printf("%s, ", current->outfile);
-// 		current = current->next;
-// 	}
-// 	printf("] ");
-// }
-
 void	print_files(t_cmd *current)
 {
 	if (!current->infile)
@@ -120,10 +88,6 @@ void	printf_cmd(t_cmd *cmd)
 		printf_heredoc(&current->heredoc_list);
 		printf("files=");
 		printf_infile(&current->files_list);
-		// printf("inf_list=");
-		// printf_infile(&current->infile_list);
-		// printf("outf_list=");
-		// printf_outfile(&current->outfile_list);
 		print_files(current);
 		printf("heredocfd=%d ", current->heredoc_fd);
 		printf("append=%d\n", current->append);

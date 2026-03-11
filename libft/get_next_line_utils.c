@@ -55,7 +55,7 @@ char	*ft_strjoin_gnl(char *stash, char *buffer)
 		i_stash++;
 	}
 	while (buffer && buffer[i_buffer])
-	{	
+	{
 		new_stash[i_stash + i_buffer] = buffer[i_buffer];
 		i_buffer++;
 	}

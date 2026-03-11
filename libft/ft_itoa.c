@@ -20,7 +20,7 @@ static int	ft_size(int n)
 	size = 1;
 	nb = (long)n;
 	if (nb < 0)
-	{	
+	{
 		size++;
 		nb = -nb;
 	}

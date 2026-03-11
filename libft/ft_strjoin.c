@@ -33,7 +33,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	while (s2[j])
-	{	
+	{
 		join[i + j] = s2[j];
 		j++;
 	}

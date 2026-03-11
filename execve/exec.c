@@ -62,9 +62,27 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	post_execve_error_msg(term, exec_errno);
 }
 
+static int	fork_loop(t_terminal *term, int cmdc, int *fd, int *i)
+{
+	int	pid;
+
+	pid = -1;
+	while (term->cmd_blocks != NULL)
+	{
+		pid = fork();
+		if (pid < 0)
+			perror("minishell: fork: ");
+		else if (pid == 0)
+			ft_execve(term, i, cmdc, fd);
+		(*i)++;
+		term->cmd_blocks = term->cmd_blocks->next;
+	}
+	return (pid);
+}
+
 void	exec(t_terminal *term)
 {
-	int		pid1;
+	int		pid;
 	int		status;
 	int		*fd;
 	int		cmdc;
@@ -76,18 +94,9 @@ void	exec(t_terminal *term)
 		return ;
 	if (exec_single_builtin(term, cmdc, fd, &i))
 		return ;
-	while (term->cmd_blocks != NULL)
-	{
-		pid1 = fork();
-		if (pid1 < 0)
-			perror("minishell: fork: ");
-		else if (pid1 == 0)
-			ft_execve(term, &i, cmdc, fd);
-		i++;
-		term->cmd_blocks = term->cmd_blocks->next;
-	}
+	pid = fork_loop(term, cmdc, fd, &i);
 	clear_fd(fd, cmdc);
-	waitpid(pid1, &status, 0);
+	waitpid(pid, &status, 0);
 	while (wait(NULL) > 0)
 		;
 	term->exit_status = WEXITSTATUS(status);

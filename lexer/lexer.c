@@ -11,20 +11,26 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "../main/main.h"
 
 t_lexer	get_token_type(t_token *token)
 {
 	if (ft_strncmp("", token->token, ft_strlen(token->token)) == 0)
 		return (WORD);
-	if (ft_strncmp("|", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
+	if (ft_strncmp("|", token->token, ft_strlen(token->token)) == 0
+		&& token->quote_flag == 0)
 		return (PIPE);
-	else if (ft_strncmp("<", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
+	else if (ft_strncmp("<", token->token, ft_strlen(token->token)) == 0
+		&& token->quote_flag == 0)
 		return (REDIR_INPUT);
-	else if (ft_strncmp(">", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
+	else if (ft_strncmp(">", token->token, ft_strlen(token->token)) == 0
+		&& token->quote_flag == 0)
 		return (REDIR_OUTPUT);
-	else if (ft_strncmp(">>", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
+	else if (ft_strncmp(">>", token->token, ft_strlen(token->token)) == 0
+		&& token->quote_flag == 0)
 		return (APPEND);
-	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0 && token->quote_flag == 0)
+	else if (ft_strncmp("<<", token->token, ft_strlen(token->token)) == 0
+		&& token->quote_flag == 0)
 		return (HERE_DOC);
 	else if (ft_strncmp(" ", token->token, ft_strlen(token->token)) == 0
 		&& token->quote_flag == 0)

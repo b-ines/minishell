@@ -23,7 +23,6 @@ char	*ft_strdup(const char *src)
 	size = ft_strlen(src);
 	i = 0;
 	dest = (char *)ft_malloc(sizeof(char) * (size + 1));
-	//printf("malloc_list = %p\n", get_malloc_list());
 	if (!dest)
 		return (NULL);
 	while (src[i])

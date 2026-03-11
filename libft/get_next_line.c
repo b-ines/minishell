@@ -38,7 +38,7 @@ char	*ft_newline(char *stash, int n_index)
 		return (new_line);
 	}
 	if (n_index == -1)
-	{	
+	{
 		new_line = ft_calloc_gnl(ft_strlen(stash) + 1, sizeof(char));
 		n_index = ft_strlen(stash) - 1;
 	}
@@ -47,7 +47,7 @@ char	*ft_newline(char *stash, int n_index)
 	if (!new_line)
 		return (0);
 	while (stash && i <= n_index && stash[i])
-	{	
+	{
 		new_line[i] = stash[i];
 		i++;
 	}
@@ -76,7 +76,7 @@ void	*ft_trimmed_stash(char *stash, int n_index)
 	if (!new_stash)
 		return (0);
 	while (stash && i + 1 + n_index < stash_len && stash[n_index + 1 + i])
-	{	
+	{
 		new_stash[i] = stash[n_index + 1 + i];
 		i++;
 	}

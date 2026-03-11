@@ -18,7 +18,7 @@ static int	ft_isspace(char c)
 	return ((c >= 9 && c <= 13) || c == ' ');
 }
 
-long  long	ft_atol(const char *str)
+long long	ft_atol(const char *str)
 {
 	int			i;
 	long long	signe;

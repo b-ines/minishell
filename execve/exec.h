@@ -13,14 +13,10 @@
 #ifndef EXEC_H
 # define EXEC_H
 
-# include <sys/wait.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <errno.h>
-# include "../lexer/lexer.h"
-# include "../libft/libft.h"
+# include "../main/main.h"
 # include "../builtins/builtins.h"
+# include <sys/wait.h>
+# include <errno.h>
 
 //check_redir.c
 int		valid_redir(t_files *file_node);

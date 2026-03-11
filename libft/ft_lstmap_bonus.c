@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lmap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,30 +12,30 @@
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lmap(t_list *l, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*list;
 	t_list	*temp;
 	void	*ptr;
 
 	list = 0;
-	while (lst)
+	while (l)
 	{
-		ptr = f(lst->content);
+		ptr = f(l->content);
 		if (!ptr)
 		{
-			ft_lstclear(&list, del);
+			ft_lclear(&list, del);
 			return (0);
 		}
-		temp = ft_lstnew(ptr);
+		temp = ft_lnew(ptr);
 		if (!temp)
 		{
 			del(ptr);
-			ft_lstclear(&list, del);
+			ft_lclear(&list, del);
 			return (0);
 		}
-		ft_lstadd_back(&list, temp);
-		lst = lst->next;
+		ft_ladd_back(&list, temp);
+		l = l->next;
 	}
 	return (list);
 }

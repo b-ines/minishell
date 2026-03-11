@@ -31,7 +31,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		i++;
 	}
 	while (s2[j])
-	{	
+	{
 		join[i + j] = s2[j];
 		j++;
 	}

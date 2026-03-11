@@ -11,11 +11,14 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include "../parser/parser.h"
+#include "../expand/expand.h"
+#include "../heredoc/heredoc.h"
+#include "../execve/exec.h"
 
-//HO$?LA on a plus acces au la donc ca fait pas HO0LA ca stoppe la chaine
-//le heredoc leak
+//printf_cmd(terminal->cmd_blocks);
 
-int program(char *line, t_terminal *terminal)
+int	program(char *line, t_terminal *terminal)
 {
 	t_token	*token;
 
@@ -27,12 +30,10 @@ int program(char *line, t_terminal *terminal)
 	if (!token)
 		return (0);
 	terminal->cmd_blocks = 0;
-	//printf_list(&token);
 	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	//printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	if (get_gmod() != HEREDOC_ABORTED && (get_gmod() != HEREDOC_QUIT))
 		exec(terminal);
@@ -72,8 +73,7 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	terminal = 0;
 	terminal = terminal_init(envp);
-	signal_init(terminal);
-	// signal(SIGQUIT, SIG_IGN);
+	signal_init();
 	minishell_loop(terminal);
 	return (0);
 }

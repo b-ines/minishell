@@ -47,7 +47,7 @@ char	**envdup(char **envp)
 		if (!ft_strchr(envp[i], '='))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		dup[i] = ft_strdup(envp[i]);
 		i++;
@@ -81,7 +81,7 @@ char	**envdup_export(char **envp)
 
 t_terminal	*terminal_init(char **envp)
 {
-	t_terminal *terminal;
+	t_terminal	*terminal;
 
 	terminal = get_term();
 	terminal->exit_status = 0;

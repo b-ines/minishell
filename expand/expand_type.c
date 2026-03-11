@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "expand.h"
+#include "../parser/parser.h"
 
 t_token	*del_token(t_token **token, t_token *curr)
 {

@@ -48,10 +48,5 @@ t_cmd	*parser(t_terminal *terminal, t_token *token)
 		if (current)
 			current = current->next;
 	}
-	// if (!valid_redir(terminal, token))
-	// {	
-	// 	terminal->exit_status = 1;
-	// 	return (0);
-	// }
 	return (cmds);
 }

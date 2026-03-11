@@ -12,8 +12,6 @@
 
 #include "main.h"
 
-//jsp pourquoi mais tab x1 fais rien tab x2 affiche un truc
-
 int	str_is_only_space(char *str)
 {
 	int	i;
@@ -44,7 +42,7 @@ int	str_is_only_tab(char *str)
 	return (1);
 }
 
-int empty_cmd(t_terminal *terminal, char *line)
+int	empty_cmd(t_terminal *terminal, char *line)
 {
 	if (!line[0] || str_is_only_space(line))
 		return (1);
