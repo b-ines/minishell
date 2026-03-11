@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:25:34 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/02/24 17:09:24 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:32:19 by gchalmel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ char	**empty_env(void)
 	env[0] = ft_strdup("_=usr/bin/env");
 	env[1] = ft_strjoin("PWD=", getcwd(buffer, 10000));
 	env[2] = ft_strjoin("OLDPWD=", getcwd(buffer, 10000));
-	env[3] = 0;
+	env[3] = ft_strjoin("PATH=",
+			"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	env[4] = 0;
 	return (env);
 }
 
@@ -43,7 +45,7 @@ char	**envdup(char **envp)
 	while (envp[i])
 	{
 		if (!ft_strchr(envp[i], '='))
-		{	
+		{
 			i++;
 			continue;
 		}
