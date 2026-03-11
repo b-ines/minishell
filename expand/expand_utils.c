@@ -30,10 +30,10 @@ char	*ft_getenv(char **envp, char *var)
 	int	j;
 
 	i = 0;
-	//printf("%s\n", var);
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && envp[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0
+			&& envp[i][ft_strlen(var)] == '=')
 			break ;
 		i++;
 	}
@@ -64,6 +64,5 @@ char	*ft_clear_expand(char *str)
 		i++;
 	}
 	ret[i] = '\0';
-	return ret;
+	return (ret);
 }
-

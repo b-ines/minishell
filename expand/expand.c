@@ -33,12 +33,34 @@ int	expand_size(char *str)
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	return (i);
-
 }
 
-static t_expand_ctx is_expand(t_token *token) {
-	int i;
+static t_expand_ctx	find_word_expand(t_token *token, int i)
+{
 	char	*tmp;
+
+	if ((i != 0 && (token->token[i - 1] != '\\')) || (i == 0))
+		return ((t_expand_ctx){i + 1, expand_size(&token->token[i + 1]), ENV});
+	else
+	{
+		tmp = ft_strdup(&token->token[i]);
+		ft_free_malloc(token->token);
+		token->token = tmp;
+		return ((t_expand_ctx){i + 1, 0, NONE});
+	}
+}
+
+int	check_empty_expand(t_token *token, int i)
+{
+	if (token->quote_flag == 0 && token->token[i] == '$'
+		&& !token->token[i + 1] && token->next && token->next->quote_flag != 0)
+		return (1);
+	return (0);
+}
+
+static t_expand_ctx	is_expand(t_token *token)
+{
+	int		i;
 
 	i = 0;
 	if (token->quote_flag == 1)
@@ -49,42 +71,32 @@ static t_expand_ctx is_expand(t_token *token) {
 	{
 		if (token->type == WORD)
 		{
-			if (token->quote_flag == 0 && token->token[i] == '$' && !token->token[i + 1] && token->next && token->next->quote_flag != 0)
+			if (check_empty_expand(token, i))
 				return ((t_expand_ctx){i, 0, ENV});
-			else if (token->token[i] == '$' && (ft_isalnum(token->token[i + 1]) || token->token[i + 1] == '_'))
-			{
-				if ((i != 0 && (token->token[i - 1] != '\\')) || (i == 0))
-					return ((t_expand_ctx){i + 1, expand_size(&token->token[i + 1]), ENV});
-				else
-				{ // cas pour pas faire lexpension si \ avant $
-					tmp = ft_strdup(&token->token[i]);
-					ft_free_malloc(token->token);
-					token->token = tmp;
-					return ((t_expand_ctx){i + 1, 0, NONE});
-				}
-			}
+			else if (token->token[i] == '$' && (ft_isalnum(token->token[i + 1])
+					|| token->token[i + 1] == '_'))
+				return (find_word_expand(token, i));
 			else if (token->token[i] == '$' && token->token[i + 1] == '$')
 				return ((t_expand_ctx){i + 1, 1, ENV});
 			else if (token->token[i] == '$' && token->token[i + 1] == '?')
-					return ((t_expand_ctx){i + 1, 1, EXIT_STATUS});
+				return ((t_expand_ctx){i + 1, 1, EXIT_STATUS});
 		}
 		i++;
 	}
-	//printf("expand inconn\n");
 	return ((t_expand_ctx){i, 0, NONE});
 }
 
-void expand(t_token **token, t_terminal term) {
-  t_expand_ctx ctx;
-  t_token *curr;
+void	expand(t_token **token, t_terminal term)
+{
+	t_expand_ctx	ctx;
+	t_token			*curr;
 
-	//printf("Step to expand\n");
 	curr = *token;
 	while (curr != NULL)
 	{
 		ctx = is_expand(curr);
 		if (curr && ctx.ex_type == ENV)
-			curr = make_expand_env(token, curr, ctx.index, ctx.end, term.envp);
+			curr = m_expand(token, curr, ctx, term.envp);
 		else if (curr && ctx.ex_type == EXIT_STATUS)
 			make_exit_status(curr, term, ctx.index);
 		else if (curr)

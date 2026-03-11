@@ -78,8 +78,10 @@ void	exec(t_terminal *term)
 		return ;
 	while (term->cmd_blocks != NULL)
 	{
-		pid1 = fork(); // proteger le fork < 0
-		if (pid1 == 0)
+		pid1 = fork();
+		if (pid1 < 0)
+			perror("minishell: fork: ");
+		else if (pid1 == 0)
 			ft_execve(term, &i, cmdc, fd);
 		i++;
 		term->cmd_blocks = term->cmd_blocks->next;

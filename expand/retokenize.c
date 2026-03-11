@@ -38,7 +38,6 @@ t_token	*retokenize(t_token **token, t_token *curr, char *final_token)
 	t_token	*head;
 	t_token	*ret_node;
 
-	ret_node = NULL;
 	token_new = split_expand(final_token);
 	token_cpy = curr->next;
 	if (curr->prev != NULL)
@@ -46,13 +45,9 @@ t_token	*retokenize(t_token **token, t_token *curr, char *final_token)
 		curr = curr->prev;
 		curr->next = token_new;
 		token_new->prev = curr;
-		ret_node = NULL;
 	}
 	else
-	{
 		(*token) = token_new;
-		ret_node = NULL;
-	}
 	if (token_cpy != NULL)
 	{
 		head = *token;

@@ -20,14 +20,10 @@ int	heredoc_eof(char *line, char *heredoc_delim)
 		ft_putstr_fd("by end-of-file (wanted `", 2);
 		write(2, heredoc_delim, ft_strlen(heredoc_delim) - 1);
 		ft_putendl_fd("')", 2);
-		//free(line);
 		return (1);
 	}
 	if (ft_strcmp(line, heredoc_delim) == 0)
-	{
-		//free(line);
 		return (1);
-	}
 	return (0);
 }
 
@@ -48,11 +44,9 @@ int	here_doc(t_terminal *term, t_heredoc *current_hd)
 		if (!current_hd->heredoc_quoted)
 		{
 			expanded_line = expand_line(term, line);
-			//free(line);
 			line = expanded_line;
 		}
 		ft_putstr_fd(line, pipefds[1]);
-		//free(line);
 	}
 	close(pipefds[1]);
 	current_hd->heredoc_fd = pipefds[0];
