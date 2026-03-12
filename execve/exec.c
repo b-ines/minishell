@@ -20,16 +20,25 @@ void	pre_exec_error_msg(t_terminal *term, char *str, int exit_code)
 	exit(exit_code);
 }
 
-void	post_execve_error_msg(t_terminal *term, int exec_errno)
+void	post_execve_error_msg(t_terminal *term, char *path, int exec_errno)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(term->cmd_blocks->argv[0], 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
-	if (exec_errno == EACCES)
+	if (get_arg_type(path) == 2)
+	{	
+		ft_putendl_fd(": Is a directory", 2);
 		exit (126);
+	}
+	if (exec_errno == EACCES)
+	{	
+		ft_putendl_fd(": Permission denied", 2);
+		exit (126);
+	}
 	if (exec_errno == ENOENT)
+	{	
+		ft_putendl_fd(": No such file or directory", 2);
 		exit (127);
+	}
 	exit(EXIT_FAILURE);
 }
 
@@ -40,11 +49,13 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 
 	check_exec_args(term, cmdc, fd);
 	exec_piped_builtin(term, cmdc, fd, i);
-	path = search_cmd(term, term->cmd_blocks->argv[0]);
-	if (!path)
-		pre_exec_error_msg(term, ": command not found", 127);
-	if (get_arg_type(term->cmd_blocks->argv[0]) == 2)
-		pre_exec_error_msg(term, ": Is a directory", 126);
+	path = term->cmd_blocks->argv[0];
+	if (!ft_strchr(term->cmd_blocks->argv[0], '/'))
+	{
+		path = search_cmd(term, term->cmd_blocks->argv[0]);
+		if (!path)
+			pre_exec_error_msg(term, ": command not found", 127);
+	}
 	if (!redir_management(term, i, cmdc, fd))
 	{
 		clear_fd(fd, cmdc);
@@ -53,7 +64,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	clear_fd(fd, cmdc);
 	execve(path, term->cmd_blocks->argv, term->envp);
 	exec_errno = errno;
-	post_execve_error_msg(term, exec_errno);
+	post_execve_error_msg(term, path, exec_errno);
 }
 
 static int	fork_loop(t_terminal *term, int cmdc, int *fd, int *i)

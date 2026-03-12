@@ -33,6 +33,7 @@ int		exec_single_builtin(t_terminal *term, int cmdc, int *fd, int *i);
 void	exec_piped_builtin(t_terminal *term, int cmdc, int *fd, int *i);
 
 //exec.c
+void	pre_exec_error_msg(t_terminal *term, char *str, int exit_code);
 void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd);
 void	exec(t_terminal *term);
 

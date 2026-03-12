@@ -32,11 +32,15 @@ void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd);
 void	run_env(t_terminal *terminal, t_cmd *cmd, int fd);
 void	run_unset(t_terminal *terminal, t_cmd *cmd);
 
-//env_management.c
+//env_utils.c
 int		get_index_by_key(t_terminal *terminal, char *key);
 char	*get_key_by_index(t_terminal *terminal, int index);
 char	*get_value_by_key(t_terminal *terminal, char *key);
 int		change_value_by_key(t_terminal *terminal, char *key, char *new_value);
+
+//env_export_utils.c
+int		get_index_by_key_e(t_terminal *terminal, char *key);
+int		change_value_by_key_e(t_terminal *terminal, char *key, char *new_v);
 
 //run_cd.c
 int		get_arg_type(char *path);

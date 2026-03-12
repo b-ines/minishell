@@ -55,12 +55,14 @@ void	change_dir(t_terminal *terminal, t_cmd *cmd)
 		print_long_error(terminal, "chdir");
 	else
 	{
-		change_value_by_key(terminal, "OLDPWD", curr_dir);
 		if (getcwd(new_dir, 10000) == NULL)
 			print_long_error(terminal, "pwd");
 		else
 		{
+			change_value_by_key(terminal, "OLDPWD", curr_dir);
+			change_value_by_key_e(terminal, "OLDPWD", curr_dir);
 			change_value_by_key(terminal, "PWD", new_dir);
+			change_value_by_key_e(terminal, "PWD", new_dir);
 			terminal->exit_status = 0;
 		}
 	}

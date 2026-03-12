@@ -16,6 +16,7 @@ static t_token	*split_expand(char *final_token)
 {
 	t_token	*token_new;
 	char	**split_token;
+	t_token	*current;
 	int		i;
 
 	token_new = NULL;
@@ -28,6 +29,13 @@ static t_token	*split_expand(char *final_token)
 		ft_addback(&token_new, split_token[i++], 0);
 	}
 	set_type(&token_new);
+	current = token_new;
+	while (current)
+	{
+		if (current->type != SSPACE)
+		current->type = WORD;
+		current = current->next;
+	}
 	return (token_new);
 }
 

@@ -56,27 +56,17 @@ void	run_echo(t_terminal *terminal, t_cmd *cmd, int fd)
 
 void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 {
-	int		i;
 	char	buffer[10000];
 
-	i = 0;
 	(void)cmd;
-	while (terminal->envp[i])
+	if (getcwd(buffer, 10000) != NULL)
 	{
-		if (!ft_strncmp(terminal->envp[i], "PWD=", 4))
-		{
-			if (getcwd(buffer, 10000) != NULL)
-			{
-				ft_putendl_fd(buffer, fd);
-				terminal->exit_status = 0;
-				break ;
-			}
-			else
-			{
-				perror("minishell: pwd error");
-				terminal->exit_status = 1;
-			}
-		}
-		i++;
+		ft_putendl_fd(buffer, fd);
+		terminal->exit_status = 0;
+	}
+	else
+	{
+		perror("minishell: pwd error");
+		terminal->exit_status = 1;
 	}
 }

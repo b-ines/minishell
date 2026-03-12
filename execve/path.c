@@ -32,6 +32,15 @@ void	check_exec_args(t_terminal *term, int cmdc, int *fd)
 		ft_free_all_malloc();
 		exit(0);
 	}
+	else if (!get_value_by_key(term, "PATH"))
+	{
+		clear_fd(fd, cmdc);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		ft_free_all_malloc();
+		exit(127);
+	}
 }
 
 int	is_abs_or_rel_path(char *cmd)
@@ -48,8 +57,6 @@ char	*search_cmd(t_terminal *term, char *cmd)
 	int		len_abs;
 	int		i;
 
-	if (is_abs_or_rel_path(cmd))
-		return (cmd);
 	if (!get_value_by_key(term, "PATH") || !cmd[0])
 		return (0);
 	path = ft_split(get_value_by_key(term, "PATH"), ':');
@@ -61,7 +68,7 @@ char	*search_cmd(t_terminal *term, char *cmd)
 		ft_strlcpy(abs_cmd, path[i], len_abs);
 		ft_strlcat(abs_cmd, "/", len_abs);
 		ft_strlcat(abs_cmd, cmd, len_abs);
-		if (access(abs_cmd, F_OK) == 0)
+		if (access(abs_cmd, X_OK) == 0 && get_arg_type(abs_cmd) == 1)
 			return (abs_cmd);
 		ft_free_malloc(abs_cmd);
 		i++;

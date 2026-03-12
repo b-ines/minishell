@@ -76,7 +76,7 @@ t_token	*m_expand(t_token **token, t_token *curr, t_expand_ctx ctx, char **envp)
 	final_token = get_final_token(curr, ctx, envp);
 	if (ambiguous_arg(curr, ft_getenv(envp, to_expand), ctx))
 		return (curr->next);
-	if (!final_token || !final_token[0])
+	if ((!final_token || !final_token[0]) && curr->quote_flag == 0)
 		return (del_token(token, curr));
 	if (curr->quote_flag == 0)
 	{
