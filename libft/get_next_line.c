@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 11:37:03 by inbeaumo          #+#    #+#             */
-/*   Updated: 2025/12/05 15:38:52 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/12 12:56:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ char	*get_next_line(int fd)
 	char		*new_line;
 	int			n_index;
 
+	if (fd == -1)
+	{
+		free(stash);
+		stash = 0;
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	stash = ft_fill_stash(fd, stash);

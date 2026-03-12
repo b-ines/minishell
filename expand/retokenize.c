@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   retokenize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 15:14:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/28 15:14:41 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:02:11 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,39 @@ static t_token	*split_expand(char *final_token)
 	return (token_new);
 }
 
+static void	insert_new_tokens(t_token **token, t_token *curr, t_token *tok_new)
+{
+	if (curr->prev != NULL)
+	{
+		curr = curr->prev;
+		curr->next = tok_new;
+		tok_new->prev = curr;
+	}
+	else
+		(*token) = tok_new;
+}
+
+static t_token	*append_token_tail(t_token **token, t_token *token_cpy)
+{
+	t_token	*head;
+
+	if (token_cpy == NULL)
+		return (0);
+	head = *token;
+	while (head->next != NULL)
+		head = head->next;
+	head->next = token_cpy;
+	token_cpy->prev = head;
+	return (token_cpy);
+}
+
 t_token	*retokenize(t_token **token, t_token *curr, char *final_token)
 {
 	t_token	*token_new;
 	t_token	*token_cpy;
-	t_token	*head;
-	t_token	*ret_node;
 
 	token_new = split_expand(final_token);
 	token_cpy = curr->next;
-	if (curr->prev != NULL)
-	{
-		curr = curr->prev;
-		curr->next = token_new;
-		token_new->prev = curr;
-	}
-	else
-		(*token) = token_new;
-	if (token_cpy != NULL)
-	{
-		head = *token;
-		while (head->next != NULL)
-			head = head->next;
-		head->next = token_cpy;
-		token_cpy->prev = head;
-		ret_node = token_cpy;
-	}
-	return (ret_node);
+	insert_new_tokens(token, curr, token_new);
+	return (append_token_tail(token, token_cpy));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:24:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/10 23:58:39 by kitz             ###   ########.fr       */
+/*   Updated: 2026/03/12 14:43:07 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int		redir_management(t_terminal *term, int *i, int cmdc, int *fd);
 
 //path.c
 char	*search_cmd(t_terminal *term, char *cmd);
+void	check_exec_args(t_terminal *term, int cmdc, int *fd);
 
 #endif

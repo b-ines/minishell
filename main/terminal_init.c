@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:25:34 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/11 16:32:19 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:17:41 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**empty_env(void)
 	char	**env;
 	char	buffer[10000];
 
-	env = ft_malloc(sizeof(char *) * (4));
+	env = ft_malloc(sizeof(char *) * (5));
 	env[0] = ft_strdup("_=usr/bin/env");
 	env[1] = ft_strjoin("PWD=", getcwd(buffer, 10000));
 	env[2] = ft_strjoin("OLDPWD=", getcwd(buffer, 10000));

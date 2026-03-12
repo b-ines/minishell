@@ -3,33 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@learner.42.tech>        +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:00:53 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/11 18:00:55 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:01:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void	*ft_malloc(unsigned int size)
+static t_malloc_list	*create_malloc_node(void *ptr)
 {
-	void			*ptr;
 	t_malloc_list	*node;
-	t_malloc_list	*it;
-	t_malloc_list	**malloc_list;
 
-	ptr = NULL;
-	ptr = malloc(size);
 	node = malloc(sizeof(t_malloc_list));
-	if (ptr == NULL || node == NULL)
+	if (node == NULL)
+	{
+		free(ptr);
 		return (NULL);
+	}
 	node->ptr = ptr;
 	node->next = NULL;
 	node->prev = NULL;
-	malloc_list = get_malloc_list();
-	if (malloc_list == NULL || (*malloc_list == NULL))
+	return (node);
+}
+
+static int	append_malloc_node(t_malloc_list **malloc_list, t_malloc_list *node)
+{
+	t_malloc_list	*it;
+
+	if (malloc_list == NULL)
+		return (free(node->ptr), free(node), 0);
+	if (*malloc_list == NULL)
 		*malloc_list = node;
 	else
 	{
@@ -39,5 +45,21 @@ void	*ft_malloc(unsigned int size)
 		it->next = node;
 		node->prev = it;
 	}
+	return (1);
+}
+
+void	*ft_malloc(unsigned int size)
+{
+	void			*ptr;
+	t_malloc_list	*node;
+
+	ptr = malloc(size);
+	if (!ptr)
+		return (0);
+	node = create_malloc_node(ptr);
+	if (node == NULL)
+		return (NULL);
+	if (!append_malloc_node(get_malloc_list(), node))
+		return (NULL);
 	return (ptr);
 }

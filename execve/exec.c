@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/11 00:06:05 by kitz             ###   ########.fr       */
+/*   Updated: 2026/03/12 14:43:25 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,7 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	char	*path;
 	int		exec_errno;
 
-	if (!parse_files(term))
-	{
-		clear_fd(fd, cmdc);
-		exit(1);
-	}
-	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
-		exit(0);
+	check_exec_args(term, cmdc, fd);
 	exec_piped_builtin(term, cmdc, fd, i);
 	path = search_cmd(term, term->cmd_blocks->argv[0]);
 	if (!path)
@@ -74,6 +68,11 @@ static int	fork_loop(t_terminal *term, int cmdc, int *fd, int *i)
 			perror("minishell: fork: ");
 		else if (pid == 0)
 			ft_execve(term, i, cmdc, fd);
+		if (term->cmd_blocks->heredoc_fd != -1)
+		{
+			close(term->cmd_blocks->heredoc_fd);
+			term->cmd_blocks->heredoc_fd = -1;
+		}
 		(*i)++;
 		term->cmd_blocks = term->cmd_blocks->next;
 	}

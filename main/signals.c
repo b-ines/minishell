@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:00:19 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/04 13:57:56 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:35:22 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 			write(1, "\n", 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
+			rl_redisplay();
 			rl_redisplay();
 			term->exit_status = 130;
 			return ;

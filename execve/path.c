@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 23:49:57 by gabch             #+#    #+#             */
-/*   Updated: 2026/03/10 15:48:49 by gabch            ###   ########.fr       */
+/*   Updated: 2026/03/12 14:42:59 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@
 // absolute path (ex /bin/ls)
 // cmd (ex: ls, echo, etc...)
 // +2 pour \0 et '/' entre path[i] et cmd
+
+void	check_exec_args(t_terminal *term, int cmdc, int *fd)
+{
+	if (!parse_files(term))
+	{
+		clear_fd(fd, cmdc);
+		exit(1);
+	}
+	if (!term->cmd_blocks->argv || !term->cmd_blocks->argv[0])
+	{
+		if (term->cmd_blocks->heredoc_fd != -1)
+			close(term->cmd_blocks->heredoc_fd);
+		clear_fd(fd, cmdc);
+		ft_free_all_malloc();
+		exit(0);
+	}
+}
 
 int	is_abs_or_rel_path(char *cmd)
 {
