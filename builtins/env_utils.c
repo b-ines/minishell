@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:28 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:02:59 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:31:23 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ int	change_value_by_key(t_terminal *terminal, char *key, char *new_value)
 	}
 	return (0);
 }
-

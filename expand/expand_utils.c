@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:43:57 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/27 14:16:56 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:39:10 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,13 @@ char	*ft_clear_expand(char *str)
 	}
 	ret[i] = '\0';
 	return (ret);
+}
+
+t_token	*m_u_exp(t_token *curr, char *final_token)
+{
+	ft_free_malloc(curr->token);
+	curr->token = final_token;
+	if (ft_strchr(final_token, '$'))
+		return (curr);
+	return (curr->next);
 }

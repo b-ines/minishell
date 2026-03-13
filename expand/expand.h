@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:39:40 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/02/24 17:48:58 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:38:01 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ int		get_var_name_len(char *str);
 t_token	*del_token(t_token **token, t_token *curr);
 t_token	*retokenize(t_token **token, t_token *curr, char *final_token);
 char	*ft_clear_expand(char *str);
-
+t_token	*m_u_exp(t_token *curr, char *final_token);
 #endif

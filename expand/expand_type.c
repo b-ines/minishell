@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 16:42:33 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/10 15:55:38 by gabch            ###   ########.fr       */
+/*   Updated: 2026/03/13 17:38:52 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ t_token	*m_expand(t_token **token, t_token *curr, t_expand_ctx ctx, char **envp)
 {
 	char	*final_token;
 	char	*to_expand;
+	t_token	*next;
+	t_token	*new_curr;
 
 	to_expand = ft_strndup(&curr->token[ctx.index], ctx.end);
 	final_token = get_final_token(curr, ctx, envp);
@@ -80,19 +82,15 @@ t_token	*m_expand(t_token **token, t_token *curr, t_expand_ctx ctx, char **envp)
 		return (del_token(token, curr));
 	if (curr->quote_flag == 0)
 	{
-		retokenize(token, curr, final_token);
-		if (ft_strchr(final_token, '$'))
-			return ((*token));
-		return (((*token)->next));
+		next = curr->next;
+		new_curr = retokenize(token, curr, final_token);
+		if (to_expand && ft_strchr(final_token, '$')
+			&& !ft_strchr(ft_getenv(envp, to_expand), '$'))
+			return (new_curr);
+		return (next);
 	}
 	else
-	{
-		ft_free_malloc(curr->token);
-		curr->token = final_token;
-		if (ft_strchr(final_token, '$'))
-			return (curr);
-		return (curr->next);
-	}
+		return (m_u_exp(curr, final_token));
 }
 
 void	make_exit_status(t_token *token, t_terminal term, int index)

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 15:14:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/12 15:02:11 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:26:26 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,30 @@ static void	insert_new_tokens(t_token **token, t_token *curr, t_token *tok_new)
 		(*token) = tok_new;
 }
 
-static t_token	*append_token_tail(t_token **token, t_token *token_cpy)
-{
-	t_token	*head;
-
-	if (token_cpy == NULL)
-		return (0);
-	head = *token;
-	while (head->next != NULL)
-		head = head->next;
-	head->next = token_cpy;
-	token_cpy->prev = head;
-	return (token_cpy);
-}
-
 t_token	*retokenize(t_token **token, t_token *curr, char *final_token)
 {
 	t_token	*token_new;
 	t_token	*token_cpy;
+	t_token	*tail;
 
 	token_new = split_expand(final_token);
 	token_cpy = curr->next;
+	if (!token_new)
+	{
+		if (curr->prev)
+			curr->prev->next = token_cpy;
+		else
+			*token = token_cpy;
+		if (token_cpy)
+			token_cpy->prev = curr->prev;
+		return (token_cpy);
+	}
 	insert_new_tokens(token, curr, token_new);
-	return (append_token_tail(token, token_cpy));
+	tail = token_new;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = token_cpy;
+	if (token_cpy)
+		token_cpy->prev = tail;
+	return (token_new);
 }

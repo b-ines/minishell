@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:10 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/10 16:07:03 by gabch            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:09:14 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,16 @@ static t_expand_ctx	is_expand(t_token *token)
 	int		i;
 
 	i = 0;
-	if (token->quote_flag == 1)
+	if (token && token->quote_flag == 1)
 		return ((t_expand_ctx){i, 0, NONE});
-	if (token->prev && token->prev->type == HERE_DOC)
-		return ((t_expand_ctx){i, 0, NONE});
-	while (token->token[i] != '\0')
+	while (token && token->token[i] != '\0')
 	{
 		if (token->type == WORD)
 		{
 			if (check_empty_expand(token, i))
 				return ((t_expand_ctx){i, 0, ENV});
-			else if (token->token[i] == '$' && (ft_isalnum(token->token[i + 1])
+			else if (token->token[i] == '$'
+				&& (ft_isalnum(token->token[i + 1])
 					|| token->token[i + 1] == '_'))
 				return (find_word_expand(token, i));
 			else if (token->token[i] == '$' && token->token[i + 1] == '$')
@@ -94,6 +93,13 @@ void	expand(t_token **token, t_terminal term)
 	curr = *token;
 	while (curr != NULL)
 	{
+		if (curr && curr->type == HERE_DOC)
+		{
+			if (curr->next && curr->next->next && curr->next->type == SSPACE)
+				curr = curr->next->next;
+			while (curr && curr->type == WORD)
+				curr = curr->next;
+		}
 		ctx = is_expand(curr);
 		if (curr && ctx.ex_type == ENV)
 			curr = m_expand(token, curr, ctx, term.envp);
