@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/13 16:09:24 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:12:39 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ int	program(char *line, t_terminal *terminal)
 	free(line);
 	if (!token)
 		return (0);
+	printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
+	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	if (get_gmod() != HEREDOC_ABORTED && (get_gmod() != HEREDOC_QUIT))
 		exec(terminal);

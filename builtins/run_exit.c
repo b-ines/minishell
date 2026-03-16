@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:58 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/09 12:30:38 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:42:13 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ void	run_exit(t_terminal *terminal, t_cmd *cmd, int piped)
 		ft_putstr_fd("exit\n", 2);
 	if (!cmd->argv[1])
 	{
+		exit_code = terminal->exit_status;
 		ft_free_all_malloc();
-		exit(0);
+		exit(exit_code);
 	}
 	else if (cmd->argv[1] && !valid_arg(cmd->argv[1]))
 		exit_numeric_error(cmd);
