@@ -26,5 +26,5 @@ You can then use ```  valgrind --trace-children=yes --leak-check=full --show-lea
 # Resources
 
 ### Links
-
+https://medium.com/@gibrat.dylan/minishell-42-lart-de-cr%C3%A9er-un-shell-performant-et-maintenable-53c0aede140e
 ### AI Usage
