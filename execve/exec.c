@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabch <gabch@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:23:54 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/12 14:43:25 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:34:39 by gabch            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd)
 	char	*path;
 	int		exec_errno;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	check_exec_args(term, cmdc, fd);
 	exec_piped_builtin(term, cmdc, fd, i);
 	path = term->cmd_blocks->argv[0];
