@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchalmel <gchalmel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/19 15:21:39 by gchalmel         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:52:16 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,39 +29,50 @@ int	program(char *line, t_terminal *terminal)
 	free(line);
 	if (!token)
 		return (0);
-	printf_list(&token);
 	terminal->cmd_blocks = 0;
 	expand(&token, *terminal);
 	terminal->cmd_blocks = parser(terminal, token);
 	if (!terminal->cmd_blocks)
 		return (0);
-	printf_cmd(terminal->cmd_blocks);
 	parse_heredoc(terminal);
 	if (get_gmod() != HEREDOC_ABORTED && (get_gmod() != HEREDOC_QUIT))
 		exec(terminal);
 	return (1);
 }
 
+void	exitshell(t_terminal *terminal)
+{
+	int		exit_status_cpy;
+
+	exit_status_cpy = terminal->exit_status;
+	ft_free_all_malloc();
+	if (isatty(0) == 1 && isatty(1) == 1)
+	{	
+		ft_putstr_fd("exit\n", 2);
+		rl_clear_history();
+	}
+	exit(exit_status_cpy);
+}
+
 void	minishell_loop(t_terminal *terminal)
 {
 	char	*line;
-	int		exit_status_cpy;
 
 	while (1)
 	{
 		set_gmod(PROMPT);
 		line = 0;
-		line = readline("minishell$ ");
+		if (isatty(0) == 1 && isatty(1) == 1)
+			line = readline("minishell$ ");
+		else
+			line = get_next_line(0);
 		if (!line)
+			exitshell(terminal);
+		if (isatty(0) == 1 && isatty(1) == 1)
 		{
-			exit_status_cpy = terminal->exit_status;
-			ft_free_all_malloc();
-			ft_putstr_fd("exit\n", 1);
-			rl_clear_history();
-			exit(exit_status_cpy);
+			add_history(line);
+			rl_on_new_line();
 		}
-		add_history(line);
-		rl_on_new_line();
 		program(line, terminal);
 	}
 }
