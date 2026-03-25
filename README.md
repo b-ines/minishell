@@ -5,8 +5,8 @@
 
 # Description
 
-This project replicates the behavior of a shell.
-The following should be handled : 
+This project replicates the behavior of a shell. Bash posix was used a the main reference.
+The following is handled : 
 - double and single quotes when used correctly 
 - redirections (> writes on a file, < reads from an existing file, >> writes a file and appends its content, >> mimics a heredoc)
 - pipes
