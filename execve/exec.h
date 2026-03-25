@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:24:18 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/12 14:43:07 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:45:45 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_piped_builtin(t_terminal *term, int cmdc, int *fd, int *i);
 //exec.c
 void	pre_exec_error_msg(t_terminal *term, char *str, int exit_code);
 void	ft_execve(t_terminal *term, int *i, int cmdc, int *fd);
-void	exec(t_terminal *term);
+void	exec(t_terminal *term, int cmdc);
 
 //make_redir.c
 int		check_fds(t_cmd *cmd, int io_flag);
@@ -44,7 +44,7 @@ int		fd_error(char *str);
 int		redir_management(t_terminal *term, int *i, int cmdc, int *fd);
 
 //path.c
-char	*search_cmd(t_terminal *term, char *cmd);
+char	*search_cmd(t_terminal *term, char *cmd, int *fd, int cmdc);
 void	check_exec_args(t_terminal *term, int cmdc, int *fd);
 
 #endif

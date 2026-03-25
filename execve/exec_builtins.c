@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kitz <kitz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 23:55:22 by kitz              #+#    #+#             */
-/*   Updated: 2026/03/10 23:56:40 by kitz             ###   ########.fr       */
+/*   Updated: 2026/03/25 16:43:32 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	exec_single_builtin(t_terminal *term, int cmdc, int *fd, int *i)
 		if (output_fd < 0)
 			return (1);
 		run_builtins(term, term->cmd_blocks, output_fd, 0);
+		if (term->cmd_blocks->heredoc_fd != -1)
+		{
+			close(term->cmd_blocks->heredoc_fd);
+			term->cmd_blocks->heredoc_fd = -1;
+		}
 		return (1);
 	}
 	else
@@ -51,14 +56,17 @@ int	exec_single_builtin(t_terminal *term, int cmdc, int *fd, int *i)
 
 void	exec_piped_builtin(t_terminal *term, int cmdc, int *fd, int *i)
 {
-	int	output_fd;
-
 	if (is_builtins(term->cmd_blocks))
 	{
-		output_fd = get_builtin_fd(term->cmd_blocks, i, cmdc, fd);
-		if (output_fd < 0)
+		if (!redir_management(term, i, cmdc, fd))
+		{
+			clear_fd(fd, cmdc);
+			ft_free_all_malloc();
 			exit(1);
-		run_builtins(term, term->cmd_blocks, output_fd, 1);
+		}
+		clear_fd(fd, cmdc);
+		run_builtins(term, term->cmd_blocks, 1, 1);
+		ft_free_all_malloc();
 		exit(term->exit_status);
 	}
 }

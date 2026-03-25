@@ -29,7 +29,7 @@ In order to run valgrind, you can create a document named readline.supp and past
    obj:*libreadline.so*
 }
 ```
-You can then use ```  valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ``` . This will ensure to mask the readline leaks.
+You can then use ```  valgrind --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ``` . This will ensure to mask the readline leaks.
 
 &nbsp; 
 # Resources

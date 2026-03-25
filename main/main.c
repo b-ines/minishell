@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/25 13:16:20 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:54:55 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 int	program(char *line, t_terminal *terminal)
 {
 	t_token	*token;
+	int		cmdc;
 
 	token = 0;
 	if (empty_cmd(terminal, line))
@@ -36,7 +37,10 @@ int	program(char *line, t_terminal *terminal)
 		return (0);
 	parse_heredoc(terminal);
 	if (get_gmod() != HEREDOC_ABORTED && (get_gmod() != HEREDOC_QUIT))
-		exec(terminal);
+	{	
+		cmdc = lst_size(terminal);
+		exec(terminal, cmdc);
+	}
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:59:16 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 16:02:36 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:24:58 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token	*tokenization(char *line)
 	token = 0;
 	while (line[i])
 	{
-		while (line[i] && line[i] == '\n')
+		while (line[i] && (line[i] >= 9 && line[i] <= 13))
 			i++;
 		if (line[i] == ' ')
 		{
