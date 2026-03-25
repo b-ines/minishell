@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:58:51 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/05 15:15:02 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:14:22 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ void	run_pwd(t_terminal *terminal, t_cmd *cmd, int fd)
 	char	buffer[10000];
 
 	(void)cmd;
-	if (getcwd(buffer, 10000) != NULL)
+	if (getcwd(buffer, 10000) == NULL)
 	{
-		ft_putendl_fd(buffer, fd);
-		terminal->exit_status = 0;
+		ft_putstr_fd("pwd: error retrieving current directory: ", 2);
+		ft_putendl_fd("getcwd: cannot access parent directories: ", 2);
+		ft_putendl_fd("No such file or directory", 2);
+		terminal->exit_status = 1;
 	}
 	else
 	{
-		perror("minishell: pwd error");
-		terminal->exit_status = 1;
+		ft_putendl_fd(buffer, fd);
+		terminal->exit_status = 0;
 	}
 }

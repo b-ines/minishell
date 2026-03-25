@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 23:49:57 by gabch             #+#    #+#             */
-/*   Updated: 2026/03/25 13:17:41 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:18:24 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ void	check_exec_args(t_terminal *term, int cmdc, int *fd)
 		clear_fd(fd, cmdc);
 		ft_free_all_malloc();
 		exit(0);
-	}
-	else if (!get_value_by_key(term, "PATH"))
-	{
-		clear_fd(fd, cmdc);
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(term->cmd_blocks->argv[0], 2);
-		ft_putendl_fd(": No such file or directory", 2);
-		ft_free_all_malloc();
-		exit(127);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:25:34 by inbeaumo          #+#    #+#             */
-/*   Updated: 2026/03/12 13:17:41 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:36:54 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	**empty_env(void)
 	char	buffer[10000];
 
 	env = ft_malloc(sizeof(char *) * (5));
+	if (!env)
+		return (0);
 	env[0] = ft_strdup("_=usr/bin/env");
 	env[1] = ft_strjoin("PWD=", getcwd(buffer, 10000));
 	env[2] = ft_strjoin("OLDPWD=", getcwd(buffer, 10000));
@@ -62,7 +64,7 @@ char	**envdup_export(char **envp)
 	int		i;
 
 	i = 0;
-	if (!envp)
+	if (!envp || !envp[0])
 		return (empty_env());
 	while (envp[i])
 		i++;
