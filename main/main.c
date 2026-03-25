@@ -6,7 +6,7 @@
 /*   By: inbeaumo <inbeaumo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:08:48 by gchalmel          #+#    #+#             */
-/*   Updated: 2026/03/25 16:56:22 by inbeaumo         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:57:37 by inbeaumo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	minishell_loop(t_terminal *terminal)
 	{
 		set_gmod(PROMPT);
 		line = 0;
-		//if (isatty(0) == 1 && isatty(1) == 1)
+		if (isatty(0) == 1 && isatty(1) == 1)
 			line = readline("minishell$ ");
 		if (!line)
 			exitshell(terminal);
